@@ -856,36 +856,57 @@
      com um painel de gestão dentro em vez de uma home de loja -- monta na
      hora, em HTML/CSS, sem imagem nenhuma. Vem antes do carrossel de casos
      reais: primeiro dá pra sentir a cara de um sistema, depois vêm os três
-     de verdade com números de cliente. */
-  .demo-sys { max-width: 620px; margin: 0 auto; border-radius: var(--r-card); overflow: hidden; background: var(--bg); box-shadow: var(--nm-out); }
-  .demo-chrome { display: flex; align-items: center; gap: 7px; padding: 12px 16px; background: rgba(163,177,198,.18); }
+     de verdade com números de cliente.
+     Primeira versão saiu pequena e rasa (620px, três blocos soltos) -- essa
+     tem barra lateral de verdade e uma tabela de lançamentos, que é o tipo
+     de tela que faz o painel parecer sistema de trabalho, não cartão de
+     estatística. */
+  .demo-sys { max-width: 900px; margin: 0 auto; border-radius: var(--r-card); overflow: hidden; background: var(--bg); box-shadow: var(--nm-out-hover); }
+  .demo-chrome { display: flex; align-items: center; gap: 7px; padding: 13px 18px; background: rgba(163,177,198,.18); }
   .demo-chrome i { width: 9px; height: 9px; border-radius: 999px; background: rgba(61,72,92,.28); flex: none; }
   .demo-url {
-    margin-left: 8px; font-size: 12px; padding: 5px 14px; border-radius: var(--r-pill);
+    margin-left: 8px; font-size: 12.5px; padding: 5px 14px; border-radius: var(--r-pill);
     background: var(--bg); color: var(--muted); box-shadow: var(--nm-in-sm);
   }
-  .demo-body { padding: 26px 26px 24px; background: #fff; }
-  .demo-topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
-  .demo-topbar b { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; font-weight: 800; font-size: 16.5px; color: #232B36; }
-  .demo-avatar {
-    width: 30px; height: 30px; border-radius: 999px; background: #232B36; color: #fff;
-    font-size: 11px; font-weight: 700; display: grid; place-items: center; flex: none;
+  .demo-shell { display: flex; min-height: 420px; background: #fff; }
+  .demo-side {
+    flex: none; width: 76px; padding: 28px 0; display: flex; flex-direction: column;
+    align-items: center; gap: 10px; background: #17223A;
   }
-  .demo-tabs { display: flex; gap: 6px; margin-bottom: 22px; flex-wrap: wrap; }
-  .demo-tab { font-size: 12.5px; font-weight: 600; padding: 8px 14px; border-radius: var(--r-pill); color: #8A93A3; }
-  .demo-tab.is-on { background: #EEF1F6; color: #232B36; }
-  .demo-kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-  .demo-kpi { padding: 13px 14px; border-radius: var(--r-inner); background: var(--df, #EEF1F6); }
-  .demo-kpi-label { display: block; font-size: 11px; color: #6B7280; line-height: 1.3; }
-  .demo-kpi-val { display: block; margin-top: 6px; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; font-weight: 800; font-size: 18px; color: var(--dc, #232B36); }
-  .demo-bars { margin-top: 22px; display: grid; gap: 12px; }
-  .demo-bar { display: flex; align-items: center; gap: 12px; font-size: 12.5px; color: #4B5563; }
-  .demo-bar span { flex: none; width: 84px; }
-  .demo-track { flex: 1; height: 8px; border-radius: 999px; background: #EEF1F6; overflow: hidden; }
-  .demo-track i { display: block; height: 100%; border-radius: 999px; }
-  @media (max-width: 520px) {
+  .demo-side-ico {
+    width: 42px; height: 42px; border-radius: 13px; display: grid; place-items: center;
+    color: rgba(255,255,255,.45);
+  }
+  .demo-side-ico.is-on { background: rgba(255,255,255,.12); color: #fff; }
+  .demo-main { flex: 1; min-width: 0; padding: 28px 30px 30px; }
+  .demo-topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px; }
+  .demo-topbar b { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; font-weight: 800; font-size: 19px; color: #232B36; }
+  .demo-avatar {
+    width: 32px; height: 32px; border-radius: 999px; background: #17223A; color: #fff;
+    font-size: 11.5px; font-weight: 700; display: grid; place-items: center; flex: none;
+  }
+  .demo-kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .demo-kpi { padding: 16px 16px; border-radius: var(--r-inner); background: var(--df, #EEF1F6); }
+  .demo-kpi-label { display: block; font-size: 11.5px; color: #6B7280; line-height: 1.3; }
+  .demo-kpi-val { display: block; margin-top: 8px; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; font-weight: 800; font-size: 23px; letter-spacing: -.02em; color: var(--dc, #232B36); }
+  .demo-table { margin-top: 26px; border: 1px solid #EEF1F6; border-radius: 14px; overflow: hidden; }
+  .demo-trow {
+    display: grid; grid-template-columns: 64px 1.6fr 1fr 100px; gap: 10px;
+    padding: 13px 16px; font-size: 13px; color: #3D4550; align-items: center;
+  }
+  .demo-trow:not(:last-child) { border-bottom: 1px solid #F3F4F6; }
+  .demo-thead { background: #FAFBFC; font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: #9AA3AF; }
+  .demo-tval { text-align: right; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .demo-pos { color: var(--pos); }
+  .demo-neg { color: #6B7280; }
+  @media (max-width: 640px) {
+    .demo-side { width: 56px; gap: 6px; padding: 20px 0; }
+    .demo-side-ico { width: 36px; height: 36px; }
+    .demo-main { padding: 20px 16px 24px; }
     .demo-kpis { grid-template-columns: 1fr 1fr; }
-    .demo-kpi:last-child { grid-column: 1 / -1; }
+    .demo-trow { grid-template-columns: 44px 1.4fr 78px; font-size: 11.5px; padding: 11px 12px; }
+    .demo-trow span:nth-child(3) { display: none; }
+    .demo-thead span:nth-child(3) { display: none; }
   }
 
   /* ---- a saida da secao ----
@@ -2368,8 +2389,8 @@
               <p>Agenda de banho e tosa online, com lembrete no WhatsApp e o histórico de cada bichinho guardado.</p>
               <span class="mod-btn">Agendar banho e tosa</span>
             </div>
-            <div class="mod-arte" style="display: grid; place-items: center;">
-              <svg width="88" height="88" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-opacity=".85" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path></svg>
+            <div class="mod-arte">
+              <img src="imgs/mod-petshop.webp" alt="Tosador aparando o pelo de um cachorro pequeno com tesoura" loading="lazy" decoding="async" />
             </div>
           </div>
           <div class="mod-cards">
@@ -2388,8 +2409,8 @@
               <p>A cliente escolhe o serviço, a profissional e o horário — a confirmação chega sozinha, sem ida e volta.</p>
               <span class="mod-btn">Agendar meu horário</span>
             </div>
-            <div class="mod-arte" style="display: grid; place-items: center;">
-              <svg width="88" height="88" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-opacity=".85" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="6" r="3"></circle><circle cx="6" cy="18" r="3"></circle><line x1="20" y1="4" x2="8.12" y2="15.88"></line><line x1="14.47" y1="14.48" x2="20" y2="20"></line><line x1="8.12" y1="8.12" x2="12" y2="12"></line></svg>
+            <div class="mod-arte">
+              <img src="imgs/mod-salao.webp" alt="Profissional lavando o cabelo de uma cliente na pia do salão" loading="lazy" decoding="async" />
             </div>
           </div>
           <div class="mod-cards">
@@ -2422,44 +2443,62 @@
       </p>
     </div>
 
-    <div class="demo-sys" data-reveal="1" style="margin-top: 40px;">
+    <div class="demo-sys" data-reveal="1" data-reveal-3d style="margin-top: 40px;">
       <div class="demo-chrome" aria-hidden="true">
         <i></i><i></i><i></i>
         <span class="demo-url">painel.suaempresa.com.br</span>
       </div>
-      <div class="demo-body">
-        <div class="demo-topbar">
-          <b>Painel de gestão</b>
-          <span class="demo-avatar">VC</span>
-        </div>
-        <div class="demo-tabs">
-          <span class="demo-tab is-on">Visão geral</span>
-          <span class="demo-tab">Financeiro</span>
-          <span class="demo-tab">Agenda</span>
-          <span class="demo-tab">Clientes</span>
-        </div>
-        <div class="demo-kpis">
-          <div class="demo-kpi" style="--dc: var(--t1); --df: var(--f1);">
-            <span class="demo-kpi-label">Vendas do mês</span>
-            <span class="demo-kpi-val">R$ 42.180</span>
+      <div class="demo-shell">
+        <nav class="demo-side" aria-hidden="true">
+          <span class="demo-side-ico is-on" title="Visão geral"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"></rect><rect x="14" y="3" width="7" height="7" rx="1.5"></rect><rect x="14" y="14" width="7" height="7" rx="1.5"></rect><rect x="3" y="14" width="7" height="7" rx="1.5"></rect></svg></span>
+          <span class="demo-side-ico" title="Financeiro"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"></path></svg></span>
+          <span class="demo-side-ico" title="Agenda"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><path d="M16 2v4M8 2v4M3 10h18"></path></svg></span>
+          <span class="demo-side-ico" title="Clientes"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"></path></svg></span>
+        </nav>
+        <div class="demo-main">
+          <div class="demo-topbar">
+            <b>Visão geral</b>
+            <span class="demo-avatar">VC</span>
           </div>
-          <div class="demo-kpi" style="--dc: var(--t8); --df: var(--f8);">
-            <span class="demo-kpi-label">Pedidos</span>
-            <span class="demo-kpi-val">318</span>
+          <div class="demo-kpis">
+            <div class="demo-kpi" style="--dc: var(--t1); --df: var(--f1);">
+              <span class="demo-kpi-label">Vendas do mês</span>
+              <span class="demo-kpi-val">R$ 42.180</span>
+            </div>
+            <div class="demo-kpi" style="--dc: var(--t8); --df: var(--f8);">
+              <span class="demo-kpi-label">Pedidos</span>
+              <span class="demo-kpi-val">318</span>
+            </div>
+            <div class="demo-kpi" style="--dc: var(--t5); --df: var(--f5);">
+              <span class="demo-kpi-label">Ticket médio</span>
+              <span class="demo-kpi-val">R$ 132</span>
+            </div>
+            <div class="demo-kpi" style="--dc: var(--t3); --df: var(--f3);">
+              <span class="demo-kpi-label">Clientes ativos</span>
+              <span class="demo-kpi-val">96</span>
+            </div>
           </div>
-          <div class="demo-kpi" style="--dc: var(--t5); --df: var(--f5);">
-            <span class="demo-kpi-label">Ticket médio</span>
-            <span class="demo-kpi-val">R$ 132</span>
+          <div class="demo-table">
+            <div class="demo-trow demo-thead">
+              <span>Data</span><span>Descrição</span><span>Categoria</span><span class="demo-tval">Valor</span>
+            </div>
+            <div class="demo-trow">
+              <span>24/09</span><span>Venda balcão</span><span>Produtos</span><span class="demo-tval demo-pos">+ R$ 340</span>
+            </div>
+            <div class="demo-trow">
+              <span>24/09</span><span>Fornecedor Silva &amp; Cia</span><span>Estoque</span><span class="demo-tval demo-neg">− R$ 890</span>
+            </div>
+            <div class="demo-trow">
+              <span>23/09</span><span>Assinatura mensal</span><span>Serviços</span><span class="demo-tval demo-pos">+ R$ 1.200</span>
+            </div>
+            <div class="demo-trow">
+              <span>22/09</span><span>Aluguel do espaço</span><span>Fixo</span><span class="demo-tval demo-neg">− R$ 2.400</span>
+            </div>
           </div>
-        </div>
-        <div class="demo-bars">
-          <div class="demo-bar"><span>Produtos</span><div class="demo-track"><i style="width: 78%; background: var(--c1);"></i></div></div>
-          <div class="demo-bar"><span>Serviços</span><div class="demo-track"><i style="width: 54%; background: var(--c8);"></i></div></div>
-          <div class="demo-bar"><span>Assinaturas</span><div class="demo-track"><i style="width: 33%; background: var(--c5);"></i></div></div>
         </div>
       </div>
     </div>
-    <p class="sis-pe" style="margin-top: 18px;">Interface ilustrativa — dá pra sentir o formato. O seu painel vem com os números e o processo da sua operação.</p>
+    <p class="sis-pe" style="margin-top: 18px;">Interface ilustrativa — dá pra sentir o formato. O seu painel vem com os números, as categorias e o processo da sua operação.</p>
 
     <!-- Tres casos reais num carrossel. A pista e um flex com translateX: os
          tres slides ficam em fluxo, entao a altura do palco e a do mais alto
