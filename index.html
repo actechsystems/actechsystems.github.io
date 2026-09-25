@@ -366,61 +366,24 @@
   .faq-sign--closed { box-shadow: var(--nm-out-sm); }  /* fechado = em relevo */
   .faq-sign--open   { box-shadow: var(--nm-in); }      /* aberto  = afundado  */
 
-  /* ---------- visual do hero: profundidade aninhada ---------- */
-  /* ---------- Hero: cartão de métrica ---------- */
-  .mx { background: var(--bg); border-radius: var(--r-card); box-shadow: var(--nm-out); padding: 26px 26px 20px; }
-  @media (max-width: 640px) {
-    .mx { padding: 22px 18px 18px; }
-    .mx-plot, .mx-barras, .mx-datas { padding-right: 38px; }
-    .mx-grade, .mx-base { right: 38px; }
-  }
+  /* ---------- Hero: cartão de resultado ----------
+     Era um gráfico de linha+barras com toggle de período -- o cliché de
+     "dashboard de crescimento" que qualquer gerador de landing desenha
+     sozinho. Virou um cartão de estatística só: número grande, variação,
+     legenda e o aviso de que é ilustrativo. Sem eixo, sem curva, sem barra. */
+  .mx { background: var(--bg); border-radius: var(--r-card); box-shadow: var(--nm-out); padding: 30px 28px; }
+  @media (max-width: 640px) { .mx { padding: 24px 20px; } }
   .mx-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 18px; flex-wrap: wrap; }
   .mx-eyebrow { font-size: 10.5px; letter-spacing: .15em; text-transform: uppercase; font-weight: 700; color: var(--accent); }
   .mx-val {
     font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
-    font-weight: 800; font-size: clamp(30px, 3.4vw, 40px); letter-spacing: -.035em;
-    color: var(--fg); margin-top: 12px; display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap;
+    font-weight: 800; font-size: clamp(38px, 4.6vw, 54px); letter-spacing: -.035em;
+    color: var(--fg); margin-top: 14px; display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap;
   }
-  .mx-delta { font-size: 15px; font-weight: 700; letter-spacing: -.01em; color: var(--pos); }
-  .mx-sub { font-size: 13.5px; color: var(--muted); margin-top: 5px; }
-  .mx-plot { position: relative; padding-right: 44px; margin-top: 20px; }
-  .mx-svgbox { position: relative; }
-  .mx-chart { display: block; width: 100%; height: auto; overflow: visible; }
-  .mx-grade { position: absolute; left: 0; right: 44px; height: 1px; background: rgba(163,177,198,.34); }
-  .mx-base {
-    position: absolute; left: 0; right: 44px; height: 0;
-    border-top: 1px dashed var(--accent-2); opacity: .8;
-  }
-  .mx-ponto {
-    position: absolute; width: 8px; height: 8px; border-radius: 999px;
-    background: var(--accent); transform: translate(-50%, -50%);
-    box-shadow: 0 0 0 5px rgba(173,89,40,.15);
-  }
-  .mx-ylab {
-    position: absolute; right: 0; width: 40px; text-align: right;
-    transform: translateY(-50%);
-    font-size: 10px; font-weight: 600; color: var(--placeholder); line-height: 1;
-  }
-  .mx-linha { fill: none; stroke: var(--accent); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
-  /* a linha se desenha quando entra; trocar de faixa remonta o traço e ele redesenha */
-  .mx-linha { stroke-dasharray: 1400; stroke-dashoffset: 1400; animation: mxdraw 1.5s var(--ease) forwards; }
-  @keyframes mxdraw { to { stroke-dashoffset: 0; } }
-  .mx-barras {
-    display: flex; align-items: flex-end; gap: 2px; height: 46px;
-    padding-right: 44px; margin-top: 16px;
-  }
-  .mx-barras i { flex: 1; border-radius: 2px; background: var(--accent-2); opacity: .38; }
-  .mx-barras i.mx-barra--alta { opacity: .85; }
-  .mx-datas {
-    display: flex; justify-content: space-between; padding-right: 44px; margin-top: 8px;
-    font-size: 10px; font-weight: 600; color: var(--placeholder);
-  }
-  .mx-foot { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-top: 12px; }
-  .mx-legenda { display: flex; align-items: center; gap: 14px; font-size: 11.5px; color: var(--muted); }
-  .mx-legenda span { display: inline-flex; align-items: center; gap: 6px; }
-  .mx-legenda i { display: block; width: 14px; height: 3px; border-radius: 2px; background: var(--accent); }
-  .mx-legenda i.b { width: 7px; height: 11px; border-radius: 2px; background: var(--accent-2); opacity: .6; }
-  .mx-nota { font-size: 10.5px; color: var(--placeholder); text-align: right; line-height: 1.35; }
+  .mx-delta { font-size: 16px; font-weight: 700; letter-spacing: -.01em; color: var(--pos); }
+  .mx-sub { font-size: 14px; color: var(--muted); margin-top: 6px; }
+  .mx-foot { margin-top: 22px; padding-top: 18px; border-top: 1px solid rgba(163,177,198,.34); }
+  .mx-nota { font-size: 11.5px; color: var(--placeholder); text-align: left; line-height: 1.5; }
 
   .float { animation: float 3s ease-in-out infinite; }
   .float-slow { animation: float 4.5s ease-in-out infinite; }
@@ -639,54 +602,17 @@
   .goo:focus-visible { outline: 2px solid var(--accent); outline-offset: 6px; border-radius: 30px; }
   [data-goo-bite] { transition: transform .8s cubic-bezier(.44, 0, .56, 1); }
 
-  /* ---------- BlobCard: cabeçalho de blobs fluidos azuis + glow rotativo ---------- */
+  /* ---------- Cabeçalho dos planos: cor sólida, sem blob/glow ----------
+     Tinha um anel girando (conic-gradient assado em textura) mais duas
+     elipses desfocadas trocando de opacidade atrás do preço -- o clichê
+     de "pricing card com glow" que qualquer gerador de landing faz sozinho.
+     Cor solida do proprio card já basta pra separar os dois planos. */
   .blob-card { position: relative; width: 100%; }
-  .blob-glow { position: absolute; inset: -2px; border-radius: 34px; overflow: hidden; z-index: 0; }
-  .blob-glow i {
-    /* o mesmo anel de antes, só que já desfocado na textura: girar um
-       conic-gradient sob `filter` obriga o navegador a segurar uma camada
-       filtrada gigante; girar uma imagem é o compositor virando uma textura.
-       Do anel inteiro aparecem uns 2px — o cartão cobre o resto. */
-    display: block; position: absolute; inset: -35%;
-    background: url('imgs/plano-glow.webp') center / cover no-repeat;
-    animation: glowspin 5s linear infinite;
-    will-change: transform;
-  }
-  @keyframes glowspin { to { transform: rotate(360deg); } }
   .blob-inner { position: relative; z-index: 1; border-radius: var(--r-card); overflow: hidden; background: var(--bg); }
-  .blob-header { position: relative; overflow: hidden; height: 224px; background: #12224E; }
-  /* O desfoque vem assado nas duas texturas (imgs/plano-blobs-*.webp, ~2 KB cada).
-     Antes eram quatro elipses animadas dentro de um `filter: blur(40px)`: o navegador
-     refazia o desfoque da área inteira a cada quadro, nos dois cards, e era isso que
-     travava a página ao chegar nos preços. Agora as camadas só trocam de opacidade e
-     deslizam — opacity e transform o compositor resolve sozinho, sem repintar nada. */
-  .fluid { position: absolute; inset: -60px; }
-  .fluid i {
-    display: block; position: absolute; inset: 0;
-    background: center / cover no-repeat;
-    will-change: transform, opacity;
-  }
-  .fluid i:nth-child(1) { background-image: url('imgs/plano-blobs-1.webp'); animation: blobA 17s ease-in-out infinite; }
-  .fluid i:nth-child(2) { background-image: url('imgs/plano-blobs-2.webp'); animation: blobB 17s ease-in-out infinite; }
-
-  /* Um plano de cada cor. As texturas verdes sao as mesmas de sempre com o matiz
-     girado -55 graus (script de geracao no historico) - ou seja, o desfoque
-     continua assado dentro do arquivo e o custo em tela segue zero. So trocar a
-     imagem, nao filtrar em runtime: hue-rotate no CSS repintaria a area inteira
-     a cada quadro, que e exatamente o que essa secao ja pagou caro pra evitar. */
+  .blob-header { position: relative; overflow: hidden; height: 224px; background: #4A2712; }
   .blob-card--verde .blob-header { background: #124E43; }
   /* o check acompanha a cor do proprio card */
   .blob-card--verde .check-mark { color: var(--accent-2); }
-  .blob-card--verde .fluid i:nth-child(1) { background-image: url('imgs/plano-blobs-1-verde.webp'); }
-  .blob-card--verde .fluid i:nth-child(2) { background-image: url('imgs/plano-blobs-2-verde.webp'); }
-  @keyframes blobA {
-    0%, 100% { opacity: 1; transform: translate3d(0, 0, 0) scale(1.02); }
-    50%      { opacity: 0; transform: translate3d(-3%, 2%, 0) scale(1.12); }
-  }
-  @keyframes blobB {
-    0%, 100% { opacity: 0; transform: translate3d(3%, -2%, 0) scale(1.1); }
-    50%      { opacity: 1; transform: translate3d(0, 0, 0) scale(1.02); }
-  }
   .blob-fade { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(to bottom, transparent 0%, transparent 46%, var(--bg) 100%); }
   .blob-head { position: relative; z-index: 2; padding: 30px 32px 0; color: #fff; }
   .blob-body { padding: 26px 32px 34px; }
@@ -1478,13 +1404,9 @@
      mesmo tempo, é GPU gasta desenhando o que ninguém está olhando. */
   .fora-de-vista .wall-lane,
   .fora-de-vista .tcol,
-  .fora-de-vista .fluid i,
-  .fora-de-vista .blob-glow i,
   .fora-de-vista .marquee-faixa,
   body.modal-aberto .wall-lane,
   body.modal-aberto .tcol,
-  body.modal-aberto .fluid i,
-  body.modal-aberto .blob-glow i,
   body.modal-aberto .float,
   body.modal-aberto .float-slow,
   body.modal-aberto .marquee-faixa,
@@ -1781,7 +1703,6 @@
     .wrap { padding-left: 18px; padding-right: 18px; }
     .nm-card { border-radius: 26px; }
     .blob-inner { border-radius: 26px; }
-    .blob-glow { border-radius: 28px; }
     .pad-hero { padding-top: 44px !important; padding-bottom: 40px !important; }
     .pad-section { padding-top: 52px !important; padding-bottom: 56px !important; }
     .pricing-grid { gap: 44px; }
@@ -1954,7 +1875,7 @@
         </div>
 
         <h1 data-reveal="1" class="font-display" style="font-weight: 800; font-size: clamp(40px, 6.4vw, 76px); line-height: .98; letter-spacing: -.035em; margin: 26px 0 0; max-width: 15ch; text-wrap: balance; color: #3D4852;">
-          Site e marketing<br />no mesmo lugar.<br /><span style="background: linear-gradient(100deg, #AD5928 10%, #C4753F 90%); -webkit-background-clip: text; background-clip: text; color: transparent;">Sem complicação.</span>
+          Site e marketing<br />no mesmo lugar.<br /><span style="color: #AD5928;">Sem complicação.</span>
         </h1>
 
         <p data-reveal="1" style="margin: 26px 0 0; max-width: 52ch; font-size: clamp(16.5px, 1.5vw, 18.5px); line-height: 1.65; color: #59616E;">
@@ -1994,56 +1915,11 @@
             </div>
           </div>
 
-          <!-- Só a linha e a área são SVG. Grade, base, ponto e barras são HTML posicionado
-               por porcentagem: o parser do navegador recusa {{ }} em atributo de SVG (cx, x,
-               width...) e enche o console de erro antes da hidratação — em `style` ele aceita. -->
-          <div class="mx-plot">
-            <sc-for list="{{ mxEixo }}" as="e" hint-placeholder-count="3">
-              <div class="mx-grade" style="top: {{ e.top }};"></div>
-              <div class="mx-ylab" style="top: {{ e.top }};">{{ e.txt }}</div>
-            </sc-for>
-            <div class="mx-base" style="top: {{ mxBaseTop }};"></div>
-
-            <div class="mx-svgbox">
-            <svg class="mx-chart" viewBox="0 0 280 104" role="img" aria-label="{{ mxAlt }}">
-              <defs>
-                <linearGradient id="mxfill" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stop-color="#AD5928" stop-opacity=".26"></stop>
-                  <stop offset="100%" stop-color="#AD5928" stop-opacity="0"></stop>
-                </linearGradient>
-              </defs>
-              <path d="{{ mxArea }}" fill="url(#mxfill)"></path>
-              <path class="mx-linha" d="{{ mxLinha }}" key="{{ mxFaixa }}"></path>
-            </svg>
-            <div class="mx-ponto" style="left: {{ mxFimLeft }}; top: {{ mxFimTop }};"></div>
-            </div>
-          </div>
-
-          <div class="mx-barras">
-            <sc-for list="{{ mxBarras }}" as="b" hint-placeholder-count="30">
-              <i class="{{ b.cls }}" style="height: {{ b.h }};"></i>
-            </sc-for>
-          </div>
-
-          <div class="mx-datas">
-            <sc-for list="{{ mxDatas }}" as="d" hint-placeholder-count="4">
-              <span>{{ d.txt }}</span>
-            </sc-for>
-          </div>
-
           <div class="mx-foot">
-            <div class="mx-legenda">
-              <span><i></i> Quem te encontrou</span>
-              <span><i class="b"></i> Contatos</span>
-            </div>
-            <div class="mx-nota">Exemplo ilustrativo</div>
+            <div class="mx-nota">Exemplo ilustrativo — a forma de um resultado possível, não o histórico de um cliente.</div>
           </div>
         </div>
 
-        <div class="nm-tile float" style="position: absolute; top: -18px; right: -10px; padding: 11px 17px; border-radius: var(--r-pill); display: flex; align-items: center; gap: 9px; font-size: 13px; font-weight: 700; color: #3D4852;">
-          <span style="width: 8px; height: 8px; border-radius: 999px; background: #38B2AC; display: block;"></span>
-          Site no ar
-        </div>
         <div class="nm-tile float-slow" style="position: absolute; top: -22px; left: -12px; padding: 11px 17px; border-radius: var(--r-pill); display: flex; align-items: center; gap: 9px; font-size: 13px; font-weight: 700; color: #3D4852;">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#AD5928" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 7-7"></path><path d="M14 8h6v6"></path></svg>
           Mais vendas locais
@@ -2985,10 +2861,8 @@
     <div class="pricing-grid">
 
       <div data-reveal="1" class="blob-card blob-card--verde tilt" data-tilt>
-        <div class="blob-glow"><i></i></div>
         <div class="blob-inner" style="box-shadow: 9px 9px 16px rgba(163,177,198,.6), -9px -9px 16px rgba(255,255,255,.5);">
           <div class="blob-header">
-            <div class="fluid"><i></i><i></i></div>
             <div class="blob-fade"></div>
             <div class="blob-head">
               <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
@@ -3025,10 +2899,8 @@
         <div style="position: absolute; top: -16px; left: 50%; transform: translateX(-50%); z-index: 3;">
           <span class="nm-chip" style="font-size: 12px; padding: 9px 20px; letter-spacing: .1em; box-shadow: 9px 9px 16px rgba(163,177,198,.6), -9px -9px 16px rgba(255,255,255,.5);">MAIS POPULAR</span>
         </div>
-        <div class="blob-glow"><i></i></div>
         <div class="blob-inner" style="box-shadow: 12px 12px 20px rgba(163,177,198,.7), -12px -12px 20px rgba(255,255,255,.6);">
           <div class="blob-header">
-            <div class="fluid"><i></i><i></i></div>
             <div class="blob-fade"></div>
             <div class="blob-head">
               <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
