@@ -6,6 +6,13 @@
       "runtimeExecutable": "python",
       "runtimeArgs": ["-m", "http.server", "8777", "--bind", "127.0.0.1"],
       "port": 8777
+    },
+    {
+      "name": "cuidabem",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "8790", "--bind", "127.0.0.1",
+                      "--directory", "C:\\Users\\dolly\\OneDrive\\Desktop\\cuidabem"],
+      "port": 8790
     }
   ]
 }
