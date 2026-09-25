@@ -766,30 +766,42 @@
 
      O palco e UM cartao e os slides sao conteudo puro dentro dele - se cada
      slide tivesse a propria sombra, o overflow: hidden da janela cortaria ela. */
-  .sis-car {
-    margin-top: 44px; padding: clamp(22px, 2.6vw, 34px);
-    border-radius: var(--r-card); background: var(--bg); box-shadow: var(--nm-out);
+  /* Abas, uma por caso -- mesmo padrao de #modelos (clica e troca na hora,
+     sem arrastar/deslizar). Cada painel fica empilhado no mesmo lugar
+     (grid-area 1/1) e so a visibilidade muda. */
+  .sis-abas { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 40px 0 30px; }
+  .sis-aba {
+    border: none; cursor: pointer; font: inherit; font-size: 14px; font-weight: 700;
+    padding: 12px 20px; border-radius: var(--r-pill); color: var(--muted);
+    background: var(--bg); box-shadow: var(--nm-out-sm);
+    transition: transform .25s var(--ease), box-shadow .25s var(--ease), color .25s var(--ease);
   }
-  .sis-car-janela { overflow: hidden; }
-  .sis-car-pista { display: flex; transition: transform .55s var(--ease); }
-  .sis-slide {
-    flex: 0 0 100%; min-width: 0;
-    display: grid; grid-template-columns: minmax(0,1.05fr) minmax(0,.95fr);
-    gap: clamp(22px, 3vw, 38px); align-items: center;
-  }
-  /* o slide que nao esta na vez sai do alcance do leitor de tela e do Tab */
-  .sis-slide[aria-hidden="true"] { visibility: hidden; }
+  .sis-aba:hover { transform: translateY(-2px); color: var(--fg); }
+  .sis-aba.is-on { color: var(--aba, var(--accent)); box-shadow: var(--nm-in); transform: none; }
 
-  .sis-midia { display: grid; gap: 12px; }
-  .sis-moldura {
-    border-radius: 14px; overflow: hidden; box-shadow: var(--nm-out-sm);
-    background: var(--bg); max-width: 560px; width: 100%;
+  .sis-palco {
+    position: relative; display: grid; border-radius: var(--r-card);
+    background: var(--bg); box-shadow: var(--nm-out); padding: clamp(22px, 2.8vw, 38px);
   }
+  .sis-painel {
+    grid-area: 1 / 1;
+    display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr);
+    gap: clamp(22px, 3vw, 38px); align-items: start;
+    opacity: 0; visibility: hidden; transform: translateY(12px) scale(.99);
+    transition: opacity .38s var(--ease), transform .38s var(--ease);
+  }
+  .sis-painel.is-on { opacity: 1; visibility: visible; transform: none; }
+
+  /* Galeria flexivel: 1 imagem ocupa a coluna inteira, 2 ficam lado a lado,
+     4 fecham em grade 2x2 -- o auto-fit resolve sozinho pela contagem real
+     de capturas de cada caso, sem precisar de uma classe por quantidade. */
+  .sis-galeria { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; align-content: start; }
+  .sis-moldura { border-radius: 14px; overflow: hidden; box-shadow: var(--nm-out-sm); background: var(--bg); }
   .sis-topo { display: flex; align-items: center; gap: 6px; padding: 9px 12px; background: rgba(255,255,255,.5); }
   .sis-topo i { width: 8px; height: 8px; border-radius: 999px; background: rgba(163,177,198,.55); flex: none; }
   .sis-topo span {
-    margin-left: 7px; font-size: 11px; color: var(--placeholder);
-    padding: 3px 12px; border-radius: 999px; background: var(--bg);
+    margin-left: 7px; font-size: 10.5px; color: var(--placeholder);
+    padding: 3px 11px; border-radius: 999px; background: var(--bg); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   }
   .sis-moldura img { display: block; width: 100%; height: auto; }
 
@@ -799,12 +811,12 @@
     color: var(--sel, var(--t7)); padding: 7px 15px; border-radius: var(--r-pill); background: var(--self, var(--f7));
   }
   .sis-selo i { width: 7px; height: 7px; border-radius: 999px; background: currentColor; flex: none; }
-  .sis-slide h3 {
+  .sis-painel h3 {
     font-family: 'Plus Jakarta Sans', system-ui, sans-serif; font-weight: 800;
     font-size: clamp(21px, 2.5vw, 29px); line-height: 1.14; letter-spacing: -.025em;
     margin: 0; color: var(--fg);
   }
-  .sis-slide > div > p { margin: 14px 0 0; font-size: 15px; line-height: 1.68; color: var(--muted); }
+  .sis-painel > div > p { margin: 14px 0 0; font-size: 15px; line-height: 1.68; color: var(--muted); }
 
   .sis-nums { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 11px; margin-top: 22px; }
   .sis-num { padding: 14px 15px; border-radius: var(--r-inner); background: var(--bg); box-shadow: var(--nm-in-sm); }
@@ -813,24 +825,6 @@
     font-weight: 800; font-size: 18px; letter-spacing: -.03em; color: var(--sc, var(--t1));
   }
   .sis-num span { display: block; margin-top: 4px; font-size: 12px; line-height: 1.45; color: var(--muted); }
-
-  /* ---- os controles ---- */
-  .sis-car-nav { display: flex; align-items: center; justify-content: center; gap: 18px; margin-top: 26px; }
-  .sis-seta {
-    width: 44px; height: 44px; flex: none; border: none; cursor: pointer;
-    border-radius: 999px; background: var(--bg); box-shadow: var(--nm-out-sm);
-    color: var(--fg); display: grid; place-items: center;
-    transition: transform .25s var(--ease), box-shadow .25s var(--ease), color .25s var(--ease);
-  }
-  .sis-seta:hover { transform: translateY(-2px); box-shadow: var(--nm-out); color: var(--accent); }
-  .sis-seta:active { transform: translateY(.5px); box-shadow: var(--nm-in-sm); }
-  .sis-pontos { display: flex; align-items: center; gap: 9px; }
-  .sis-ponto {
-    width: 10px; height: 10px; padding: 0; border: none; cursor: pointer;
-    border-radius: 999px; background: var(--bg); box-shadow: var(--nm-in-sm);
-    transition: width .35s var(--ease), background .35s var(--ease);
-  }
-  .sis-ponto.is-on { width: 30px; background: var(--pt, var(--accent)); box-shadow: none; }
 
   .sis-tipos { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 16px; margin-top: 26px; }
   .sis-tipo {
@@ -928,8 +922,8 @@
   .sis-cta .sis-pe { margin-top: 22px; }
 
   @media (max-width: 980px) {
-    .sis-slide { grid-template-columns: minmax(0,1fr); gap: 24px; }
-    .sis-midia { order: -1; justify-items: center; }
+    .sis-painel { grid-template-columns: minmax(0,1fr); gap: 24px; }
+    .sis-galeria { order: -1; }
     .sis-tipos { grid-template-columns: repeat(2, minmax(0,1fr)); }
   }
   @media (max-width: 560px) {
@@ -2500,137 +2494,147 @@
     </div>
     <p class="sis-pe" style="margin-top: 18px;">Interface ilustrativa — dá pra sentir o formato. O seu painel vem com os números, as categorias e o processo da sua operação.</p>
 
-    <!-- Tres casos reais num carrossel. A pista e um flex com translateX: os
-         tres slides ficam em fluxo, entao a altura do palco e a do mais alto
-         e nada pula ao trocar. Slide fora da vez leva aria-hidden e
-         visibility: hidden, senao leitor de tela leria os tres em sequencia
-         e o Tab passaria por dentro de slide invisivel. -->
-    <div class="sis-car" data-reveal="1" data-sis-car>
-      <div class="sis-car-janela">
-        <div class="sis-car-pista" data-sis-pista>
-            <article class="sis-slide" data-sis-slide="0">
-              <div class="sis-midia">
-              <div class="sis-moldura">
-                <div class="sis-topo" aria-hidden="true"><i></i><i></i><i></i><span>painel interno · rede da empresa</span></div>
-                <img src="imgs/sistema-indicadores.webp" alt="Painel de indicadores comerciais com metas, gap e projeção do mês" loading="lazy" decoding="async" />
-              </div>
-              </div>
-              <div>
-                <span class="sis-selo" style="--sel: var(--t7); --self: var(--f7);"><i></i>Caso real · um banco</span>
-                <h3>Um banco precisava enxergar as metas sem depender de planilha.</h3>
-                <p>Cada gestor mantinha a sua versão dos números e o quanto faltava só aparecia no fechamento — quando já não dava tempo de reagir. A gente construiu o painel do zero: a empresa cria os próprios indicadores, define a meta e a ordem.</p>
-                <div class="sis-nums">
-                <div class="sis-num" style="--sc: var(--t1);"><b>12</b><span>indicadores numa tela só</span></div>
-                <div class="sis-num" style="--sc: var(--t6);"><b>Por dia útil</b><span>meta dia a dia, com feriado descontado</span></div>
-                <div class="sis-num" style="--sc: var(--t8);"><b>Tempo real</b><span>o gap recalcula a cada lançamento</span></div>
-                <div class="sis-num" style="--sc: var(--t5);"><b>Na rede</b><span>roda na máquina da empresa</span></div>
-                </div>
-              </div>
-            </article>
-            <article class="sis-slide" data-sis-slide="1" aria-hidden="true">
-              <div class="sis-midia">
-              <div class="sis-moldura">
-                <div class="sis-topo" aria-hidden="true"><i></i><i></i><i></i><span>painel de controle</span></div>
-                <img src="imgs/painel-caixa.webp" alt="Painel de controle com saldo de caixa, contratos e vendas do mês" loading="lazy" decoding="async" />
-              </div>
-              <div class="sis-moldura">
-                <div class="sis-topo" aria-hidden="true"><i></i><i></i><i></i><span>livro caixa</span></div>
-                <img src="imgs/livro-caixa.webp" alt="Tela de livro caixa com entradas, saídas e extrato de movimentos" loading="lazy" decoding="async" />
-              </div>
-              </div>
-              <div>
-                <span class="sis-selo" style="--sel: var(--t8); --self: var(--f8);"><i></i>Caso real · controle financeiro</span>
-                <h3>O caixa da empresa sem planilha no meio.</h3>
-                <p>Entrada e saída eram anotadas num lugar, contrato em outro e venda num terceiro — e só no fim do mês alguém juntava tudo. Viraram duas telas: o painel que o dono abre de manhã e o livro caixa onde a equipe lança o dia.</p>
-                <div class="sis-nums">
-                <div class="sis-num" style="--sc: var(--t1);"><b>2 cliques</b><span>pra registrar entrada ou saída</span></div>
-                <div class="sis-num" style="--sc: var(--t6);"><b>Dia e mês</b><span>fechamento em um botão</span></div>
-                <div class="sis-num" style="--sc: var(--t8);"><b>Extrato vivo</b><span>filtra por tipo, método e data</span></div>
-                <div class="sis-num" style="--sc: var(--t5);"><b>Uma tela</b><span>caixa, contratos e vendas juntos</span></div>
-                </div>
-              </div>
-            </article>
-            <article class="sis-slide" data-sis-slide="2" aria-hidden="true">
-              <div class="sis-midia">
-              <div class="sis-moldura">
-                <div class="sis-topo" aria-hidden="true"><i></i><i></i><i></i><span>calculadora de parcelas</span></div>
-                <img src="imgs/sistema-taxas.webp" alt="Calculadora de parcelas mostrando taxa e valor a receber de 1x a 6x" loading="lazy" decoding="async" />
-              </div>
-              <div class="sis-moldura">
-                <div class="sis-topo" aria-hidden="true"><i></i><i></i><i></i><span>simulador de margem</span></div>
-                <img src="imgs/sistema-margem.webp" alt="Simulador de margem com custo, venda, troca e resumo financeiro" loading="lazy" decoding="async" />
-              </div>
-              </div>
-              <div>
-                <span class="sis-selo" style="--sel: var(--t5); --self: var(--f5);"><i></i>Caso real · calculadora de taxas</span>
-                <h3>Quanto sobra depois que a maquininha mordeu?</h3>
-                <p>A loja só descobria a margem no fim do mês, quando a taxa de cada parcelamento já tinha saído do lucro. O sistema calcula na hora: a taxa de 1x a 12x, se compensa repassar ou absorver, e o que sobra de verdade com aparelho na troca abatido.</p>
-                <div class="sis-nums">
-                <div class="sis-num" style="--sc: var(--t1);"><b>1x a 12x</b><span>a taxa de cada parcela, lado a lado</span></div>
-                <div class="sis-num" style="--sc: var(--t6);"><b>Repassa ou absorve</b><span>os dois cenários na mesma tela</span></div>
-                <div class="sis-num" style="--sc: var(--t8);"><b>Troca no cálculo</b><span>aparelho avaliado já entra na conta</span></div>
-                <div class="sis-num" style="--sc: var(--t5);"><b>Margem real</b><span>o que sobra depois de tudo</span></div>
-                </div>
-              </div>
-            </article>
-            <article class="sis-slide" data-sis-slide="3" aria-hidden="true">
-              <div class="sis-midia">
-              <div class="sis-moldura">
-                <div class="sis-topo" aria-hidden="true"><i></i><i></i><i></i><span>visão geral · painel de bens</span></div>
-                <img src="imgs/sistema-auditoria-dash.webp" alt="Painel com total de bens, valor patrimonial e últimas movimentações" loading="lazy" decoding="async" />
-              </div>
-              <div class="sis-moldura">
-                <div class="sis-topo" aria-hidden="true"><i></i><i></i><i></i><span>conferência em andamento</span></div>
-                <img src="imgs/sistema-auditoria-conferencia.webp" alt="Tela de conferência de bens com leitura de plaqueta e percentual concluído" loading="lazy" decoding="async" />
-              </div>
-              </div>
-              <div>
-                <span class="sis-selo" style="--sel: var(--t2); --self: var(--f2);"><i></i>Caso real · auditoria de patrimônio</span>
-                <h3>Conferir o patrimônio inteiro não podia mais depender de planilha e caneta.</h3>
-                <p>A auditoria de bens era feita setor por setor, sem saber quanto já tinha sido conferido nem onde estavam as divergências. Construímos um painel com leitura de plaqueta, conferência em tempo real e histórico de transferência de cada bem.</p>
-                <div class="sis-nums">
-                <div class="sis-num" style="--sc: var(--t2);"><b>1.240 bens</b><span>cadastrados com valor e localização</span></div>
-                <div class="sis-num" style="--sc: var(--t6);"><b>Leitura de plaqueta</b><span>bipa ou digita, valida na hora</span></div>
-                <div class="sis-num" style="--sc: var(--t1);"><b>Tempo real</b><span>o percentual sobe a cada bem conferido</span></div>
-                <div class="sis-num" style="--sc: var(--t5);"><b>Setor por setor</b><span>divergência aparece por local, não só no total</span></div>
-                </div>
-              </div>
-            </article>
-            <article class="sis-slide" data-sis-slide="4" aria-hidden="true">
-              <div class="sis-midia">
-              <div class="sis-moldura">
-                <div class="sis-topo" aria-hidden="true"><i></i><i></i><i></i><span>fotografar alimento</span></div>
-                <img src="imgs/sistema-nutriscan-captura.webp" alt="Tela inicial do NutriScan pedindo para fotografar o alimento" loading="lazy" decoding="async" />
-              </div>
-              <div class="sis-moldura">
-                <div class="sis-topo" aria-hidden="true"><i></i><i></i><i></i><span>resultado da análise</span></div>
-                <img src="imgs/sistema-nutriscan-resultado.webp" alt="Resultado classificando o produto como processado, com diagnóstico nutricional" loading="lazy" decoding="async" />
-              </div>
-              </div>
-              <div>
-                <span class="sis-selo" style="--sel: var(--t3); --self: var(--f3);"><i></i>Caso real · identificação nutricional</span>
-                <h3>Saber se o alimento é natural, processado ou ultraprocessado, na hora da compra.</h3>
-                <p>Ler rótulo e decidir o nível de processamento toma um tempo que ninguém tem no corredor do mercado. O app fotografa a embalagem ou o prato e devolve a classificação na hora, com o motivo do resultado e o nível de risco.</p>
-                <div class="sis-nums">
-                <div class="sis-num" style="--sc: var(--t3);"><b>3 classificações</b><span>natural, processado e ultraprocessado</span></div>
-                <div class="sis-num" style="--sc: var(--t6);"><b>Na hora</b><span>a foto vira resultado sem digitar nada</span></div>
-                <div class="sis-num" style="--sc: var(--t8);"><b>Motivo explicado</b><span>diagnóstico nutricional, não só um rótulo</span></div>
-                <div class="sis-num" style="--sc: var(--t5);"><b>Histórico</b><span>quantas análises de cada tipo, sempre à mão</span></div>
-                </div>
-              </div>
-            </article>
-        </div>
+    <!-- Cinco casos reais, um por aba -- mesmo padrao de #modelos: clica e
+         troca na hora, sem arrastar. Painel fora da vez leva aria-hidden e
+         visibility: hidden, senao leitor de tela leria os cinco em sequencia
+         e o Tab passaria por dentro de painel invisivel. -->
+    <div data-reveal="1" data-sis>
+      <div class="sis-abas" role="tablist" aria-label="Casos">
+        <button class="sis-aba is-on" data-sis-aba="0" type="button" role="tab" aria-selected="true" style="--aba: var(--t7);">Um banco</button>
+        <button class="sis-aba" data-sis-aba="1" type="button" role="tab" aria-selected="false" style="--aba: var(--t8);">Controle financeiro</button>
+        <button class="sis-aba" data-sis-aba="2" type="button" role="tab" aria-selected="false" style="--aba: var(--t5);">Calculadora de taxas</button>
+        <button class="sis-aba" data-sis-aba="3" type="button" role="tab" aria-selected="false" style="--aba: var(--t2);">Auditoria de bens</button>
+        <button class="sis-aba" data-sis-aba="4" type="button" role="tab" aria-selected="false" style="--aba: var(--t3);">NutriScan</button>
       </div>
-      <div class="sis-car-nav">
-        <button class="sis-seta" data-sis-prev type="button" aria-label="Caso anterior"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"></path><path d="M11 6l-6 6 6 6"></path></svg></button>
-        <div class="sis-pontos">
-        <button class="sis-ponto is-on" data-sis-ponto="0" type="button" aria-label="Sistema 1 de 5" style="--pt: var(--c7);"></button>
-        <button class="sis-ponto" data-sis-ponto="1" type="button" aria-label="Sistema 2 de 5" style="--pt: var(--c8);"></button>
-        <button class="sis-ponto" data-sis-ponto="2" type="button" aria-label="Sistema 3 de 5" style="--pt: var(--c5);"></button>
-        <button class="sis-ponto" data-sis-ponto="3" type="button" aria-label="Sistema 4 de 5" style="--pt: var(--c2);"></button>
-        <button class="sis-ponto" data-sis-ponto="4" type="button" aria-label="Sistema 5 de 5" style="--pt: var(--c3);"></button>
-        </div>
-        <button class="sis-seta" data-sis-next type="button" aria-label="Próximo caso"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></button>
+
+      <div class="sis-palco">
+        <article class="sis-painel is-on" data-sis-painel="0">
+          <div class="sis-galeria">
+          <div class="sis-moldura">
+            <div class="sis-topo" aria-hidden="true"><i></i><i></i><i></i><span>painel interno · rede da empresa</span></div>
+            <img src="imgs/sistema-indicadores.webp" alt="Painel de indicadores comerciais com metas, gap e projeção do mês" loading="lazy" decoding="async" />
+          </div>
+          </div>
+          <div>
+            <span class="sis-selo" style="--sel: var(--t7); --self: var(--f7);"><i></i>Caso real · um banco</span>
+            <h3>Um banco precisava enxergar as metas sem depender de planilha.</h3>
+            <p>Cada gestor mantinha a sua versão dos números e o quanto faltava só aparecia no fechamento — quando já não dava tempo de reagir. A gente construiu o painel do zero: a empresa cria os próprios indicadores, define a meta e a ordem.</p>
+            <div class="sis-nums">
+            <div class="sis-num" style="--sc: var(--t7);"><b>12</b><span>indicadores numa tela só</span></div>
+            <div class="sis-num" style="--sc: var(--t7);"><b>Por dia útil</b><span>meta dia a dia, com feriado descontado</span></div>
+            <div class="sis-num" style="--sc: var(--t7);"><b>Tempo real</b><span>o gap recalcula a cada lançamento</span></div>
+            <div class="sis-num" style="--sc: var(--t7);"><b>Na rede</b><span>roda na máquina da empresa</span></div>
+            </div>
+          </div>
+        </article>
+        <article class="sis-painel" data-sis-painel="1" aria-hidden="true">
+          <div class="sis-galeria">
+          <div class="sis-moldura">
+            <div class="sis-topo" aria-hidden="true"><i></i><i></i><i></i><span>painel de controle</span></div>
+            <img src="imgs/painel-caixa.webp" alt="Painel de controle com saldo de caixa, contratos e vendas do mês" loading="lazy" decoding="async" />
+          </div>
+          <div class="sis-moldura">
+            <div class="sis-topo" aria-hidden="true"><i></i><i></i><i></i><span>livro caixa</span></div>
+            <img src="imgs/livro-caixa.webp" alt="Tela de livro caixa com entradas, saídas e extrato de movimentos" loading="lazy" decoding="async" />
+          </div>
+          </div>
+          <div>
+            <span class="sis-selo" style="--sel: var(--t8); --self: var(--f8);"><i></i>Caso real · controle financeiro</span>
+            <h3>O caixa da empresa sem planilha no meio.</h3>
+            <p>Entrada e saída eram anotadas num lugar, contrato em outro e venda num terceiro — e só no fim do mês alguém juntava tudo. Viraram duas telas: o painel que o dono abre de manhã e o livro caixa onde a equipe lança o dia.</p>
+            <div class="sis-nums">
+            <div class="sis-num" style="--sc: var(--t8);"><b>2 cliques</b><span>pra registrar entrada ou saída</span></div>
+            <div class="sis-num" style="--sc: var(--t8);"><b>Dia e mês</b><span>fechamento em um botão</span></div>
+            <div class="sis-num" style="--sc: var(--t8);"><b>Extrato vivo</b><span>filtra por tipo, método e data</span></div>
+            <div class="sis-num" style="--sc: var(--t8);"><b>Uma tela</b><span>caixa, contratos e vendas juntos</span></div>
+            </div>
+          </div>
+        </article>
+        <article class="sis-painel" data-sis-painel="2" aria-hidden="true">
+          <div class="sis-galeria">
+          <div class="sis-moldura">
+            <div class="sis-topo" aria-hidden="true"><i></i><i></i><i></i><span>calculadora de parcelas</span></div>
+            <img src="imgs/sistema-taxas.webp" alt="Calculadora de parcelas mostrando taxa e valor a receber de 1x a 6x" loading="lazy" decoding="async" />
+          </div>
+          <div class="sis-moldura">
+            <div class="sis-topo" aria-hidden="true"><i></i><i></i><i></i><span>simulador de margem</span></div>
+            <img src="imgs/sistema-margem.webp" alt="Simulador de margem com custo, venda, troca e resumo financeiro" loading="lazy" decoding="async" />
+          </div>
+          </div>
+          <div>
+            <span class="sis-selo" style="--sel: var(--t5); --self: var(--f5);"><i></i>Caso real · calculadora de taxas</span>
+            <h3>Quanto sobra depois que a maquininha mordeu?</h3>
+            <p>A loja só descobria a margem no fim do mês, quando a taxa de cada parcelamento já tinha saído do lucro. O sistema calcula na hora: a taxa de 1x a 12x, se compensa repassar ou absorver, e o que sobra de verdade com aparelho na troca abatido.</p>
+            <div class="sis-nums">
+            <div class="sis-num" style="--sc: var(--t5);"><b>1x a 12x</b><span>a taxa de cada parcela, lado a lado</span></div>
+            <div class="sis-num" style="--sc: var(--t5);"><b>Repassa ou absorve</b><span>os dois cenários na mesma tela</span></div>
+            <div class="sis-num" style="--sc: var(--t5);"><b>Troca no cálculo</b><span>aparelho avaliado já entra na conta</span></div>
+            <div class="sis-num" style="--sc: var(--t5);"><b>Margem real</b><span>o que sobra depois de tudo</span></div>
+            </div>
+          </div>
+        </article>
+        <article class="sis-painel" data-sis-painel="3" aria-hidden="true">
+          <div class="sis-galeria">
+          <div class="sis-moldura">
+            <div class="sis-topo" aria-hidden="true"><i></i><i></i><i></i><span>visão geral</span></div>
+            <img src="imgs/sistema-auditoria-dash.webp" alt="Painel com total de bens, valor patrimonial e últimas movimentações" loading="lazy" decoding="async" />
+          </div>
+          <div class="sis-moldura">
+            <div class="sis-topo" aria-hidden="true"><i></i><i></i><i></i><span>inventário de bens</span></div>
+            <img src="imgs/sistema-auditoria-inventario.webp" alt="Gestão de inventário com busca, filtros e cadastro de bens" loading="lazy" decoding="async" />
+          </div>
+          <div class="sis-moldura">
+            <div class="sis-topo" aria-hidden="true"><i></i><i></i><i></i><span>transferências e serviços</span></div>
+            <img src="imgs/sistema-auditoria-transferencias.webp" alt="Tela de movimentação com nova transferência e histórico de manutenção" loading="lazy" decoding="async" />
+          </div>
+          <div class="sis-moldura">
+            <div class="sis-topo" aria-hidden="true"><i></i><i></i><i></i><span>conferência em andamento</span></div>
+            <img src="imgs/sistema-auditoria-conferencia.webp" alt="Tela de conferência de bens com leitura de plaqueta e percentual concluído" loading="lazy" decoding="async" />
+          </div>
+          </div>
+          <div>
+            <span class="sis-selo" style="--sel: var(--t2); --self: var(--f2);"><i></i>Caso real · auditoria de patrimônio</span>
+            <h3>Conferir o patrimônio inteiro não podia mais depender de planilha e caneta.</h3>
+            <p>A auditoria de bens era feita setor por setor, sem saber quanto já tinha sido conferido nem onde estavam as divergências. Construímos um painel com leitura de plaqueta, conferência em tempo real e histórico de transferência de cada bem.</p>
+            <div class="sis-nums">
+            <div class="sis-num" style="--sc: var(--t2);"><b>1.240 bens</b><span>cadastrados com valor e localização</span></div>
+            <div class="sis-num" style="--sc: var(--t2);"><b>Leitura de plaqueta</b><span>bipa ou digita, valida na hora</span></div>
+            <div class="sis-num" style="--sc: var(--t2);"><b>Tempo real</b><span>o percentual sobe a cada bem conferido</span></div>
+            <div class="sis-num" style="--sc: var(--t2);"><b>Setor por setor</b><span>divergência aparece por local, não só no total</span></div>
+            </div>
+          </div>
+        </article>
+        <article class="sis-painel" data-sis-painel="4" aria-hidden="true">
+          <div class="sis-galeria">
+          <div class="sis-moldura">
+            <div class="sis-topo" aria-hidden="true"><i></i><i></i><i></i><span>abertura</span></div>
+            <img src="imgs/sistema-nutriscan-abertura.webp" alt="Tela de abertura do NutriScan, análise nutricional em tempo real" loading="lazy" decoding="async" />
+          </div>
+          <div class="sis-moldura">
+            <div class="sis-topo" aria-hidden="true"><i></i><i></i><i></i><span>fotografar alimento</span></div>
+            <img src="imgs/sistema-nutriscan-captura.webp" alt="Tela inicial do NutriScan pedindo para fotografar o alimento" loading="lazy" decoding="async" />
+          </div>
+          <div class="sis-moldura">
+            <div class="sis-topo" aria-hidden="true"><i></i><i></i><i></i><span>consultando a base</span></div>
+            <img src="imgs/sistema-nutriscan-consultando.webp" alt="Tela de carregamento consultando a classificação NOVA do alimento" loading="lazy" decoding="async" />
+          </div>
+          <div class="sis-moldura">
+            <div class="sis-topo" aria-hidden="true"><i></i><i></i><i></i><span>resultado da análise</span></div>
+            <img src="imgs/sistema-nutriscan-resultado.webp" alt="Resultado classificando o produto como processado, com diagnóstico nutricional" loading="lazy" decoding="async" />
+          </div>
+          </div>
+          <div>
+            <span class="sis-selo" style="--sel: var(--t3); --self: var(--f3);"><i></i>Caso real · identificação nutricional</span>
+            <h3>Saber se o alimento é natural, processado ou ultraprocessado, na hora da compra.</h3>
+            <p>Ler rótulo e decidir o nível de processamento toma um tempo que ninguém tem no corredor do mercado. O app fotografa a embalagem ou o prato e devolve a classificação na hora, com o motivo do resultado e o nível de risco.</p>
+            <div class="sis-nums">
+            <div class="sis-num" style="--sc: var(--t3);"><b>3 classificações</b><span>natural, processado e ultraprocessado</span></div>
+            <div class="sis-num" style="--sc: var(--t3);"><b>Na hora</b><span>a foto vira resultado sem digitar nada</span></div>
+            <div class="sis-num" style="--sc: var(--t3);"><b>Motivo explicado</b><span>diagnóstico nutricional, não só um rótulo</span></div>
+            <div class="sis-num" style="--sc: var(--t3);"><b>Histórico</b><span>quantas análises de cada tipo, sempre à mão</span></div>
+            </div>
+          </div>
+        </article>
       </div>
     </div>
 
@@ -3819,7 +3823,7 @@ class Component extends DCLogic {
     this.setupCardSwap();
     this.setupDuelo();
     this.setupModelos();
-    this.setupCarrossel();
+    this.setupSistemas();
   }
 
   /* ---------------------------------------------------------------
@@ -3918,66 +3922,51 @@ class Component extends DCLogic {
   }
 
   /* ---------------------------------------------------------------
-     O carrossel dos casos de sistema. A pista e um flex e trocar de caso e
-     mover o translateX - os tres slides ficam em fluxo, entao a altura do
-     palco e a do mais alto e nada pula na troca.
-
-     Anda por seta, por ponto, pelas setas do teclado e por arrasto. O arrasto
-     usa Pointer Events, que cobre mouse e dedo com o mesmo codigo, e so vira
-     troca de slide depois de 45px - abaixo disso e rolagem da pagina, nao
-     gesto de carrossel.
+     As abas dos casos de sistema -- mesmo padrao de setupModelos(): painel
+     certo entra em opacity+transform, os outros ficam empilhados no mesmo
+     grid-area, aria-hidden pra leitor de tela e Tab nao passarem por dentro
+     de painel invisivel. Sem arrasto, sem intervalo -- so clique e seta.
      --------------------------------------------------------------- */
-  setupCarrossel() {
-    const raiz = document.querySelector('[data-sis-car]');
+  setupSistemas() {
+    const raiz = document.querySelector('[data-sis]');
     if (!raiz) return;
-    const pista = raiz.querySelector('[data-sis-pista]');
-    const slides = [...raiz.querySelectorAll('[data-sis-slide]')];
-    const pontos = [...raiz.querySelectorAll('[data-sis-ponto]')];
-    if (!pista || slides.length < 2) return;
+    const abas = [...raiz.querySelectorAll('[data-sis-aba]')];
+    const paineis = [...raiz.querySelectorAll('[data-sis-painel]')];
+    if (!abas.length || abas.length !== paineis.length) return;
 
-    let atual = 0;
-    const ir = (i) => {
-      atual = (i + slides.length) % slides.length;
-      pista.style.transform = 'translateX(' + (-atual * 100) + '%)';
-      slides.forEach((sl, n) => {
-        if (n === atual) sl.removeAttribute('aria-hidden');
-        else sl.setAttribute('aria-hidden', 'true');
+    const mostrar = (i) => {
+      abas.forEach((a, n) => {
+        a.classList.toggle('is-on', n === i);
+        a.setAttribute('aria-selected', n === i ? 'true' : 'false');
       });
-      pontos.forEach((p, n) => p.classList.toggle('is-on', n === atual));
+      paineis.forEach((p, n) => {
+        p.classList.toggle('is-on', n === i);
+        if (n === i) p.removeAttribute('aria-hidden');
+        else p.setAttribute('aria-hidden', 'true');
+      });
     };
 
-    const liga = (el, ev, fn) => {
-      el.addEventListener(ev, fn);
-      this._teardown.push(() => el.removeEventListener(ev, fn));
-    };
+    abas.forEach((a, i) => {
+      const ir = () => mostrar(i);
+      a.addEventListener('click', ir);
+      this._teardown.push(() => a.removeEventListener('click', ir));
+    });
 
-    const p = raiz.querySelector('[data-sis-prev]');
-    const n = raiz.querySelector('[data-sis-next]');
-    if (p) liga(p, 'click', () => ir(atual - 1));
-    if (n) liga(n, 'click', () => ir(atual + 1));
-    pontos.forEach((pt, i) => liga(pt, 'click', () => ir(i)));
-
-    liga(raiz, 'keydown', (e) => {
+    // setas do teclado andam entre as abas, como manda um tablist
+    const porTecla = (e) => {
       const d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
       if (!d) return;
       e.preventDefault();
-      ir(atual + d);
+      const atual = abas.findIndex((a) => a.classList.contains('is-on'));
+      const alvo = (atual + d + abas.length) % abas.length;
+      mostrar(alvo);
+      abas[alvo].focus();
+    };
+    raiz.querySelector('[role="tablist"]').addEventListener('keydown', porTecla);
+    this._teardown.push(() => {
+      const tl = raiz.querySelector('[role="tablist"]');
+      if (tl) tl.removeEventListener('keydown', porTecla);
     });
-
-    // arrasto: mouse e dedo pelo mesmo caminho
-    let x0 = null;
-    liga(pista, 'pointerdown', (e) => { x0 = e.clientX; });
-    liga(pista, 'pointerup', (e) => {
-      if (x0 === null) return;
-      const d = e.clientX - x0;
-      x0 = null;
-      if (Math.abs(d) > 45) ir(atual + (d < 0 ? 1 : -1));
-    });
-    liga(pista, 'pointercancel', () => { x0 = null; });
-    // a imagem tem arrasto nativo do navegador e ele atrapalha o gesto
-    liga(pista, 'dragstart', (e) => e.preventDefault());
-
-    ir(0);
   }
 
   /** Espera o GSAP do CDN aparecer na window antes de rodar `fn`. */
