@@ -11,7 +11,7 @@
      amontimo7.github.io (ambiente de teste). Com canonical relativo, os
      dois dominios se declaram originais e o Google escolhe qual indexar. -->
 <link rel="canonical" href="https://actechsystems.github.io/" />
-<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Crect%20width='32'%20height='32'%20rx='8'%20fill='%23E0E5EC'/%3E%3Cpath%20d='M12%2011l-5%205%205%205M20%2011l5%205-5%205'%20fill='none'%20stroke='%23AD5928'%20stroke-width='3'%20stroke-linecap='round'%20stroke-linejoin='round'/%3E%3C/svg%3E" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Crect%20width='32'%20height='32'%20rx='8'%20fill='%23E0E5EC'/%3E%3Cpath%20d='M12%2011l-5%205%205%205M20%2011l5%205-5%205'%20fill='none'%20stroke='%233D6A99'%20stroke-width='3'%20stroke-linecap='round'%20stroke-linejoin='round'/%3E%3C/svg%3E" />
 
 <meta property="og:type" content="website" />
 <meta property="og:locale" content="pt_BR" />
@@ -47,7 +47,7 @@
   "logo": "https://actechsystems.github.io/imgs/og.png",
   "description": "Criação de sites, gestão de Instagram e Google Meu Negócio em uma mensalidade única, e sistemas sob medida orçados à parte. Para comércios, mercados, lojas e prestadores de serviço.",
   "telephone": "+55-61-99429-9823",
-  "priceRange": "R$197-R$397",
+  "priceRange": "R$259.99-R$597.99",
   "currenciesAccepted": "BRL",
   "address": {
     "@type": "PostalAddress",
@@ -80,11 +80,11 @@
         "@type": "Offer",
         "name": "Plano Essencial",
         "description": "Site próprio, domínio e hospedagem e ficha do Google Meu Negócio. Primeiro mês grátis.",
-        "price": "197",
+        "price": "259.99",
         "priceCurrency": "BRL",
         "priceSpecification": {
           "@type": "UnitPriceSpecification",
-          "price": "197",
+          "price": "259.99",
           "priceCurrency": "BRL",
           "unitCode": "MON"
         }
@@ -93,11 +93,11 @@
         "@type": "Offer",
         "name": "Plano Completo",
         "description": "Tudo do Essencial mais gestão de redes sociais, com posts e acompanhamento. Primeiro mês grátis.",
-        "price": "397",
+        "price": "597.99",
         "priceCurrency": "BRL",
         "priceSpecification": {
           "@type": "UnitPriceSpecification",
-          "price": "397",
+          "price": "597.99",
           "priceCurrency": "BRL",
           "unitCode": "MON"
         }
@@ -152,9 +152,14 @@
     /* Letra miuda. Continua abaixo de 4,5 (e decorativa), mas #7F8898 dava 1,78
        e sob a aurora caia pra 1,49. Este da 2,82 / 2,37. */
     --placeholder: #7F8898;
-    --accent: #AD5928;
-    --accent-light: #C4753F;
+    --accent: #3D6A99;
+    --accent-light: #5E8CBA;
     --accent-2: #38B2AC;
+    /* Laranja só pros botões de ação (CTA) -- marcante de propósito, separado
+       do azul de marca pra saltar contra o resto da página. */
+    --cta: #CC5200;
+    --cta-light: #E8690A;
+    --cta-active: #7A3000;
 
     /* ---- a roda de cor da pagina ----
        Tres valores por matiz, e a divisao NAO e capricho:
@@ -164,7 +169,7 @@
          --fN  o fundo palido do ladrilho
        Trocar um --tN pelo --cN correspondente parece inofensivo e reprova o
        contraste na hora: as vivas ficam entre 2,0 e 3,1 sobre a aurora. */
-    --c1: #AD5928; --t1: #7A3F1C; --f1: rgba(173,89,40,.14);   /* terracota */
+    --c1: #3D6A99; --t1: #24476B; --f1: rgba(61,106,153,.14);   /* azul petroleo */
     --c2: #E0642F; --t2: #913812; --f2: rgba(224,100,47,.14);   /* laranja */
     --c3: #0E9C8A; --t3: #065F54; --f3: rgba(14,156,138,.14);   /* verde-agua */
     --c4: #C62A7A; --t4: #9D1E5F; --f4: rgba(198,42,122,.14);   /* magenta */
@@ -209,6 +214,18 @@
     -webkit-font-smoothing: antialiased;
     overflow-wrap: break-word;
     -webkit-tap-highlight-color: transparent;  /* sem o retângulo cinza do toque */
+    /* Cursor estilo Mac (seta preta, contorno branco, mais fina que a do
+       Windows) no lugar do ponteiro padrão do sistema. */
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M4 2 L4 19.5 L8.2 15.8 L11.6 22 L14.3 20.6 L11 14.3 L17 14.1 Z' fill='%23111111' stroke='white' stroke-width='1.3' stroke-linejoin='round'/%3E%3C/svg%3E") 4 2, auto;
+  }
+  a, button, [role="button"], .btn, .nav-link, label, select, summary,
+  input[type="submit"], input[type="checkbox"], input[type="radio"],
+  [style*="cursor: pointer"], [style*="cursor:pointer"] {
+    /* mesma lógica, versão "mãozinha" — cobre os cliques nativos e os que
+       já vinham com cursor:pointer inline (quiz, carrossel, abas etc.),
+       por isso o !important: estilo inline sempre ganharia de uma regra
+       externa comum. */
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M13 3a2 2 0 00-2 2v6.06l-1.94-1.94a1.5 1.5 0 10-2.12 2.12L10 14.3V16a5 5 0 005 5h1a5 5 0 005-5v-5a2 2 0 00-4 0V9a2 2 0 00-2-2V5a2 2 0 00-2-2z' fill='%23111111' stroke='white' stroke-width='1' stroke-linejoin='round'/%3E%3C/svg%3E") 11 3, pointer !important;
   }
   a, button, [role="button"], .reveal-item, .faq-head {
     touch-action: manipulation;       /* mata o atraso de 300ms do duplo-toque */
@@ -306,11 +323,11 @@
     cursor: pointer;
     transition: all .3s var(--ease);
   }
-  .btn-primary { background: var(--accent); color: #fff; box-shadow: var(--nm-out); }
-  .btn-primary:hover { background: var(--accent-light); color: #fff; transform: translateY(-1px); box-shadow: var(--nm-out-hover); }
+  .btn-primary { background: var(--cta); color: #fff; box-shadow: var(--nm-out); }
+  .btn-primary:hover { background: var(--cta-light); color: #fff; transform: translateY(-1px); box-shadow: var(--nm-out-hover); }
   .btn-primary:active {
     transform: translateY(.5px);
-    box-shadow: inset 5px 5px 10px rgba(52,44,140,.5), inset -5px -5px 10px rgba(255,255,255,.28);
+    box-shadow: inset 5px 5px 10px rgba(122,48,0,.5), inset -5px -5px 10px rgba(255,255,255,.28);
   }
   .btn-secondary { background: var(--bg); color: var(--fg); box-shadow: var(--nm-out); }
   .btn-secondary:hover { transform: translateY(-1px); box-shadow: var(--nm-out-hover); color: var(--fg); }
@@ -602,17 +619,54 @@
   .goo:focus-visible { outline: 2px solid var(--accent); outline-offset: 6px; border-radius: 30px; }
   [data-goo-bite] { transition: transform .8s cubic-bezier(.44, 0, .56, 1); }
 
-  /* ---------- Cabeçalho dos planos: cor sólida, sem blob/glow ----------
-     Tinha um anel girando (conic-gradient assado em textura) mais duas
-     elipses desfocadas trocando de opacidade atrás do preço -- o clichê
-     de "pricing card com glow" que qualquer gerador de landing faz sozinho.
-     Cor solida do proprio card já basta pra separar os dois planos. */
+  /* ---------- BlobCard: cabeçalho de blobs fluidos azuis + glow rotativo ---------- */
   .blob-card { position: relative; width: 100%; }
+  .blob-glow { position: absolute; inset: -2px; border-radius: 34px; overflow: hidden; z-index: 0; }
+  .blob-glow i {
+    /* o mesmo anel de antes, só que já desfocado na textura: girar um
+       conic-gradient sob `filter` obriga o navegador a segurar uma camada
+       filtrada gigante; girar uma imagem é o compositor virando uma textura.
+       Do anel inteiro aparecem uns 2px — o cartão cobre o resto. */
+    display: block; position: absolute; inset: -35%;
+    background: url('imgs/plano-glow.webp') center / cover no-repeat;
+    animation: glowspin 5s linear infinite;
+    will-change: transform;
+  }
+  @keyframes glowspin { to { transform: rotate(360deg); } }
   .blob-inner { position: relative; z-index: 1; border-radius: var(--r-card); overflow: hidden; background: var(--bg); }
-  .blob-header { position: relative; overflow: hidden; height: 224px; background: #4A2712; }
+  .blob-header { position: relative; overflow: hidden; height: 224px; background: #12224E; }
+  /* O desfoque vem assado nas duas texturas (imgs/plano-blobs-*.webp, ~2 KB cada).
+     Antes eram quatro elipses animadas dentro de um `filter: blur(40px)`: o navegador
+     refazia o desfoque da área inteira a cada quadro, nos dois cards, e era isso que
+     travava a página ao chegar nos preços. Agora as camadas só trocam de opacidade e
+     deslizam — opacity e transform o compositor resolve sozinho, sem repintar nada. */
+  .fluid { position: absolute; inset: -60px; }
+  .fluid i {
+    display: block; position: absolute; inset: 0;
+    background: center / cover no-repeat;
+    will-change: transform, opacity;
+  }
+  .fluid i:nth-child(1) { background-image: url('imgs/plano-blobs-1.webp'); animation: blobA 17s ease-in-out infinite; }
+  .fluid i:nth-child(2) { background-image: url('imgs/plano-blobs-2.webp'); animation: blobB 17s ease-in-out infinite; }
+
+  /* Um plano de cada cor. As texturas verdes sao as mesmas de sempre com o matiz
+     girado -55 graus (script de geracao no historico) - ou seja, o desfoque
+     continua assado dentro do arquivo e o custo em tela segue zero. So trocar a
+     imagem, nao filtrar em runtime: hue-rotate no CSS repintaria a area inteira
+     a cada quadro, que e exatamente o que essa secao ja pagou caro pra evitar. */
   .blob-card--verde .blob-header { background: #124E43; }
   /* o check acompanha a cor do proprio card */
   .blob-card--verde .check-mark { color: var(--accent-2); }
+  .blob-card--verde .fluid i:nth-child(1) { background-image: url('imgs/plano-blobs-1-verde.webp'); }
+  .blob-card--verde .fluid i:nth-child(2) { background-image: url('imgs/plano-blobs-2-verde.webp'); }
+  @keyframes blobA {
+    0%, 100% { opacity: 1; transform: translate3d(0, 0, 0) scale(1.02); }
+    50%      { opacity: 0; transform: translate3d(-3%, 2%, 0) scale(1.12); }
+  }
+  @keyframes blobB {
+    0%, 100% { opacity: 0; transform: translate3d(3%, -2%, 0) scale(1.1); }
+    50%      { opacity: 1; transform: translate3d(0, 0, 0) scale(1.02); }
+  }
   .blob-fade { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(to bottom, transparent 0%, transparent 46%, var(--bg) 100%); }
   .blob-head { position: relative; z-index: 2; padding: 30px 32px 0; color: #fff; }
   .blob-body { padding: 26px 32px 34px; }
@@ -631,7 +685,7 @@
   .focus-frame i {
     position: absolute; width: 14px; height: 14px; display: block;
     border: 3px solid var(--accent); border-radius: 3px;
-    filter: drop-shadow(0 0 5px rgba(173,89,40,.55));
+    filter: drop-shadow(0 0 5px rgba(61,106,153,.55));
   }
   .focus-frame i:nth-child(1) { top: -10px; left: -10px; border-right: none; border-bottom: none; }
   .focus-frame i:nth-child(2) { top: -10px; right: -10px; border-left: none; border-bottom: none; }
@@ -797,6 +851,43 @@
 
   .sis-pe { margin: 26px 0 0; font-size: 12.5px; line-height: 1.6; color: var(--placeholder); text-align: center; }
 
+  /* ---- mini-sistema de exemplo ----
+     A mesma moldura de navegador dos modelos de site (#modelos), só que
+     com um painel de gestão dentro em vez de uma home de loja -- monta na
+     hora, em HTML/CSS, sem imagem nenhuma. Vem antes do carrossel de casos
+     reais: primeiro dá pra sentir a cara de um sistema, depois vêm os três
+     de verdade com números de cliente. */
+  .demo-sys { max-width: 620px; margin: 0 auto; border-radius: var(--r-card); overflow: hidden; background: var(--bg); box-shadow: var(--nm-out); }
+  .demo-chrome { display: flex; align-items: center; gap: 7px; padding: 12px 16px; background: rgba(163,177,198,.18); }
+  .demo-chrome i { width: 9px; height: 9px; border-radius: 999px; background: rgba(61,72,92,.28); flex: none; }
+  .demo-url {
+    margin-left: 8px; font-size: 12px; padding: 5px 14px; border-radius: var(--r-pill);
+    background: var(--bg); color: var(--muted); box-shadow: var(--nm-in-sm);
+  }
+  .demo-body { padding: 26px 26px 24px; background: #fff; }
+  .demo-topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+  .demo-topbar b { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; font-weight: 800; font-size: 16.5px; color: #232B36; }
+  .demo-avatar {
+    width: 30px; height: 30px; border-radius: 999px; background: #232B36; color: #fff;
+    font-size: 11px; font-weight: 700; display: grid; place-items: center; flex: none;
+  }
+  .demo-tabs { display: flex; gap: 6px; margin-bottom: 22px; flex-wrap: wrap; }
+  .demo-tab { font-size: 12.5px; font-weight: 600; padding: 8px 14px; border-radius: var(--r-pill); color: #8A93A3; }
+  .demo-tab.is-on { background: #EEF1F6; color: #232B36; }
+  .demo-kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .demo-kpi { padding: 13px 14px; border-radius: var(--r-inner); background: var(--df, #EEF1F6); }
+  .demo-kpi-label { display: block; font-size: 11px; color: #6B7280; line-height: 1.3; }
+  .demo-kpi-val { display: block; margin-top: 6px; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; font-weight: 800; font-size: 18px; color: var(--dc, #232B36); }
+  .demo-bars { margin-top: 22px; display: grid; gap: 12px; }
+  .demo-bar { display: flex; align-items: center; gap: 12px; font-size: 12.5px; color: #4B5563; }
+  .demo-bar span { flex: none; width: 84px; }
+  .demo-track { flex: 1; height: 8px; border-radius: 999px; background: #EEF1F6; overflow: hidden; }
+  .demo-track i { display: block; height: 100%; border-radius: 999px; }
+  @media (max-width: 520px) {
+    .demo-kpis { grid-template-columns: 1fr 1fr; }
+    .demo-kpi:last-child { grid-column: 1 / -1; }
+  }
+
   /* ---- a saida da secao ----
      A secao terminava na letra miuda: o visitante via o caso do banco e nao
      tinha para onde ir. O link e o mesmo WhatsApp do resto da pagina, mas com
@@ -949,7 +1040,7 @@
        o fundo com cara de glow de dashboard de IA. Metade do tamanho, alpha
        bem mais baixo — ainda participa da aurora, mas sem dominar o hero. */
     width: 46vmax; height: 46vmax; top: -8vmax; left: -6vmax;
-    background: radial-gradient(circle closest-side, rgba(173,89,40,.18), rgba(173,89,40,0) 72%);
+    background: radial-gradient(circle closest-side, rgba(61,106,153,.18), rgba(61,106,153,0) 72%);
     animation: auroraA 34s ease-in-out infinite;
   }
   .aurora i:nth-child(2) {
@@ -1019,7 +1110,7 @@
   .pick:nth-child(8) { --tom-q: var(--c8); --tom-q-bg: var(--f8); --tom-q-txt: var(--t8); }
   /* so no formato cartao: no formato lista o .pick-ico e o proprio radio, e
      tingir ele faria a opcao parecer ja escolhida. */
-  .pick:not(.is-row) .pick-ico { background: var(--tom-q-bg, rgba(173,89,40,.13)); }
+  .pick:not(.is-row) .pick-ico { background: var(--tom-q-bg, rgba(61,106,153,.13)); }
 
   /* ---------- o diagnostico com movimento ----------
      Tudo aqui anima so transform e opacity, que o compositor resolve sem
@@ -1042,7 +1133,7 @@
     to   { opacity: 1; transform: none; }
   }
   /* o hover tinge o cartao inteiro, nao so o ladrilho */
-  .pick:not(.is-row):hover { background: var(--tom-q-bg, rgba(173,89,40,.13)); }
+  .pick:not(.is-row):hover { background: var(--tom-q-bg, rgba(61,106,153,.13)); }
   .pick:hover .pick-ico { transform: scale(1.12) rotate(-6deg); }
   .pick-ico { transition: background .3s var(--ease), box-shadow .25s var(--ease), transform .3s var(--ease); }
 
@@ -1128,7 +1219,7 @@
   }
   .duelo-lista .duelo-linha:first-child { border-top: 0; }
   .duelo-linha.is-par { background: rgba(255,255,255,.42); }
-  .duelo-col--nos .duelo-linha.is-par { background: rgba(173,89,40,.07); }
+  .duelo-col--nos .duelo-linha.is-par { background: rgba(61,106,153,.07); }
   .duelo-tema {
     display: block; margin-bottom: 6px;
     font-size: 10.5px; font-weight: 800; letter-spacing: .13em; text-transform: uppercase;
@@ -1257,70 +1348,17 @@
   ------------------------------------------------------------------- */
 
   /* ---------- Mockup do iPhone: perfil no Instagram ----------
-     Porte do "Mockup iPhone Instagram Customizável": os <image-slot> viraram <img>
-     e o `zoom: .55` virou `scale()` no transform 3D (zoom mexe no layout; scale não).
-     A sombra saiu do marrom do mockup original para a cinza-azulada da página. */
-  .iph-palco { position: relative; height: 660px; perspective: 2200px; perspective-origin: 50% 50%; }
-  .iph {
-    position: absolute; left: 50%; top: 50%;
-    width: 393px; height: 852px; margin: -426px 0 0 -196px;
-    border-radius: 56px; padding: 11px;
-    background: linear-gradient(115deg, #2e2e31 0%, #191919 28%, #3a3a3e 52%, #151516 78%, #2b2b2e 100%);
-    transform: rotateY(-22deg) rotateX(6deg) rotateZ(-6deg) scale(var(--iph-esc, .80));
-    transform-style: preserve-3d;
-    box-shadow:
-      -46px 62px 92px -38px rgba(120,133,155,.8),
-      -14px 22px 36px -18px rgba(120,133,155,.55),
-      0 0 0 1.5px rgba(255,255,255,.14) inset;
-  }
-  .iph-bt { position: absolute; width: 3px; border-radius: 2px; background: #4a4a4d; }
-  .iph-tela {
-    position: relative; width: 100%; height: 100%;
-    border-radius: 46px; overflow: hidden; background: #fff;
-    display: flex; flex-direction: column;
-    font-family: -apple-system, 'SF Pro Text', 'Helvetica Neue', Helvetica, sans-serif;
-  }
-  .iph-status {
-    position: absolute; top: 0; left: 0; right: 0; height: 54px; z-index: 5;
-    display: flex; align-items: center; justify-content: space-between; padding: 0 30px;
-    font-size: 15px; font-weight: 600; color: #111; letter-spacing: .2px; pointer-events: none;
-  }
-  .iph-ilha { position: absolute; top: 11px; left: 50%; transform: translateX(-50%); width: 112px; height: 33px; border-radius: 20px; background: #0a0a0b; z-index: 6; }
-  .iph-corpo { flex: 1; overflow: hidden; display: flex; flex-direction: column; padding-top: 54px; }
-  .iph-topo { display: flex; align-items: center; justify-content: space-between; padding: 8px 18px 12px; }
-  .iph-user { font-size: 20px; font-weight: 700; color: #111; letter-spacing: -.3px; }
-  .iph-menu { display: flex; flex-direction: column; gap: 3px; }
-  .iph-menu span { display: block; width: 18px; height: 1.6px; background: #111; }
-  .iph-perfil { display: flex; align-items: center; gap: 22px; padding: 0 18px; }
-  .iph-anel { width: 86px; height: 86px; border-radius: 50%; padding: 2.5px; background: linear-gradient(135deg, #f2a33c, #e2544b 45%, #a8399b); flex: none; }
-  .iph-anel > span { display: block; width: 100%; height: 100%; border-radius: 50%; padding: 2.5px; background: #fff; box-sizing: border-box; overflow: hidden; }
-  .iph-anel img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: block; }
-  .iph-nums { flex: 1; display: grid; grid-template-columns: repeat(3, 1fr); text-align: center; }
-  .iph-nums b { display: block; font-size: 17px; font-weight: 700; color: #111; }
-  .iph-nums span { font-size: 13px; color: #3c3c43; }
-  .iph-bio { padding: 14px 18px 0; display: flex; flex-direction: column; gap: 2px; font-size: 14px; color: #3c3c43; line-height: 1.4; }
-  .iph-bio b { font-weight: 600; color: #111; }
-  .iph-bio a { color: #2b6ef2; text-decoration: none; }
-  .iph-acoes { display: flex; gap: 8px; padding: 16px 18px 0; font-size: 14px; font-weight: 600; }
-  .iph-acoes > div { flex: 1; text-align: center; padding: 8px 0; border-radius: 10px; background: #f1f1f3; color: #111; }
-  .iph-acoes > div.on { background: #2b6ef2; color: #fff; }
-  .iph-acoes > div.mais { flex: none; width: 40px; font-size: 13px; }
-  .iph-abas { display: grid; grid-template-columns: 1fr 1fr; margin-top: 18px; border-top: 1px solid #ededf0; font-size: 13px; font-weight: 600; }
-  .iph-abas div { text-align: center; padding: 11px 0; border-bottom: 2px solid transparent; color: #8a8a8e; }
-  .iph-abas div.on { border-bottom-color: #111; color: #111; }
-  .iph-grade { flex: 1; display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 2px; padding-bottom: 78px; align-content: start; }
-  .iph-grade img { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; background: #ededf0; }
-  .iph-nav {
-    position: absolute; bottom: 0; left: 0; right: 0; padding: 12px 26px 22px;
-    background: rgba(255,255,255,.94); backdrop-filter: blur(12px); border-top: 1px solid #ededf0;
-    display: flex; align-items: center; justify-content: space-between; color: #8a8a8e; font-size: 19px;
-  }
-  .iph-nav .on { color: #111; font-size: 20px; }
-  .iph-nav img { width: 26px; height: 26px; border-radius: 50%; object-fit: cover; border: 1.5px solid #111; display: block; }
-  .iph-barra { position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); width: 134px; height: 5px; border-radius: 3px; background: #111; opacity: .85; }
-  .iph-brilho {
-    position: absolute; inset: 0; z-index: 9; pointer-events: none; border-radius: 46px;
-    background: linear-gradient(105deg, rgba(255,255,255,.42) 0%, rgba(255,255,255,.1) 18%, rgba(255,255,255,0) 34%, rgba(255,255,255,0) 72%, rgba(255,255,255,.16) 100%);
+     Foto de mockup 3D pronta (imgs/redes-iphone.webp) no lugar do aparelho
+     desenhado em CSS -- pediu pra trocar por "mais bonito". A pilastra
+     (.iph-palco) continua: é ela que dá o data-tilt (mesma inclinação que
+     segue o mouse dos cards de plano) e a entrada 3D do reveal. */
+  .iph-palco { position: relative; height: 660px; perspective: 2200px; perspective-origin: 50% 50%; display: grid; place-items: center; }
+  .iph-foto {
+    /* max-height em % não resolve aqui: place-items:center faz a track do
+       grid encolher pro tamanho do conteúdo, então a altura do pai fica
+       indefinida do ponto de vista do filho. Por isso em px, espelhando
+       cada altura de .iph-palco. */
+    max-height: 660px; width: auto; filter: drop-shadow(-18px 26px 34px rgba(120,133,155,.45));
   }
 
   /* lista de marcadores ao lado do aparelho */
@@ -1404,9 +1442,13 @@
      mesmo tempo, é GPU gasta desenhando o que ninguém está olhando. */
   .fora-de-vista .wall-lane,
   .fora-de-vista .tcol,
+  .fora-de-vista .fluid i,
+  .fora-de-vista .blob-glow i,
   .fora-de-vista .marquee-faixa,
   body.modal-aberto .wall-lane,
   body.modal-aberto .tcol,
+  body.modal-aberto .fluid i,
+  body.modal-aberto .blob-glow i,
   body.modal-aberto .float,
   body.modal-aberto .float-slow,
   body.modal-aberto .marquee-faixa,
@@ -1564,7 +1606,7 @@
   /* a "capa" do ebook: um livro de pé, montado com sombras */
   .ebook-capa {
     width: 132px; flex: none; aspect-ratio: 3 / 4; border-radius: 6px 14px 14px 6px;
-    background: linear-gradient(135deg, #AD5928, #C4753F 55%, #38B2AC);
+    background: linear-gradient(135deg, #3D6A99, #5E8CBA 55%, #38B2AC);
     box-shadow: 12px 12px 24px rgba(163,177,198,.7), -6px -6px 14px rgba(255,255,255,.55);
     display: flex; flex-direction: column; justify-content: space-between;
     padding: 18px 16px; color: #fff; position: relative; overflow: hidden;
@@ -1693,7 +1735,7 @@
     /* .ads-faixa { grid-template-columns: minmax(0,1fr); gap: 24px; } */
 
     .iph-palco { height: 570px; }
-    .iph { --iph-esc: .68; }
+    .iph-foto { max-height: 570px; }
     .wall { height: 560px; }
     .wall-col--4 { display: none; }
     .two-col { gap: 44px; }
@@ -1729,7 +1771,7 @@
     /* .ads-chip { font-size: 13px; padding: 10px 15px 10px 11px; } */
 
     .iph-palco { height: 480px; }
-    .iph { --iph-esc: .57; }
+    .iph-foto { max-height: 480px; }
 
     /* cinco colunas em 375px viram tiras de 40px: a parede fica com três */
     .wall { height: 470px; }
@@ -1875,7 +1917,7 @@
         </div>
 
         <h1 data-reveal="1" class="font-display" style="font-weight: 800; font-size: clamp(40px, 6.4vw, 76px); line-height: .98; letter-spacing: -.035em; margin: 26px 0 0; max-width: 15ch; text-wrap: balance; color: #3D4852;">
-          Site e marketing<br />no mesmo lugar.<br /><span style="color: #AD5928;">Sem complicação.</span>
+          Site e marketing<br />no mesmo lugar.<br /><span style="color: #3D6A99;">Sem complicação.</span>
         </h1>
 
         <p data-reveal="1" style="margin: 26px 0 0; max-width: 52ch; font-size: clamp(16.5px, 1.5vw, 18.5px); line-height: 1.65; color: #59616E;">
@@ -1896,7 +1938,7 @@
              em cima, senao so descobre #sistemas se rolar meia pagina. -->
         <div data-reveal="1" style="margin-top: 24px; font-size: 14.5px; line-height: 1.6; color: #59616E;">
           Precisa de um sistema interno?
-          <a href="#sistemas" style="color: #AD5928; font-weight: 700; text-decoration: none; border-bottom: 1.5px solid rgba(173,89,40,.35);">Veja três que a gente construiu →</a>
+          <a href="#sistemas" style="color: #3D6A99; font-weight: 700; text-decoration: none; border-bottom: 1.5px solid rgba(61,106,153,.35);">Veja três que a gente construiu →</a>
         </div>
       </div>
 
@@ -1921,8 +1963,12 @@
         </div>
 
         <div class="nm-tile float-slow" style="position: absolute; top: -22px; left: -12px; padding: 11px 17px; border-radius: var(--r-pill); display: flex; align-items: center; gap: 9px; font-size: 13px; font-weight: 700; color: #3D4852;">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#AD5928" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 7-7"></path><path d="M14 8h6v6"></path></svg>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3D6A99" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 7-7"></path><path d="M14 8h6v6"></path></svg>
           Mais vendas locais
+        </div>
+        <div class="nm-tile float" style="position: absolute; top: -18px; right: -10px; padding: 11px 17px; border-radius: var(--r-pill); display: flex; align-items: center; gap: 9px; font-size: 13px; font-weight: 700; color: #3D4852;">
+          <span style="width: 8px; height: 8px; border-radius: 999px; background: #38B2AC; display: block;"></span>
+          Pronto em até 5 dias
         </div>
       </div>
 
@@ -1945,105 +1991,18 @@
   </section>
 
 
+
+
   <section id="redes" class="wrap pad-section" style="position: relative; z-index: 1; padding-top: 24px; padding-bottom: 96px;">
     <div class="two-col" style="align-items: center;">
 
-      <!-- Perfil de exemplo. Para trocar: o @ e o nome estão logo abaixo, os números
-           do perfil em .iph-nums e as artes são imgs/insta-1.webp … insta-8.webp
-           (quadradas, 520px). O avatar é imgs/insta-perfil.webp. -->
-      <div data-reveal="1" class="iph-palco">
-        <div class="iph">
-          <span class="iph-bt" style="left: -2px; top: 196px; height: 64px;"></span>
-          <span class="iph-bt" style="left: -2px; top: 284px; height: 64px;"></span>
-          <span class="iph-bt" style="right: -2px; top: 240px; height: 96px;"></span>
-
-          <div class="iph-tela">
-            <div class="iph-status">
-              <span>9:41</span>
-              <span style="display: flex; align-items: center; gap: 6px; font-size: 12px;">▮▮▮ ᯤ 100%</span>
-            </div>
-            <div class="iph-ilha"></div>
-
-            <div class="iph-corpo">
-              <div class="iph-topo">
-                <div style="display: flex; align-items: center; gap: 6px;">
-                  <span class="iph-user">actech.systems</span>
-                  <span style="font-size: 11px; color: #8a8a8e;">▾</span>
-                </div>
-                <div style="display: flex; align-items: center; gap: 18px; color: #111;">
-                  <span style="font-weight: 300; font-size: 24px; line-height: 1;">+</span>
-                  <span class="iph-menu"><span></span><span></span><span></span></span>
-                </div>
-              </div>
-
-              <div class="iph-perfil">
-                <div class="iph-anel">
-                  <span><img src="imgs/insta-perfil.webp" alt="" loading="lazy" decoding="async" /></span>
-                </div>
-                <!-- Numeros do perfil de verdade (@actech.systems), nao chute: quem
-                     clica no link do rodape chega no perfil e confere em um segundo.
-                     Conferir de novo quando mudarem. -->
-                <div class="iph-nums">
-                  <div><b>12</b><span>posts</span></div>
-                  <div><b>244</b><span>seguidores</span></div>
-                  <div><b>19</b><span>seguindo</span></div>
-                </div>
-              </div>
-
-              <div class="iph-bio">
-                <b>ACTech Informática</b>
-                <div>Site, redes e Google pro seu negócio.<br />Primeiro mês grátis.</div>
-                <!-- Aqui dizia "actech.com.br", que NAO e da ACTech: o dominio e da
-                     Actech Tecnologia, outra empresa, que por sinal tambem vende sistema
-                     pra mercado e padaria. Trocado pelo CTA que a bio real usa hoje.
-                     Quando o dominio proprio existir, e aqui que ele entra. -->
-                <div style="margin-top: 2px;"><a href="#planos">Faça seu orçamento 👇</a></div>
-              </div>
-
-              <div class="iph-acoes">
-                <div class="on">Seguir</div>
-                <div>Mensagem</div>
-                <div class="mais">▾</div>
-              </div>
-
-              <div class="iph-abas">
-                <div class="on">GRADE</div>
-                <div>MARCADOS</div>
-              </div>
-
-              <div class="iph-grade">
-                <!-- Intercalado de proposito. As oito novas (insta-9..16) sao todas do
-                     mesmo caso e todas azul-marinho: enfileiradas viravam um bloco unico
-                     e a grade parecia um post so repetido. As antigas (1..8) trazem branco,
-                     creme, laranja e verde, entao alternar da o xadrez claro/escuro que uma
-                     grade de perfil precisa ter. Ao acrescentar arte, olhe o conjunto. -->
-                <img src="imgs/insta-9.webp" alt="" loading="lazy" decoding="async" />
-                <img src="imgs/insta-5.webp" alt="" loading="lazy" decoding="async" />
-                <img src="imgs/insta-12.webp" alt="" loading="lazy" decoding="async" />
-                <img src="imgs/insta-8.webp" alt="" loading="lazy" decoding="async" />
-                <img src="imgs/insta-13.webp" alt="" loading="lazy" decoding="async" />
-                <img src="imgs/insta-7.webp" alt="" loading="lazy" decoding="async" />
-                <img src="imgs/insta-10.webp" alt="" loading="lazy" decoding="async" />
-                <img src="imgs/insta-6.webp" alt="" loading="lazy" decoding="async" />
-                <img src="imgs/insta-16.webp" alt="" loading="lazy" decoding="async" />
-                <img src="imgs/insta-4.webp" alt="" loading="lazy" decoding="async" />
-                <img src="imgs/insta-14.webp" alt="" loading="lazy" decoding="async" />
-                <img src="imgs/insta-2.webp" alt="" loading="lazy" decoding="async" />
-              </div>
-            </div>
-
-            <div class="iph-nav">
-              <span class="on">⌂</span>
-              <span>⌕</span>
-              <span>▷</span>
-              <span>♡</span>
-              <img src="imgs/insta-perfil.webp" alt="" loading="lazy" decoding="async" />
-            </div>
-
-            <div class="iph-barra"></div>
-            <div class="iph-brilho"></div>
-          </div>
-        </div>
+      <!-- Mockup 3D pronto (renderizado fora, salvo em imgs2/ e convertido pra
+           webp) no lugar do iPhone que era desenhado em CSS/HTML. É só uma
+           foto -- não tem número real nem link clicável dentro dela, por
+           isso a lista de marcadores ao lado carrega a informação de verdade
+           (posts sob encomenda, aprovação por WhatsApp etc.). -->
+      <div data-reveal="1" data-reveal-3d class="iph-palco tilt" data-tilt>
+        <img class="iph-foto" src="imgs/redes-iphone.webp" alt="Mockup de iPhone mostrando o perfil do Instagram da ACTech" loading="lazy" decoding="async" />
       </div>
 
       <div data-reveal="1">
@@ -2056,7 +2015,7 @@
 
         <ul class="rede-lista">
           <li>
-            <span class="rede-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#AD5928" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path><path d="M2 2l7.586 7.586"></path></svg></span>
+            <span class="rede-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3D6A99" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path><path d="M2 2l7.586 7.586"></path></svg></span>
             <span><b>Arte feita pro seu negócio</b>, com a sua cara — não template genérico com o nome trocado.</span>
           </li>
           <li>
@@ -2064,7 +2023,7 @@
             <span><b>Aprovação por WhatsApp</b>, sem reunião e sem sistema novo pra aprender.</span>
           </li>
           <li>
-            <span class="rede-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#AD5928" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><path d="M16 2v4M8 2v4M3 10h18"></path></svg></span>
+            <span class="rede-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3D6A99" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><path d="M16 2v4M8 2v4M3 10h18"></path></svg></span>
             <span><b>De 8 a 20 posts por mês</b>, conforme o plano, com data marcada pra cada um.</span>
           </li>
         </ul>
@@ -2224,7 +2183,7 @@
               </div>
             </div>
             <div class="srv-chip">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#AD5928" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3D6A99" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
               Achado por quem busca perto
             </div>
           </div>
@@ -2246,7 +2205,7 @@
               <img class="arte" src="imgs/insta-7.webp" alt="" loading="lazy" decoding="async" />
             </div>
             <div class="srv-chip">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#AD5928" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 7-7"></path><path d="M14 8h6v6"></path></svg>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#3D6A99" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 7-7"></path><path d="M14 8h6v6"></path></svg>
               <span><b>Cliques no anúncio</b>1.284 no mês</span>
             </div>
           </div>
@@ -2314,6 +2273,8 @@
         <button class="mod-aba" data-mod-aba="1" type="button" role="tab" aria-selected="false" style="--aba: #9A6F12;">Barbearia</button>
         <button class="mod-aba" data-mod-aba="2" type="button" role="tab" aria-selected="false" style="--aba: #B2481A;">Restaurante</button>
         <button class="mod-aba" data-mod-aba="3" type="button" role="tab" aria-selected="false" style="--aba: #17699C;">Clínica</button>
+        <button class="mod-aba" data-mod-aba="4" type="button" role="tab" aria-selected="false" style="--aba: #B45309;">Pet shop</button>
+        <button class="mod-aba" data-mod-aba="5" type="button" role="tab" aria-selected="false" style="--aba: #A31E4D;">Salão</button>
       </div>
 
       <div class="mod-palco">
@@ -2397,11 +2358,52 @@
             <div class="mod-card"><b>Equipe e registros</b><span>Cada profissional com a sua formação.</span></div>
           </div>
         </div>
+        <div class="mod-tela" data-mod-tela="4" aria-hidden="true"
+             style="--tb: #FFFBEB; --tf: #3A2A0F; --ta: #D97706; --ts: #FEF3C7; --tbt: #FFFFFF; --tg: linear-gradient(140deg,#F5A742,#D97706);">
+          <div class="mod-chrome"><i></i><i></i><i></i><span class="mod-url">amigopet.com.br</span></div>
+          <div class="mod-nav"><b>Amigo Pet</b><span>Serviços</span><span>Loja</span><span>Banho e tosa</span><em>Agendar banho</em></div>
+          <div class="mod-hero">
+            <div>
+              <h3>Banho marcado, sem precisar telefonar.</h3>
+              <p>Agenda de banho e tosa online, com lembrete no WhatsApp e o histórico de cada bichinho guardado.</p>
+              <span class="mod-btn">Agendar banho e tosa</span>
+            </div>
+            <div class="mod-arte" style="display: grid; place-items: center;">
+              <svg width="88" height="88" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-opacity=".85" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path></svg>
+            </div>
+          </div>
+          <div class="mod-cards">
+            <div class="mod-card"><b>Agenda online</b><span>Banho, tosa e consulta no mesmo lugar.</span></div>
+            <div class="mod-card"><b>Histórico do pet</b><span>Vacina, peso e última visita à mão.</span></div>
+            <div class="mod-card"><b>Loja de produtos</b><span>Ração e itens frequentes, com reposição avisada.</span></div>
+          </div>
+        </div>
+        <div class="mod-tela" data-mod-tela="5" aria-hidden="true"
+             style="--tb: #FFF5F8; --tf: #3A1220; --ta: #C2255C; --ts: #FBD9E6; --tbt: #FFFFFF; --tg: linear-gradient(140deg,#E8598F,#C2255C);">
+          <div class="mod-chrome"><i></i><i></i><i></i><span class="mod-url">espacobela.com.br</span></div>
+          <div class="mod-nav"><b>Espaço Bela</b><span>Serviços</span><span>Profissionais</span><span>Portfólio</span><em>Agendar horário</em></div>
+          <div class="mod-hero">
+            <div>
+              <h3>Seu horário guardado, sem grupo de zap.</h3>
+              <p>A cliente escolhe o serviço, a profissional e o horário — a confirmação chega sozinha, sem ida e volta.</p>
+              <span class="mod-btn">Agendar meu horário</span>
+            </div>
+            <div class="mod-arte" style="display: grid; place-items: center;">
+              <svg width="88" height="88" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-opacity=".85" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="6" r="3"></circle><circle cx="6" cy="18" r="3"></circle><line x1="20" y1="4" x2="8.12" y2="15.88"></line><line x1="14.47" y1="14.48" x2="20" y2="20"></line><line x1="8.12" y1="8.12" x2="12" y2="12"></line></svg>
+            </div>
+          </div>
+          <div class="mod-cards">
+            <div class="mod-card"><b>Agenda por profissional</b><span>Cada uma com a própria escala de horários.</span></div>
+            <div class="mod-card"><b>Portfólio de fotos</b><span>Trabalho recente, direto na tela.</span></div>
+            <div class="mod-card"><b>Lembrete automático</b><span>Aviso na véspera pra ninguém faltar.</span></div>
+          </div>
+        </div>
       </div>
 
       <p class="mod-pe">Modelos ilustrativos, montados aqui mesmo — o seu é feito com a sua marca, as suas fotos e o seu texto.</p>
     </div>
   </section>
+
 
 
   <!-- A virada: ate aqui a pagina so falou de site. O caso do banco e a prova
@@ -2419,6 +2421,45 @@
         do jeito que a sua operação já funciona.
       </p>
     </div>
+
+    <div class="demo-sys" data-reveal="1" style="margin-top: 40px;">
+      <div class="demo-chrome" aria-hidden="true">
+        <i></i><i></i><i></i>
+        <span class="demo-url">painel.suaempresa.com.br</span>
+      </div>
+      <div class="demo-body">
+        <div class="demo-topbar">
+          <b>Painel de gestão</b>
+          <span class="demo-avatar">VC</span>
+        </div>
+        <div class="demo-tabs">
+          <span class="demo-tab is-on">Visão geral</span>
+          <span class="demo-tab">Financeiro</span>
+          <span class="demo-tab">Agenda</span>
+          <span class="demo-tab">Clientes</span>
+        </div>
+        <div class="demo-kpis">
+          <div class="demo-kpi" style="--dc: var(--t1); --df: var(--f1);">
+            <span class="demo-kpi-label">Vendas do mês</span>
+            <span class="demo-kpi-val">R$ 42.180</span>
+          </div>
+          <div class="demo-kpi" style="--dc: var(--t8); --df: var(--f8);">
+            <span class="demo-kpi-label">Pedidos</span>
+            <span class="demo-kpi-val">318</span>
+          </div>
+          <div class="demo-kpi" style="--dc: var(--t5); --df: var(--f5);">
+            <span class="demo-kpi-label">Ticket médio</span>
+            <span class="demo-kpi-val">R$ 132</span>
+          </div>
+        </div>
+        <div class="demo-bars">
+          <div class="demo-bar"><span>Produtos</span><div class="demo-track"><i style="width: 78%; background: var(--c1);"></i></div></div>
+          <div class="demo-bar"><span>Serviços</span><div class="demo-track"><i style="width: 54%; background: var(--c8);"></i></div></div>
+          <div class="demo-bar"><span>Assinaturas</span><div class="demo-track"><i style="width: 33%; background: var(--c5);"></i></div></div>
+        </div>
+      </div>
+    </div>
+    <p class="sis-pe" style="margin-top: 18px;">Interface ilustrativa — dá pra sentir o formato. O seu painel vem com os números e o processo da sua operação.</p>
 
     <!-- Tres casos reais num carrossel. A pista e um flex com translateX: os
          tres slides ficam em fluxo, entao a altura do palco e a do mais alto
@@ -2547,6 +2588,7 @@
       <p class="sis-pe">Sistema sob medida é orçado à parte, fora dos planos mensais — cada um tem um tamanho.</p>
     </div>
   </section>
+
 
   <section id="google" class="wrap pad-section" style="position: relative; z-index: 1; padding-top: 20px; padding-bottom: 100px;">
     <div data-reveal="1" style="margin-bottom: 58px; max-width: 62ch;">
@@ -2786,7 +2828,7 @@
           <div style="position: relative;">
             <div style="display: flex; gap: 16px; align-items: center;">
               <div class="nm-well" style="width: 56px; height: 56px; border-radius: 18px;">
-                <svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="#AD5928" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v9H4v-9"></path><path d="M2 7h20v5H2z"></path><path d="M12 21V7"></path><path d="M12 7C9 7 7 5.5 7 4a2 2 0 014 0c0 1.5 1 3 1 3z"></path></svg>
+                <svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="#3D6A99" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v9H4v-9"></path><path d="M2 7h20v5H2z"></path><path d="M12 21V7"></path><path d="M12 7C9 7 7 5.5 7 4a2 2 0 014 0c0 1.5 1 3 1 3z"></path></svg>
               </div>
               <div>
                 <div class="quiz-step">Presente liberado</div>
@@ -2808,11 +2850,11 @@
                   Serve mesmo que você nunca contrate a ACTech.
                 </p>
                 <ul class="ebook-lista">
-                  <li><span class="ebook-tick"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#AD5928" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"></path></svg></span><span><b>A busca local</b> — como o cliente já procura você hoje</span></li>
-                  <li><span class="ebook-tick"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#AD5928" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"></path></svg></span><span><b>A ficha do Google</b> — vale mais que cem posts</span></li>
-                  <li><span class="ebook-tick"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#AD5928" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"></path></svg></span><span><b>O que postar</b> — cinco tipos que resolvem o mês</span></li>
-                  <li><span class="ebook-tick"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#AD5928" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"></path></svg></span><span><b>A foto que vende</b> — tirada no celular mesmo</span></li>
-                  <li><span class="ebook-tick"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#AD5928" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"></path></svg></span><span><b>Responder rápido</b> — metade da venda está aí</span></li>
+                  <li><span class="ebook-tick"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#3D6A99" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"></path></svg></span><span><b>A busca local</b> — como o cliente já procura você hoje</span></li>
+                  <li><span class="ebook-tick"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#3D6A99" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"></path></svg></span><span><b>A ficha do Google</b> — vale mais que cem posts</span></li>
+                  <li><span class="ebook-tick"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#3D6A99" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"></path></svg></span><span><b>O que postar</b> — cinco tipos que resolvem o mês</span></li>
+                  <li><span class="ebook-tick"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#3D6A99" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"></path></svg></span><span><b>A foto que vende</b> — tirada no celular mesmo</span></li>
+                  <li><span class="ebook-tick"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#3D6A99" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"></path></svg></span><span><b>Responder rápido</b> — metade da venda está aí</span></li>
                 </ul>
               </div>
             </div>
@@ -2835,7 +2877,7 @@
             <div class="mat-grid">
               <div class="mat" data-vazio>
                 <span class="mat-ico">
-                  <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#AD5928" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h9l5 5v11H5z"></path><path d="M14 4v5h5"></path><path d="M9 13h6"></path><path d="M9 16.5h4"></path></svg>
+                  <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#3D6A99" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h9l5 5v11H5z"></path><path d="M14 4v5h5"></path><path d="M9 13h6"></path><path d="M9 16.5h4"></path></svg>
                 </span>
                 <span class="mat-t">Ebook em PDF</span>
                 <span class="mat-s">O guia completo pra ler com calma</span>
@@ -2861,8 +2903,10 @@
     <div class="pricing-grid">
 
       <div data-reveal="1" class="blob-card blob-card--verde tilt" data-tilt>
+        <div class="blob-glow"><i></i></div>
         <div class="blob-inner" style="box-shadow: 9px 9px 16px rgba(163,177,198,.6), -9px -9px 16px rgba(255,255,255,.5);">
           <div class="blob-header">
+            <div class="fluid"><i></i><i></i></div>
             <div class="blob-fade"></div>
             <div class="blob-head">
               <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
@@ -2872,8 +2916,9 @@
               <div style="margin: 16px 0 12px;">
                 <span style="display: inline-flex; background: rgba(255,255,255,.2); color: #fff; font-weight: 700; font-size: 12px; letter-spacing: .08em; padding: 7px 14px; border-radius: var(--r-pill);">1º MÊS GRÁTIS</span>
               </div>
-              <div style="display: flex; align-items: baseline; gap: 8px;">
-                <span class="font-display" style="font-weight: 800; font-size: 52px; line-height: 1; letter-spacing: -.04em;">R$ 197</span>
+              <div style="font-size: 17px; text-decoration: line-through; color: rgba(255,255,255,.55);">R$ 349,99</div>
+              <div style="display: flex; align-items: baseline; gap: 8px; margin-top: 2px;">
+                <span class="font-display" style="font-weight: 800; font-size: 52px; line-height: 1; letter-spacing: -.04em;">R$ 259<span style="font-size: .45em;">,99</span></span>
                 <span style="font-size: 16px; color: rgba(255,255,255,.8);">/mês</span>
               </div>
             </div>
@@ -2899,8 +2944,10 @@
         <div style="position: absolute; top: -16px; left: 50%; transform: translateX(-50%); z-index: 3;">
           <span class="nm-chip" style="font-size: 12px; padding: 9px 20px; letter-spacing: .1em; box-shadow: 9px 9px 16px rgba(163,177,198,.6), -9px -9px 16px rgba(255,255,255,.5);">MAIS POPULAR</span>
         </div>
+        <div class="blob-glow"><i></i></div>
         <div class="blob-inner" style="box-shadow: 12px 12px 20px rgba(163,177,198,.7), -12px -12px 20px rgba(255,255,255,.6);">
           <div class="blob-header">
+            <div class="fluid"><i></i><i></i></div>
             <div class="blob-fade"></div>
             <div class="blob-head">
               <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
@@ -2910,8 +2957,9 @@
               <div style="margin: 16px 0 12px;">
                 <span style="display: inline-flex; background: rgba(255,255,255,.22); color: #fff; font-weight: 700; font-size: 12px; letter-spacing: .08em; padding: 7px 14px; border-radius: var(--r-pill);">1º MÊS GRÁTIS</span>
               </div>
-              <div style="display: flex; align-items: baseline; gap: 8px;">
-                <span class="font-display" style="font-weight: 800; font-size: 52px; line-height: 1; letter-spacing: -.04em;">R$ 397</span>
+              <div style="font-size: 17px; text-decoration: line-through; color: rgba(255,255,255,.55);">R$ 797,99</div>
+              <div style="display: flex; align-items: baseline; gap: 8px; margin-top: 2px;">
+                <span class="font-display" style="font-weight: 800; font-size: 52px; line-height: 1; letter-spacing: -.04em;">R$ 597<span style="font-size: .45em;">,99</span></span>
                 <span style="font-size: 16px; color: rgba(255,255,255,.8);">/mês</span>
               </div>
             </div>
@@ -2921,7 +2969,7 @@
             <p style="margin: 0; font-size: 15px; color: #59616E; line-height: 1.6;">Para quem quer crescer: conteúdo forte, Google ativo e relatório de resultado.</p>
             <a class="btn btn-primary btn-block" href="{{ whatsUrl }}" target="_blank" style="margin: 24px 0 4px;">Quero o Completo</a>
             <div class="nm-track" style="height: 6px; border-radius: 999px; margin: 28px 0 20px;"></div>
-            <div style="font-size: 14px; font-weight: 700; color: #AD5928; letter-spacing: .04em; margin-bottom: 8px;">Tudo do Essencial, mais:</div>
+            <div style="font-size: 14px; font-weight: 700; color: #3D6A99; letter-spacing: .04em; margin-bottom: 8px;">Tudo do Essencial, mais:</div>
             <sc-for list="{{ completo }}" as="item" hint-placeholder-count="6">
               <div class="check-row">
                 <span class="check-mark">
@@ -2949,7 +2997,7 @@
 
       <div class="conta-linha">
         <div class="conta-passo">
-          <span class="conta-num">R$ 197</span>
+          <span class="conta-num">R$ 259,99</span>
           <span class="conta-rot">o Essencial, por mês</span>
         </div>
         <span class="conta-op" aria-hidden="true">÷</span>
@@ -2959,7 +3007,7 @@
         </div>
         <span class="conta-op" aria-hidden="true">=</span>
         <div class="conta-passo conta-passo--fim">
-          <span class="conta-num">4 clientes</span>
+          <span class="conta-num">6 clientes</span>
           <span class="conta-rot">e o mês inteiro já se pagou</span>
         </div>
       </div>
@@ -2967,11 +3015,11 @@
       <div class="conta-pe">
         <div class="nm-pill" style="padding: 12px 20px;">
           <span style="width: 8px; height: 8px; border-radius: 999px; background: var(--c8); display: block;"></span>
-          <span style="color: var(--t8); font-weight: 700;">Do quinto cliente em diante, é lucro</span>
+          <span style="color: var(--t8); font-weight: 700;">Do sétimo cliente em diante, é lucro</span>
         </div>
         <p style="margin: 0; font-size: 12.5px; line-height: 1.6; color: #7F8898; max-width: 52ch;">
           Conta feita com ticket médio de R$ 50 — troque pelo seu que a lógica é a mesma
-          (no Completo, R$ 397, são 8 clientes). É um exemplo de como pensar o investimento,
+          (no Completo, R$ 597,99, são 12 clientes). É um exemplo de como pensar o investimento,
           não uma promessa de resultado.
         </p>
       </div>
@@ -3037,7 +3085,7 @@
           </li>
           <li class="duelo-linha" data-tema="o-que-sai-do-caixa">
             <span class="duelo-tema">O que sai do caixa</span>
-            <p class="duelo-txt" style="margin: 0;"><b>R$ 397 por mês</b>, sem taxa de setup e com o primeiro mês grátis.</p>
+            <p class="duelo-txt" style="margin: 0;"><b>R$ 597,99 por mês</b>, sem taxa de setup e com o primeiro mês grátis.</p>
           </li>
           <li class="duelo-linha" data-tema="o-site">
             <span class="duelo-tema">O site</span>
@@ -3100,7 +3148,7 @@
         <div class="swap-container" data-swap>
           <div class="swap-card">
             <div class="nm-well" style="width: 52px; height: 52px; border-radius: 16px;">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#AD5928" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18v12H3z"></path><path d="M8 21h8"></path><path d="M12 17v4"></path></svg>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3D6A99" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18v12H3z"></path><path d="M8 21h8"></path><path d="M12 17v4"></path></svg>
             </div>
             <div>
               <div class="font-display" style="font-weight: 800; font-size: 22px; color: #3D4852;">Site no ar</div>
@@ -3109,7 +3157,7 @@
           </div>
           <div class="swap-card">
             <div class="nm-well" style="width: 52px; height: 52px; border-radius: 16px;">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#AD5928" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17" cy="7" r="1"></circle></svg>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3D6A99" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17" cy="7" r="1"></circle></svg>
             </div>
             <div>
               <div class="font-display" style="font-weight: 800; font-size: 22px; color: #3D4852;">Redes no ritmo</div>
@@ -3118,7 +3166,7 @@
           </div>
           <div class="swap-card">
             <div class="nm-well" style="width: 52px; height: 52px; border-radius: 16px;">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#AD5928" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.4 7-11a7 7 0 10-14 0c0 4.6 7 11 7 11z"></path><circle cx="12" cy="10" r="2.6"></circle></svg>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3D6A99" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.4 7-11a7 7 0 10-14 0c0 4.6 7 11 7 11z"></path><circle cx="12" cy="10" r="2.6"></circle></svg>
             </div>
             <div>
               <div class="font-display" style="font-weight: 800; font-size: 22px; color: #3D4852;">Achado no Google</div>
@@ -3318,7 +3366,7 @@
               <rect x="0" y="0" width="100%" height="100%" rx="30" ry="30" fill="#38B2AC"></rect>
             </g>
             <g filter="url(#goo-filter)">
-              <rect x="0" y="0" width="100%" height="100%" rx="30" ry="30" fill="#AD5928" mask="url(#goo-bite)"></rect>
+              <rect x="0" y="0" width="100%" height="100%" rx="30" ry="30" fill="#3D6A99" mask="url(#goo-bite)"></rect>
             </g>
           </svg>
           <span class="goo-label">
@@ -3389,7 +3437,7 @@
           <sc-if value="{{ quizPortal }}" hint-placeholder-val="{{ false }}">
             <div class="{{ stepCls }}" style="text-align: center; padding: 10px 0 6px;">
               <div class="nm-well" style="width: 78px; height: 78px; border-radius: 26px; margin: 0 auto 24px;">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#AD5928" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"></path><path d="M8 9h8"></path><path d="M8 13h5"></path></svg>
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#3D6A99" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"></path><path d="M8 9h8"></path><path d="M8 13h5"></path></svg>
               </div>
               <h3 class="quiz-q" style="margin-top: 0;">{{ portalTitulo }}</h3>
               <p class="quiz-hint" style="max-width: 46ch; margin: 0 auto 26px;">
@@ -3442,7 +3490,7 @@
             <div class="quiz-load {{ stepCls }}">
               <div class="quiz-ring">
                 <i></i>
-                <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#AD5928" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-4.5-4.5"></path></svg>
+                <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#3D6A99" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-4.5-4.5"></path></svg>
               </div>
               <div class="quiz-load-msg">{{ quizLoadMsg }}</div>
             </div>
@@ -3495,7 +3543,7 @@
               </sc-for>
 
               <div class="rec">
-                <div style="font-size: 11.5px; letter-spacing: .16em; text-transform: uppercase; font-weight: 700; color: #AD5928;">O que a gente indica pra você</div>
+                <div style="font-size: 11.5px; letter-spacing: .16em; text-transform: uppercase; font-weight: 700; color: #3D6A99;">O que a gente indica pra você</div>
                 <div style="display: flex; align-items: baseline; gap: 10px; margin-top: 12px; flex-wrap: wrap;">
                   <span class="font-display" style="font-weight: 800; font-size: 30px; color: #3D4852;">Plano {{ resPlan }}</span>
                   <span style="font-size: 17px; color: #59616E;">{{ resPrice }}</span>
@@ -3561,7 +3609,7 @@
                   <div class="mat-grid" style="margin-top: 18px;">
                     <div class="mat" data-vazio>
                       <span class="mat-ico">
-                        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#AD5928" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h9l5 5v11H5z"></path><path d="M14 4v5h5"></path><path d="M9 13h6"></path><path d="M9 16.5h4"></path></svg>
+                        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#3D6A99" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h9l5 5v11H5z"></path><path d="M14 4v5h5"></path><path d="M9 13h6"></path><path d="M9 16.5h4"></path></svg>
                       </span>
                       <span class="mat-t">Ebook em PDF</span>
                       <span class="mat-s">O guia completo pra ler com calma</span>
@@ -3624,8 +3672,8 @@
     </div>
   </sc-if>
 
-  <a class="fab float-slow" href="{{ whatsUrl }}" target="_blank" aria-label="Falar no WhatsApp" style="position: fixed; z-index: 60; right: 22px; bottom: 22px; display: inline-flex; align-items: center; gap: 11px; min-height: 48px; background: #E0E5EC; color: #3D4852; font-weight: 700; font-size: 15px; padding: 15px 24px; border-radius: var(--r-pill); box-shadow: 9px 9px 16px rgba(163,177,198,.6), -9px -9px 16px rgba(255,255,255,.5);">
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="#38B2AC" style="flex: none;"><path d="M12 2a10 10 0 00-8.6 15.1L2 22l5-1.3A10 10 0 1012 2z"></path></svg>
+  <a class="fab float-slow" href="{{ whatsUrl }}" target="_blank" aria-label="Falar no WhatsApp" style="position: fixed; z-index: 60; right: 22px; bottom: 22px; display: inline-flex; align-items: center; gap: 11px; min-height: 48px; background: var(--cta); color: #fff; font-weight: 700; font-size: 15px; padding: 15px 24px; border-radius: var(--r-pill); box-shadow: 9px 9px 16px rgba(163,177,198,.6), -9px -9px 16px rgba(255,255,255,.5);">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff" style="flex: none;"><path d="M12 2a10 10 0 00-8.6 15.1L2 22l5-1.3A10 10 0 1012 2z"></path></svg>
     <span>Fale no WhatsApp</span>
   </a>
 </div>
@@ -3637,9 +3685,14 @@ class Component extends DCLogic {
   componentDidMount() {
     const els = Array.from(document.querySelectorAll('[data-reveal]'));
     els.forEach((el, i) => {
+      // data-reveal-3d: entrada mais elaborada (gira e cresce até o lugar),
+      // pros mockups que merecem um pouco mais de peso ao entrar na tela.
+      const t0 = el.hasAttribute('data-reveal-3d')
+        ? 'translateY(46px) rotateY(-16deg) scale(.92)'
+        : 'translateY(26px)';
       el.style.opacity = '0';
-      el.style.transform = 'translateY(26px)';
-      el.style.transition = 'opacity .7s cubic-bezier(.2,.7,.2,1) ' + ((i % 4) * 70) + 'ms, transform .7s cubic-bezier(.2,.7,.2,1) ' + ((i % 4) * 70) + 'ms';
+      el.style.transform = t0;
+      el.style.transition = 'opacity .8s cubic-bezier(.2,.7,.2,1) ' + ((i % 4) * 70) + 'ms, transform .8s cubic-bezier(.2,.7,.2,1) ' + ((i % 4) * 70) + 'ms';
     });
     const io = new IntersectionObserver((entries) => {
       entries.forEach((e) => {
@@ -4104,7 +4157,7 @@ class Component extends DCLogic {
     const g = window.gsap;
 
     const NS = 'http://www.w3.org/2000/svg';
-    const COLOR = '#AD5928';
+    const COLOR = '#3D6A99';
     const SIZE = 90;
     const STROKE = 2;
     const DUR = 0.3;
@@ -4770,7 +4823,7 @@ class Component extends DCLogic {
       gaps: gaps.slice(0, 3),
       acoes: acoes.slice(0, 3),
       plan,
-      price: plan === 'Essencial' ? 'R$ 197/mês' : 'R$ 397/mês',
+      price: plan === 'Essencial' ? 'R$ 259,99/mês' : 'R$ 597,99/mês',
       why,
       prazo: 'Seu site ficaria pronto em até 5 dias úteis depois que a gente receber logo, fotos e contatos. Fidelidade de 6 meses, sem taxa de setup.',
       whats: 'https://wa.me/' + (this.props.whatsappNumber ?? '5561994299823') + '?text=' + encodeURIComponent(resumo),
@@ -4916,8 +4969,8 @@ class Component extends DCLogic {
       // diz o resultado em texto, entao o anel pode puxar saturacao sem cobrar
       // legibilidade. As faixas sao as mesmas que ja decidem o titulo do
       // resultado, em quizResult() - mexeu numa, mexa na outra.
-      scoreCor: !res ? '#AD5928' : res.score < 40 ? '#E5484D' : res.score < 68 ? '#F5A524' : '#12A594',
-      scoreCorTexto: !res ? '#AD5928' : res.score < 40 ? '#C62A2F' : res.score < 68 ? '#A76800' : '#0E7C6F',
+      scoreCor: !res ? '#3D6A99' : res.score < 40 ? '#E5484D' : res.score < 68 ? '#F5A524' : '#12A594',
+      scoreCorTexto: !res ? '#3D6A99' : res.score < 40 ? '#C62A2F' : res.score < 68 ? '#A76800' : '#0E7C6F',
       scoreFaixa: !res ? '' : res.score < 40 ? 'Precisa de atenção' : res.score < 68 ? 'Base no lugar' : 'Bem posicionado',
       resWho: res ? res.who : '',
       resTitle: res ? res.title : '',
