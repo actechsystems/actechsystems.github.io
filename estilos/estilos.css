@@ -365,10 +365,9 @@
 .pl-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
 .pl-card { background: #181818; border-radius: 8px; padding: 14px; transition: background .2s; }
 .pl-card:hover { background: #252525; }
-.pl-card-q { display: grid; place-items: center; aspect-ratio: 1; border-radius: 6px; margin-bottom: 12px; box-shadow: 0 8px 24px rgba(0,0,0,.5); background: linear-gradient(135deg, var(--pl-tom), #1f1f1f); }
-.pl-card-q--1 { background: linear-gradient(135deg, #1ed760, #0d5c2b); }
-.pl-card-q--2 { background: linear-gradient(135deg, #539df5, #1f3b66); }
-.pl-card-q .est-i { width: 40%; height: 40%; color: rgba(255,255,255,.92); stroke-width: 1.4; }
+/* a "capa de album" de cada cartao e uma das fotos extras do ramo */
+.pl-card-q { position: relative; display: block; overflow: hidden; aspect-ratio: 1; border-radius: 6px; margin-bottom: 12px; box-shadow: 0 8px 24px rgba(0,0,0,.5); background: #282828; }
+.pl-card-q .est-semfoto b { font-size: 48px; }
 .pl-card b { display: block; font-weight: 700; font-size: 15px; }
 .pl-card span { display: block; margin-top: 4px; font-size: 13px; color: #b3b3b3; }
 .pl-pe { display: flex; gap: 14px; flex-wrap: wrap; padding: 20px 26px; border-top: 1px solid #2a2a2a; margin: 10px 26px 0; padding-left: 0; padding-right: 0; color: #b3b3b3; font-size: 13px; }
