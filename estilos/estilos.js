@@ -709,6 +709,41 @@
   }
 
   /* ===============================================================
+     ANTES x DEPOIS
+     "Do jeito antigo": o site de 2005 que muito negocio ainda tem -- Times
+     New Roman, "seja bem-vindo!!!", contador de visitas, "em construcao".
+     Largura fixa de proposito: no celular ele nao cabe, que e exatamente o
+     problema. E caricatura assumida (o selo diz "do jeito antigo"), nao o
+     site de ninguem.
+     =============================================================== */
+  function antigo(v) {
+    var r = v.r;
+    return '<div class="old">' +
+      '<div class="old-letreiro"><span>*** Seja bem-vindo ao site oficial da ' + v.nome + '!!! *** Ligue já! ***</span></div>' +
+      '<h1 class="old-titulo">' + v.nome + '</h1>' +
+      '<p class="old-sub">' + r.rotulo + (v.cidade ? ' em ' + v.cidade : '') + ' &mdash; desde 2009</p>' +
+      '<p class="old-menu">[ <u>Home</u> ] [ <u>Quem Somos</u> ] [ <u>Serviços</u> ] [ <u>Contato</u> ] [ <u>Livro de Visitas</u> ]</p>' +
+      '<table class="old-tabela"><tr>' +
+        '<td class="old-lado"><b class="old-novo">NOVO!</b><br>Confira nossas<br>promoções!!<br><br><span class="old-foto">' + foto(v, 'old-img', 0) + '</span></td>' +
+        '<td class="old-texto"><h2>Bem-vindo!</h2><p>Aqui você encontra os melhores serviços de ' + r.rotulo.toLowerCase() + ' da região. Qualidade e bom atendimento é com a gente!!!</p>' +
+          '<p>Para agendar, ligue para o nosso telefone em horário comercial. <b>Não atendemos por WhatsApp.</b></p>' +
+          '<div class="old-obras">⚠ SITE EM CONSTRUÇÃO ⚠</div></td>' +
+      '</tr></table>' +
+      '<p class="old-cont">Você é o visitante nº <span>004127</span></p>' +
+      '<p class="old-pe">Melhor visualizado em 800x600 &middot; Internet Explorer 6 &middot; &copy; 2009</p>' +
+    '</div>';
+  }
+  function antesDepois(v, e) {
+    return '<div class="ad" data-ad>' +
+      '<div class="ad-camada ad-depois">' + e.render(v) + '</div>' +
+      '<div class="ad-camada ad-antes" aria-hidden="true">' + antigo(v) + '</div>' +
+      '<span class="ad-selo ad-selo--antes">Do jeito antigo</span><span class="ad-selo ad-selo--depois">Com a ACTech</span>' +
+      '<i class="ad-linha" aria-hidden="true"><b>‹ ›</b></i>' +
+      '<input type="range" class="ad-range" min="0" max="100" value="50" data-ad-range aria-label="Arraste pra comparar o antes e o depois" />' +
+    '</div>';
+  }
+
+  /* ===============================================================
      O CONFIGURADOR
      =============================================================== */
   function montar(raiz, opts) {
@@ -752,7 +787,8 @@
         '<div class="est-barra"><span class="est-vistas" role="tablist" aria-label="O que ver">' +
             '<button type="button" role="tab" data-vista="site" aria-selected="true">Site</button>' +
             '<button type="button" role="tab" data-vista="google" aria-selected="false">Google</button>' +
-            '<button type="button" role="tab" data-vista="insta" aria-selected="false">Instagram</button></span>' +
+            '<button type="button" role="tab" data-vista="insta" aria-selected="false">Instagram</button>' +
+            '<button type="button" role="tab" data-vista="antes" aria-selected="false">Antes × Depois</button></span>' +
           '<span class="est-barra-txt">Veja no</span>' +
           '<span class="est-disp" role="group" aria-label="Ver como">' +
             '<button type="button" data-disp="pc" aria-pressed="true" title="Computador">' + ico('pc') + '<span>Computador</span></button>' +
@@ -781,6 +817,10 @@
       '</div>' +
       '<div class="est-acoes" data-acoes>' +
         '<p data-acoes-txt></p>' +
+        // o QR: abre no celular da pessoa o cardapio/catalogo com o nome dela
+        '<div class="est-qr" data-qr><span class="est-qr-img" data-qr-img aria-hidden="true"></span>' +
+          '<span class="est-qr-txt"><b data-qr-titulo></b><small>Aponte a câmera do celular e veja o de vocês funcionando.</small>' +
+          '<a class="est-qr-link" data-qr-link target="_blank" rel="noopener">Abrir aqui</a></span></div>' +
         '<div class="est-acoes-bts"><button type="button" class="btn btn-secondary btn-sm" data-trocar>Trocar os dados</button>' +
         '<a class="btn btn-secondary btn-sm" data-compartilhar data-sem-portao target="_blank" rel="noopener">' + ico('seta') + 'Mandar pra alguém</a>' +
         '<a class="btn btn-primary btn-sm" data-quero data-sem-portao target="_blank" rel="noopener">' + ico('whats') + 'Quero um site assim</a></div>' +
@@ -835,11 +875,13 @@
       raiz.querySelectorAll('[data-vista]').forEach(function (x) { x.setAttribute('aria-selected', x.dataset.vista === st.vista ? 'true' : 'false'); });
       $('[data-url]').textContent = st.vista === 'google' ? 'google.com.br' : st.vista === 'insta' ? 'instagram.com/' + v.url.replace('.com.br', '') : v.url;
       var troca = function () {
-        site.innerHTML = st.vista === 'google' ? google(v) : st.vista === 'insta' ? instagram(v, e) : e.render(v);
+        site.innerHTML = st.vista === 'google' ? google(v) : st.vista === 'insta' ? instagram(v, e) : st.vista === 'antes' ? antesDepois(v, e) : e.render(v);
+        if (st.vista === 'antes') abreCortina();
         site.dataset.estilo = st.vista === 'site' ? e.id : st.vista;
         // a barra de status do iPhone pega a cor do topo da tela
-        vidro.style.setProperty('--st-bg', st.vista === 'site' ? e.amostra.bg : '#ffffff');
-        vidro.style.setProperty('--st-fg', st.vista === 'site' ? e.amostra.fg : '#111111');
+        var comoSite = st.vista === 'site' || st.vista === 'antes';
+        vidro.style.setProperty('--st-bg', comoSite ? e.amostra.bg : '#ffffff');
+        vidro.style.setProperty('--st-fg', comoSite ? e.amostra.fg : '#111111');
         site.scrollTop = 0;
         site.classList.remove('is-saindo');
       };
@@ -859,6 +901,7 @@
           '\nEstilo: ' + e.nome + '\n\nQuero um site assim!';
         $('[data-quero]').href = 'https://wa.me/' + fone + '?text=' + encodeURIComponent(msg);
         var link = linkDaPrevia(st.dados, e.id);
+        poeQr(link.replace(/\/?\?/, '/catalogo.html?').replace('#modelos', ''), st.dados.ramo);
         var sh = $('[data-compartilhar]');
         sh.dataset.link = link;
         sh.dataset.titulo = 'Site: ' + v.cru.nome;
@@ -998,6 +1041,7 @@
         b.classList.toggle('is-on');
         return;
       }
+      if (t.closest('[data-ad]')) return;
       if (t.closest('[data-acao]')) {
         aviso('No site de verdade, este botão leva o cliente direto pro seu WhatsApp ou pra sua agenda.');
       }
@@ -1051,6 +1095,25 @@
       }
     }
 
+    // a biblioteca do QR (20 KB) so desce quando ha QR pra desenhar
+    var qrUltimo = '';
+    function poeQr(url, ramo) {
+      $('[data-qr-titulo]').textContent = ramo === 'restaurante' ? 'Cardápio digital' : ramo === 'mercado' ? 'Ofertas no celular' : 'Catálogo de serviços';
+      $('[data-qr-link]').href = url;
+      if (url === qrUltimo) return;
+      qrUltimo = url;
+      var desenha = function () {
+        if (!window.qrcode) return;
+        var q = window.qrcode(0, 'M'); q.addData(url); q.make();
+        $('[data-qr-img]').innerHTML = q.createSvgTag({ cellSize: 3, margin: 2, scalable: true });
+      };
+      if (window.qrcode) return desenha();
+      if (document.querySelector('script[data-qr-js]')) return;
+      var js = document.createElement('script');
+      js.src = 'vendor/qrcode-1.4.4.min.js'; js.async = true; js.dataset.qrJs = '';
+      js.onload = function () { qrUltimo = ''; poeQr($('[data-qr-link]').href, ramo); };
+      document.head.appendChild(js);
+    }
     function aviso(txt) {
       var a = $('[data-aviso]');
       a.textContent = txt;
@@ -1059,6 +1122,38 @@
       tiraAviso = setTimeout(function () { a.classList.remove('is-on'); }, 3200);
     }
     function fala(txt) { $('[data-fala]').textContent = txt; }
+
+    /* ---- a cortina do antes x depois ----
+       Arrasta com dedo ou mouse em qualquer ponto; o range escondido por
+       baixo e o que da teclado e leitor de tela. A abertura faz um "vai e
+       volta" pra mostrar que da pra arrastar. */
+    function poeCortina(pct) {
+      var ad = site.querySelector('[data-ad]'); if (!ad) return;
+      pct = Math.max(0, Math.min(100, pct));
+      ad.style.setProperty('--ad', pct + '%');
+      var r = ad.querySelector('[data-ad-range]'); if (r) r.value = Math.round(pct);
+    }
+    function abreCortina() {
+      var ad = site.querySelector('[data-ad]'); if (!ad) return;
+      if (reduzido()) return poeCortina(50);
+      ad.classList.add('is-anima'); poeCortina(88);
+      setTimeout(function () { poeCortina(50); }, 350);
+      setTimeout(function () { ad.classList.remove('is-anima'); }, 1300);
+    }
+    var arrastando = false;
+    function posDoPonteiro(ev) {
+      var ad = site.querySelector('[data-ad]'); var box = ad.getBoundingClientRect();
+      poeCortina((ev.clientX - box.left) / box.width * 100);
+    }
+    site.addEventListener('pointerdown', function (ev) {
+      if (!ev.target.closest('[data-ad]')) return;
+      arrastando = true; posDoPonteiro(ev);
+      try { site.setPointerCapture(ev.pointerId); } catch (x) {}
+    });
+    site.addEventListener('pointermove', function (ev) { if (arrastando) { ev.preventDefault(); posDoPonteiro(ev); } });
+    site.addEventListener('pointerup', function () { arrastando = false; });
+    site.addEventListener('pointercancel', function () { arrastando = false; });
+    site.addEventListener('input', function (ev) { if (ev.target.matches('[data-ad-range]')) poeCortina(+ev.target.value); });
 
     raiz.addEventListener('click', noClique);
     raiz.addEventListener('submit', noEnvio);

@@ -578,6 +578,23 @@ a busca com a ficha do negócio (mapa desenhado em CSS, nota, Rotas/Ligar/Site, 
 avaliação) e "Instagram" mostra o perfil (bio, destaques, grade com fotos do ramo e artes nas
 cores do estilo escolhido).
 
+**Antes × Depois.** Quarta aba do aparelho. Duas camadas no mesmo lugar: embaixo o site no
+estilo escolhido, em cima um site "do jeito antigo" (Times New Roman, letreiro, contador de
+visitas, "em construção") recortado por `clip-path` até a cortina (`--ad`, registrada com
+`@property` pra poder animar a abertura). Arrasta com dedo ou mouse; um `<input type=range>`
+invisível por baixo dá teclado e leitor de tela. O site antigo tem largura fixa de 640px de
+propósito: no celular ele não cabe, que é exatamente o argumento. É caricatura assumida (o
+selo diz "do jeito antigo"), não o site de ninguém.
+
+**QR do cardápio/catálogo.** Depois de montar, as ações da prévia mostram um QR que abre
+`catalogo.html` com os mesmos parâmetros do link de compartilhar: cardápio (restaurante),
+ofertas (mercado) ou serviços e preços (os outros), com o nome e as cores do estilo, e um
+pedido de mentira que no fim explica que no de verdade ele cai no WhatsApp do negócio. No
+celular o QR vira botão. O QR é gerado no navegador por `vendor/qrcode-1.4.4.min.js`
+(qrcode-generator, Kazuhiko Arase, MIT, 20 KB), que só desce quando há QR pra desenhar.
+`catalogo.html` tem `noindex`: é exemplo, não página de ninguém. Os itens vêm de `RAMOS`
+(estilos.js) mais `ITENS_EXTRAS` no próprio catalogo.html.
+
 **Nada fica guardado.** A prévia vive só enquanto a aba está aberta: F5 volta pro convite,
 do zero, e nada sai do navegador até a pessoa clicar em "Quero um site assim".
 

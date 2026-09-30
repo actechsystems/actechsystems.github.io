@@ -1003,6 +1003,73 @@
 .ig-post--arte small { font-size: 11.5px; opacity: .8; }
 .ig .est-semfoto b { font-size: 40px; }
 
+/* ===================================================================
+   ANTES x DEPOIS -- duas camadas, uma cortina
+   --ad e registrada como porcentagem pra poder animar a abertura.
+   =================================================================== */
+@property --ad { syntax: '<percentage>'; inherits: true; initial-value: 50%; }
+.ad { --ad: 50%; position: relative; height: 100%; overflow: hidden; touch-action: pan-y; cursor: ew-resize; user-select: none; }
+.ad.is-anima { transition: --ad .9s var(--ease); }
+.ad-camada { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+/* cada lado e o seu proprio empilhamento: sem isso o menu fixo (z-index 3)
+   do site novo furava a cortina e aparecia por cima do site antigo */
+.ad-depois { z-index: 1; }
+.ad-antes { z-index: 2; clip-path: inset(0 calc(100% - var(--ad)) 0 0); }
+.ad-linha { position: absolute; z-index: 4; top: 0; bottom: 0; left: var(--ad); width: 3px; margin-left: -1.5px; background: #fff; box-shadow: 0 0 0 1px rgba(0,0,0,.15), 0 0 16px rgba(0,0,0,.35); pointer-events: none; }
+.ad-linha b { position: absolute; top: 50%; left: 50%; display: grid; place-items: center; width: 46px; height: 46px; transform: translate(-50%, -50%); border-radius: 50%; background: #fff; color: #1f2733; font: 800 18px/1 system-ui, sans-serif; letter-spacing: 2px; box-shadow: 0 4px 14px rgba(0,0,0,.3); }
+.ad-selo { position: absolute; z-index: 5; bottom: 16px; padding: 6px 12px; border-radius: 99px; font: 800 11.5px/1 'DM Sans', system-ui, sans-serif; letter-spacing: .08em; text-transform: uppercase; pointer-events: none; }
+.ad-selo--antes { left: 14px; background: #5b5b5b; color: #fff; }
+.ad-selo--depois { right: 14px; background: var(--cta); color: #fff; }
+/* o range cobre tudo mas nao aparece: e ele que da teclado e leitor de tela */
+.ad-range { position: absolute; z-index: 6; left: 0; right: 0; bottom: 0; width: 100%; height: 44px; margin: 0; opacity: 0; cursor: ew-resize; }
+.ad-range:focus-visible ~ .ad-linha b, .ad:focus-within .ad-linha b { box-shadow: 0 0 0 4px rgba(61,106,153,.5), 0 4px 14px rgba(0,0,0,.3); }
+
+/* o site do jeito antigo: largura fixa -- no celular nao cabe, e e esse o ponto */
+.old { width: 640px; min-height: 100%; padding: 10px 14px 20px; color: #000; font: 15px/1.35 'Times New Roman', Times, serif;
+  background: #d6d3ce repeating-linear-gradient(45deg, rgba(255,255,255,.18) 0 6px, transparent 6px 12px); }
+.old-letreiro { overflow: hidden; white-space: nowrap; background: #000080; color: #ffff00; font: bold 13px/1.9 'Comic Sans MS', 'Comic Neue', cursive; border: 2px outset #c0c0c0; }
+.old-letreiro span { display: inline-block; padding-left: 100%; animation: oldLetreiro 14s linear infinite; }
+@keyframes oldLetreiro { to { transform: translateX(-100%); } }
+.old-titulo { margin: 14px 0 0 !important; text-align: center; font: bold 40px/1.1 'Times New Roman', serif; color: #800000; text-shadow: 2px 2px 0 #c0c0c0; text-decoration: underline; }
+.old-sub { text-align: center; font-style: italic; margin-top: 4px !important; }
+.old-menu { margin: 12px 0 !important; text-align: center; color: #0000ee; font-size: 14px; }
+.old-tabela { width: 100%; border: 3px ridge #808080; border-collapse: separate; background: #fff; }
+.old-tabela td { vertical-align: top; padding: 8px; border: 1px solid #808080; }
+.old-lado { width: 32%; background: #ffffcc; text-align: center; font-size: 13.5px; }
+.old-novo { color: #ff0000; font: bold 16px 'Arial Black', Arial, sans-serif; animation: oldPisca 1s steps(2) infinite; }
+@keyframes oldPisca { 50% { opacity: 0; } }
+.old-foto { display: block; position: relative; width: 120px; height: 90px; margin: 0 auto; border: 3px outset #c0c0c0; overflow: hidden; }
+.old-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: saturate(.6) contrast(1.2); image-rendering: pixelated; }
+.old-foto .est-semfoto b { font-size: 30px; }
+.old-texto h2 { margin: 0 0 6px !important; font: bold 22px 'Times New Roman', serif; color: #008000; }
+.old-texto p { margin: 0 0 8px !important; }
+.old-obras { margin-top: 10px; padding: 8px; text-align: center; font: bold 14px Arial, sans-serif; color: #000; border: 2px solid #000;
+  background: repeating-linear-gradient(-45deg, #ffcc00 0 12px, #1a1a1a 12px 24px); text-shadow: 0 0 3px #ffcc00, 0 0 3px #ffcc00, 0 0 3px #ffcc00; }
+.old-cont { text-align: center; margin-top: 12px !important; font-size: 13px; }
+.old-cont span { display: inline-block; padding: 1px 5px; background: #000; color: #00ff00; font: bold 14px 'Courier New', monospace; letter-spacing: 2px; }
+.old-pe { text-align: center; font-size: 11px; color: #404040; margin-top: 8px !important; }
+
+/* ---- o QR do cardapio/catalogo ---- */
+.est-qr { display: flex; align-items: center; gap: 14px; padding: 12px 16px 12px 12px; border-radius: 18px; box-shadow: var(--nm-in-sm); }
+.est-qr-img { flex: none; display: block; width: 92px; height: 92px; padding: 6px; border-radius: 12px; background: #fff; }
+.est-qr-img svg { display: block; width: 100%; height: 100%; }
+.est-qr-img:empty { background: #fff linear-gradient(90deg, #eef0f3 25%, #fff 50%, #eef0f3 75%) 0 0 / 200% 100%; animation: qrCarrega 1.2s linear infinite; }
+@keyframes qrCarrega { to { background-position: -200% 0; } }
+.est-qr-txt { display: flex; flex-direction: column; gap: 3px; max-width: 26ch; }
+.est-qr-txt b { font-size: 14.5px; color: var(--fg); }
+.est-qr-txt small { font-size: 12.5px; line-height: 1.4; color: var(--muted); }
+.est-qr-link { align-self: flex-start; margin-top: 2px; font-size: 12.5px; font-weight: 700; color: var(--accent); }
+@media (max-width: 760px) {
+  /* no celular a camera ja esta na mao: vira botao */
+  .est-qr { width: 100%; }
+  .est-qr-img { display: none; }
+  .est-qr-txt small { display: none; }
+  .est-qr-txt { flex-direction: row; align-items: center; justify-content: space-between; max-width: none; width: 100%; }
+  .est-qr-link { margin: 0; padding: 8px 14px; border-radius: var(--r-pill); background: var(--bg); box-shadow: var(--nm-out-sm); }
+  .est-vistas { max-width: 100%; overflow-x: auto; scrollbar-width: none; }
+  .est-vistas button { flex: none; padding: 7px 11px; }
+}
+
 /* quem pediu menos movimento no sistema nao ve nada flutuando nem correndo */
 @media (prefers-reduced-motion: reduce) {
   .est *, .est *::before, .est *::after { animation: none !important; transition-duration: .01ms !important; }
