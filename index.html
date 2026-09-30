@@ -976,6 +976,16 @@
     .sis-nums { grid-template-columns: minmax(0,1fr); }
   }
 
+  /* as duas portas do topo: previa de site e sistema que funciona */
+  .hero-teste { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 12px; margin-top: 26px; font-size: 14.5px; color: #59616E; }
+  .hero-teste a {
+    display: inline-flex; align-items: center; gap: 7px; padding: 8px 14px; border-radius: var(--r-pill);
+    font-weight: 700; color: var(--t1); background: var(--bg); box-shadow: var(--nm-out-sm);
+    transition: transform .25s var(--ease), box-shadow .25s var(--ease), color .25s;
+  }
+  .hero-teste a:hover { transform: translateY(-2px); color: var(--accent); box-shadow: var(--nm-out); }
+  .hero-teste a:active { transform: none; box-shadow: var(--nm-in-sm); }
+
   /* ---------- modelos de site: "veja como ficaria o seu site" ----------
      O configurador inteiro (lista de estilos, perguntas, os nove mini-sites)
      mora em estilos/estilos.css e estilos/estilos.js, que so descem quando a
@@ -1918,12 +1928,13 @@
           </a>
         </div>
 
-        <!-- A outra metade do negocio. O hero fala de site e marketing; quem chega
-             com dor interna (planilha, controle, caixa) precisa de uma porta aqui
-             em cima, senao so descobre #sistemas se rolar meia pagina. -->
-        <div data-reveal="1" style="margin-top: 24px; font-size: 14.5px; line-height: 1.6; color: #59616E;">
-          Precisa de um sistema interno?
-          <a href="#sistemas" style="color: #3D6A99; font-weight: 700; text-decoration: none; border-bottom: 1.5px solid rgba(61,106,153,.35);">Veja três que a gente construiu →</a>
+        <!-- As duas experiencias da pagina, chamadas logo no topo: a previa de
+             site (#modelos) e o sistema que funciona (#sistemas). Quem chega com
+             dor interna (planilha, caixa) acha a porta aqui, sem rolar meia pagina. -->
+        <div data-reveal="1" class="hero-teste">
+          <span>Antes de fechar, teste:</span>
+          <a href="#modelos"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4.5" width="18" height="12" rx="1.8"/><path d="M8.5 20h7M12 16.5V20"/></svg>veja o seu site pronto</a>
+          <a href="#sistemas"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>use um sistema de verdade</a>
         </div>
       </div>
 

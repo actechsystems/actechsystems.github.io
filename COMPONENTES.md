@@ -429,6 +429,31 @@ Abaixo, quatro tipos de sistema (painel de gestão, financeiro, agenda, integra�
 com a sua cor da roda. E o rodapé diz o que precisa ser dito: **sistema sob medida é orçado à
 parte, fora dos planos mensais** — senão a seção cria a expectativa de que cabe nos R$ 397.
 
+## "Monte o seu sistema" (`#sistemas`)
+
+O painel de exemplo da seção de sistemas funciona. A pessoa escolhe o ramo e os módulos
+(caixa, agenda, clientes, estoque, ordens de serviço, metas) e usa: lança venda, fecha o
+dia, marca e conclui horário, busca e cadastra cliente, repõe estoque, avança OS, muda a
+meta. "Quero um sistema assim" manda pro WhatsApp o ramo, os módulos e o que ela mais usou.
+
+**Onde está.** `sistema/sistema.js` e `sistema/sistema.css`, baixados pelo
+`setupSistema()` quando a seção chega perto, igual ao `estilos/`. Mexeu? Suba o `V`.
+
+**Os módulos dividem o mesmo estado.** É o que faz parecer sistema, e não um monte de telas
+soltas: concluir horário ou entregar OS lança no caixa, vender produto baixa o estoque, e
+a meta e a visão geral acompanham tudo na hora.
+
+**Liga com a prévia de site.** Quando alguém monta a prévia em `#modelos`, o `estilos.js`
+publica `window.ACTechPrevia` e dispara o evento `actech:previa`. O sistema escuta e abre
+com o mesmo nome e ramo, então a pessoa vê o site e o sistema do negócio dela.
+
+**Dados de exemplo.** Ficam em `RAMOS` no topo do `sistema.js`: serviços e preços,
+profissionais, estoque, despesas, faturamento dos últimos dias e meta de cada ramo. São
+ilustrativos, gerados com semente (o mesmo ramo sempre abre igual) e zeram no F5.
+
+**Celular.** Por *container query* (`@container painel`), abaixo de 700px o menu lateral
+vira uma faixa de abas em cima e os formulários empilham.
+
 ## Modelos de site (`#modelos`)
 
 "Veja como ficaria o seu site": a pessoa escolhe um de **nove estilos**, responde três
