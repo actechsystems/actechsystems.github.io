@@ -21,6 +21,23 @@ o visual já está calibrado para a paleta neumórfica.
 | TrueFocus | React Bits | título de `#planos`, `setupTrueFocus()` | `motion` |
 | DriftWall (parede 3D em marquee) | — | seção `#trabalhos`, classes `.wall` / `.wall-col` / `.wtile` | nenhuma (transform 3D + `@keyframes`) |
 
+## Bibliotecas servidas pelo próprio site (`vendor/`)
+
+React 18.3.1, ReactDOM 18.3.1 e GSAP 3.12.5 ficam em `vendor/` e carregam no `<head>`, antes
+do `support.js`. O runtime só busca o React no unpkg.com se `window.React` ainda não existir;
+carregado antes, o site deixa de depender de CDN de terceiro. Antes, unpkg fora do ar ou
+bloqueado numa rede de empresa deixava a página em branco. Os arquivos são os mesmos do
+unpkg: o sha384 bate com o `REACT_SRI`/`REACT_DOM_SRI` do runtime. Testado com unpkg,
+jsdelivr e Google Fonts bloqueados: a página monta inteira.
+
+Fontes e GSAP saíram do `<helmet>` do template pro `<head>` de verdade. No helmet o
+navegador baixava tudo duas vezes (uma lendo o HTML, outra quando o runtime montava o
+helmet). A segunda leitura do `index.html` que continua aparecendo é do próprio runtime:
+ele relê o arquivo cru pra recuperar atributos com maiúscula (`onClick`), que o navegador
+converte pra minúscula. Não mexer.
+
+A licença do GSAP 3 (sem custo, "Standard License") permite servir o arquivo no próprio site.
+
 ## Parâmetros mantidos
 
 - **Click Effects**: `interactionMode="sniper"`, `duration=0.3`, `strokeWidth=2`, `effectSize=90`;

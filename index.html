@@ -113,7 +113,24 @@
 }
 </script>
 
+<!-- React e ReactDOM servidos daqui mesmo, e nao do unpkg.com. O runtime
+     (support.js) so busca no CDN se window.React ainda nao existir -- entao,
+     carregados antes dele, o site nao depende mais de servidor de terceiro:
+     unpkg fora do ar ou bloqueado em rede de empresa deixava a pagina em
+     branco. Sao os mesmos arquivos do unpkg (o hash sha384 bate com o que o
+     runtime exige). Trocar a versao = trocar o arquivo e o nome aqui. -->
+<script src="./vendor/react-18.3.1.min.js"></script>
+<script src="./vendor/react-dom-18.3.1.min.js"></script>
 <script src="./support.js"></script>
+<!-- Fontes e GSAP moravam no <helmet> do template, e o navegador baixava
+     duas vezes: uma lendo o HTML, outra quando o runtime montava o helmet.
+     Aqui em cima, uma vez so. -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
+<!-- GSAP (window.gsap): efeito de clique "sniper" e CardSwap. O codigo espera
+     ele aparecer, entao pode descer depois (defer). -->
+<script src="./vendor/gsap-3.12.5.min.js" defer></script>
 </head>
 <body>
 <noscript>
@@ -131,11 +148,6 @@
 </noscript>
 <x-dc>
 <helmet>
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
-<!-- GSAP (UMD → window.gsap): usado pelo efeito de clique "sniper". Se não carregar, o efeito simplesmente não acontece. -->
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <style>
   /* ===========================================================
      ACTech — Neumorphism (Soft UI)
