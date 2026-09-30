@@ -24,9 +24,6 @@
 (function () {
   'use strict';
 
-  var VERSAO_DADOS = 1;
-  var CHAVE = 'actech-previa';
-
   /* Fontes livres do Google Fonts no lugar das tipografias proprietarias
      que inspiraram cada modelo. Uma requisicao so, e so quando a secao
      aparece. DM Sans a pagina ja carrega. */
@@ -52,6 +49,11 @@
     barbearia: {
       rotulo: 'Barbearia', exemplo: 'Navalha', tom: '#8a6420',
       foto: 'imgs/mod-barbearia.webp', alt: 'Barbeiro fazendo a barba de um cliente na cadeira',
+      fotos: [
+        ['imgs/ramos/barbearia-1.webp', 'Cadeira antiga de barbearia diante do espelho'],
+        ['imgs/ramos/barbearia-2.webp', 'Pincel, navalha e pentes sobre a bancada'],
+        ['imgs/ramos/barbearia-3.webp', 'Barbeiro fazendo a barba com navalha']
+      ],
       nav: ['Serviços', 'Equipe', 'Contato'],
       cta: 'Agendar horário', cta2: 'Ver serviços', acao: 'Agendar',
       titulo: 'Corte marcado. Sem fila, sem esperar.',
@@ -76,6 +78,11 @@
     mercado: {
       rotulo: 'Mercado', exemplo: 'Mercado do Bairro', tom: '#2e7d34',
       foto: 'imgs/mod-mercado.webp', alt: 'Prateleira de hortifrútis num mercado de bairro',
+      fotos: [
+        ['imgs/ramos/mercado-1.webp', 'Cliente escolhendo frutas na banca'],
+        ['imgs/ramos/mercado-2.webp', 'Caixa de legumes e frutas frescas'],
+        ['imgs/ramos/mercado-3.webp', 'Bancas de frutas coloridas']
+      ],
       nav: ['Ofertas', 'Setores', 'Contato'],
       cta: 'Pedir no WhatsApp', cta2: 'Ver ofertas', acao: 'Pedir',
       titulo: 'A feira da semana, entregue na sua porta.',
@@ -100,6 +107,11 @@
     restaurante: {
       rotulo: 'Restaurante', exemplo: 'Cantinho', tom: '#b2481a',
       foto: 'imgs/mod-restaurante.webp', alt: 'Salão de restaurante com mesas de madeira postas',
+      fotos: [
+        ['imgs/ramos/restaurante-1.webp', 'Prato de massa com cogumelos'],
+        ['imgs/ramos/restaurante-2.webp', 'Cozinheiros trabalhando na cozinha'],
+        ['imgs/ramos/restaurante-3.webp', 'Carne grelhada com batatas e brócolis']
+      ],
       nav: ['Cardápio', 'Delivery', 'Contato'],
       cta: 'Pedir agora', cta2: 'Ver o cardápio', acao: 'Pedir',
       titulo: 'O prato feito que o bairro inteiro conhece.',
@@ -124,6 +136,11 @@
     clinica: {
       rotulo: 'Clínica', exemplo: 'Clínica Bem-Estar', tom: '#17699c',
       foto: 'imgs/mod-clinica.webp', alt: 'Recepção clara de uma clínica',
+      fotos: [
+        ['imgs/ramos/clinica-1.webp', 'Médico conversando com paciente no consultório'],
+        ['imgs/ramos/clinica-2.webp', 'Estetoscópio ao lado de um notebook'],
+        ['imgs/ramos/clinica-3.webp', 'Médico consultando um tablet']
+      ],
       nav: ['Especialidades', 'Convênios', 'Contato'],
       cta: 'Agendar consulta', cta2: 'Ver especialidades', acao: 'Agendar',
       titulo: 'Consulta marcada sem precisar ligar.',
@@ -148,6 +165,11 @@
     petshop: {
       rotulo: 'Pet shop', exemplo: 'Amigo Pet', tom: '#b45309',
       foto: 'imgs/mod-petshop.webp', alt: 'Tosador aparando o pelo de um cachorro pequeno com tesoura',
+      fotos: [
+        ['imgs/ramos/petshop-1.webp', 'Cachorro tomando banho'],
+        ['imgs/ramos/petshop-2.webp', 'Filhote sentado no tapete'],
+        ['imgs/ramos/petshop-3.webp', 'Gato olhando pra cima']
+      ],
       nav: ['Serviços', 'Loja', 'Contato'],
       cta: 'Agendar banho', cta2: 'Ver serviços', acao: 'Agendar',
       titulo: 'Banho marcado, sem precisar telefonar.',
@@ -172,6 +194,11 @@
     salao: {
       rotulo: 'Salão', exemplo: 'Espaço Bela', tom: '#a31e4d',
       foto: 'imgs/mod-salao.webp', alt: 'Profissional lavando o cabelo de uma cliente na pia do salão',
+      fotos: [
+        ['imgs/ramos/salao-1.webp', 'Cabeleireira cortando cabelo'],
+        ['imgs/ramos/salao-2.webp', 'Manicure pintando as unhas de uma cliente'],
+        ['imgs/ramos/salao-3.webp', 'Cabelo com bobes']
+      ],
       nav: ['Serviços', 'Portfólio', 'Contato'],
       cta: 'Agendar horário', cta2: 'Ver serviços', acao: 'Agendar',
       titulo: 'Seu horário guardado, sem grupo de zap.',
@@ -195,7 +222,12 @@
     },
     outro: {
       rotulo: 'Outro ramo', exemplo: 'Sua Empresa', tom: '#3d6a99',
-      foto: '', alt: '',
+      foto: 'imgs/ramos/outro-0.webp', alt: 'Pessoa trabalhando no notebook com plantas de projeto',
+      fotos: [
+        ['imgs/ramos/outro-1.webp', 'Planta, trena e ferramentas sobre a mesa'],
+        ['imgs/ramos/outro-2.webp', 'Parede de ferramentas numa oficina'],
+        ['imgs/ramos/outro-3.webp', 'Tablet com painel de gráficos']
+      ],
       nav: ['Serviços', 'Sobre', 'Contato'],
       cta: 'Pedir orçamento', cta2: 'Ver serviços', acao: 'Orçar',
       titulo: 'Atendimento de confiança, do orçamento à entrega.',
@@ -273,17 +305,13 @@
     return '<svg class="est-i' + (cls ? ' ' + cls : '') + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + (ICONES[n] || '') + '</svg>';
   }
 
-  /* A foto do ramo, ou -- no "outro ramo", que nao tem foto -- um bloco
-     com a inicial do negocio. pos/zoom recortam a MESMA foto de jeitos
-     diferentes quando um modelo precisa de varias (cartoes de vitrine). */
-  function foto(v, cls, pos, zoom) {
-    var st = '';
-    if (pos) st += 'object-position:' + pos + ';';
-    // o zoom parte do mesmo ponto do recorte: sem isso todo recorte ampliado
-    // caia no meio da foto e os cartoes ficavam iguais
-    if (zoom) st += 'transform:scale(' + zoom + ');transform-origin:' + (pos || '50% 50%') + ';';
-    if (v.r.foto) {
-      return '<img class="' + cls + '" src="' + v.r.foto + '" alt="' + v.r.alt + '" loading="lazy" decoding="async"' + (st ? ' style="' + st + '"' : '') + ' />';
+  /* A foto do ramo. n = 0 e a principal; 1 a 3 sao as extras (fotos),
+     pra cartao e faixa nao repetirem a mesma imagem. Sem foto nenhuma,
+     um bloco com a inicial do negocio. */
+  function foto(v, cls, n) {
+    var f = n ? v.r.fotos && v.r.fotos[(n - 1) % v.r.fotos.length] : v.r.foto && [v.r.foto, v.r.alt];
+    if (f) {
+      return '<img class="' + cls + '" src="' + f[0] + '" alt="' + f[1] + '" loading="lazy" decoding="async" width="800" height="600" />';
     }
     return '<span class="' + cls + ' est-semfoto" aria-hidden="true"><b>' + v.inicial + '</b></span>';
   }
@@ -334,7 +362,7 @@
             }).join('') +
           '</div></section>' +
           '<section class="vt-cats" data-sec="sobre">' +
-            '<div class="vt-cat vt-cat--foto">' + foto(v, 'vt-cat-img', '30% 40%', 1.25) + '<b>' + r.servicos[2][0] + '</b></div>' +
+            '<div class="vt-cat vt-cat--foto">' + foto(v, 'vt-cat-img', 1) + '<b>Conheça o espaço</b></div>' +
             '<div class="vt-cat vt-cat--nums">' + r.numeros.map(function (n) {
               return '<p><b>' + n[0] + '</b><span>' + n[1] + '</span></p>';
             }).join('') + '</div>' +
@@ -398,7 +426,7 @@
             '</ol></section>' +
             '<section class="pl-sec" data-sec="sobre"><h2>Por que vir aqui</h2><div class="pl-cards">' +
               r.dif.map(function (d, i) {
-                return '<div class="pl-card"><i class="pl-card-q pl-card-q--' + i + '">' + ico(['calendario', 'relogio', 'estrela'][i]) + '</i><b>' + d[0] + '</b><span>' + d[1] + '</span></div>';
+                return '<div class="pl-card"><i class="pl-card-q pl-card-q--' + i + '">' + foto(v, 'pl-foto', i + 1) + '</i><b>' + d[0] + '</b><span>' + d[1] + '</span></div>';
               }).join('') +
             '</div></section>' +
             '<footer class="pl-pe" data-sec="contato"><b>' + v.nome + '</b><span>' + onde(v, '') + (v.cidade ? ' · ' : '') + '© ' + ano() + '</span></footer>' +
@@ -512,7 +540,7 @@
           '<section class="pi-dados" data-sec="sobre">' + r.numeros.map(function (n) {
             return '<p><b>' + n[0] + '</b><span>' + n[1] + '</span></p>';
           }).join('') + '</section>' +
-          '<section class="pi-faixa-foto">' + foto(v, 'pi-foto', '70% 50%', 1.3) + '<p><small>' + r.rotulo + '</small><b>' + r.dif[0][0] + '</b></p></section>' +
+          '<section class="pi-faixa-foto">' + foto(v, 'pi-foto', 2) + '<p><small>' + r.rotulo + '</small><b>' + r.dif[0][0] + '</b></p></section>' +
           '<footer class="pi-pe" data-sec="contato"><b>' + v.nome + '</b><span>' + onde(v, '') + '</span><span>© ' + ano() + '</span></footer>' +
         '</div>';
       }
@@ -524,7 +552,6 @@
       amostra: { bg: '#ffffff', fg: '#222222', ac: '#ff385c', fonte: "'DM Sans'", raio: '99px' },
       render: function (v) {
         var r = v.r;
-        var recortes = [['50% 50%', 1], ['20% 20%', 2], ['85% 80%', 2.2], ['60% 10%', 2.6]];
         return '<div class="cv">' +
           '<header class="cv-nav"><b class="cv-marca">' + ico('casa') + v.nome + '</b>' +
             '<nav class="cv-abas">' + v.r.nav.map(function (t, i) {
@@ -536,7 +563,7 @@
             '<button type="button" class="cv-orbe" data-acao aria-label="Buscar">' + ico('busca') + '</button></div>' +
           '<section class="cv-sec" data-sec="servicos"><h2>' + r.nav[0] + ' mais procurados</h2><div class="cv-grade">' +
             r.servicos.map(function (s, i) {
-              return '<div class="cv-card"><div class="cv-card-img">' + foto(v, 'cv-foto', recortes[i][0], recortes[i][1]) +
+              return '<div class="cv-card"><div class="cv-card-img">' + foto(v, 'cv-foto', i) +
                 (i < 2 ? '<span class="cv-fav">Favorito dos clientes</span>' : '') +
                 '<button type="button" class="cv-coracao" data-coracao aria-label="Salvar ' + s[0] + '">' + ico('coracao') + '</button></div>' +
                 '<p class="cv-card-l1"><b>' + s[0] + '</b><span>' + ico('estrela') + (i % 2 ? '4,8' : r.numeros[0][0]) + '</span></p>' +
@@ -621,13 +648,14 @@
     opts = opts || {};
     var fone = opts.whatsapp || '5561994299823';
 
-    var salvo = ler();
+    // Nada e guardado de proposito: F5 volta pro convite, do zero. A previa
+    // vive so enquanto a aba esta aberta.
     var st = {
-      estilo: salvo && achaEstilo(salvo.estilo) ? salvo.estilo : ESTILOS[0].id,
-      dados: salvo && salvo.nome ? salvo : null,       // null = ainda nao personalizou
-      rascunho: salvo ? { nome: salvo.nome, ramo: salvo.ramo, outro: salvo.outro, cidade: salvo.cidade } : {},
+      estilo: ESTILOS[0].id,
+      dados: null,          // null = ainda nao personalizou
+      rascunho: {},
       disp: 'pc',
-      etapa: salvo && salvo.nome ? null : 'convite'   // convite | nome | ramo | cidade | montando | null
+      etapa: 'convite'      // convite | nome | ramo | cidade | montando | null
     };
 
     raiz.classList.add('est');
@@ -771,8 +799,11 @@
 
     function concluir() {
       var r = st.rascunho;
-      st.dados = { v: VERSAO_DADOS, nome: r.nome.trim(), ramo: r.ramo, outro: (r.outro || '').trim(), cidade: (r.cidade || '').trim(), estilo: st.estilo };
-      grava(st.dados);
+      st.dados = { nome: r.nome.trim(), ramo: r.ramo, outro: (r.outro || '').trim(), cidade: (r.cidade || '').trim() };
+      // o sistema de exemplo (sistema/sistema.js), mais abaixo, abre com o
+      // mesmo nome e ramo: "o site e o sistema do SEU negocio"
+      window.ACTechPrevia = st.dados;
+      try { document.dispatchEvent(new CustomEvent('actech:previa', { detail: st.dados })); } catch (x) {}
       etapa('montando');
       setTimeout(function () {
         etapa(null);
@@ -878,7 +909,6 @@
     function escolher(id) {
       if (id === st.estilo) return;
       st.estilo = id;
-      if (st.dados) { st.dados.estilo = id; grava(st.dados); }
       desenhar(true);
       fala('Estilo ' + achaEstilo(id).nome + '.');
       // no celular a lista rola de lado: traz a opcao escolhida pro meio
@@ -920,16 +950,6 @@
 
   function reduzido() {
     return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  }
-  // localStorage pode nao existir (aba anonima, bloqueio): tudo em try
-  function ler() {
-    try {
-      var o = JSON.parse(localStorage.getItem(CHAVE) || 'null');
-      return o && o.v === VERSAO_DADOS && RAMOS[o.ramo] ? o : null;
-    } catch (x) { return null; }
-  }
-  function grava(o) {
-    try { localStorage.setItem(CHAVE, JSON.stringify(o)); } catch (x) {}
   }
 
   window.ACTechEstilos = { montar: montar, fontes: FONTES, estilos: ESTILOS, ramos: RAMOS };
