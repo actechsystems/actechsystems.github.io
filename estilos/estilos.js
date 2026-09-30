@@ -800,6 +800,10 @@
     function concluir() {
       var r = st.rascunho;
       st.dados = { nome: r.nome.trim(), ramo: r.ramo, outro: (r.outro || '').trim(), cidade: (r.cidade || '').trim() };
+      // o sistema de exemplo (sistema/sistema.js), mais abaixo, abre com o
+      // mesmo nome e ramo: "o site e o sistema do SEU negocio"
+      window.ACTechPrevia = st.dados;
+      try { document.dispatchEvent(new CustomEvent('actech:previa', { detail: st.dados })); } catch (x) {}
       etapa('montando');
       setTimeout(function () {
         etapa(null);
