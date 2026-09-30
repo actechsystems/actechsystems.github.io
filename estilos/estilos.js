@@ -299,7 +299,8 @@
     cel: '<rect x="7" y="3" width="10" height="18" rx="2.2"/><path d="M11 17.6h2"/>',
     pausa: '<path d="M10 9v6M14 9v6"/>',
     sacola: '<path d="M5.5 8h13l-1 12h-11z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/>',
-    calendario: '<rect x="4" y="5.5" width="16" height="14.5" rx="2"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4"/>'
+    calendario: '<rect x="4" y="5.5" width="16" height="14.5" rx="2"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4"/>',
+    clientes: '<path d="M16 20v-1.5a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4V20"/><circle cx="9.5" cy="7.5" r="3.5"/>'
   };
   function ico(n, cls) {
     return '<svg class="est-i' + (cls ? ' ' + cls : '') + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + (ICONES[n] || '') + '</svg>';
@@ -641,6 +642,108 @@
   }
 
   /* ===============================================================
+     GOOGLE E INSTAGRAM
+     As outras duas coisas que a ACTech entrega, com os mesmos dados da
+     previa: a ficha do negocio no Google e o perfil no Instagram. As cores
+     do Instagram seguem o estilo escolhido, pra parecer a mesma marca.
+     =============================================================== */
+  function estrelas(n) {
+    var out = '';
+    for (var i = 0; i < 5; i++) out += '<i class="gg-estrela' + (i < Math.round(n) ? '' : ' is-vazia') + '">★</i>';
+    return out;
+  }
+  function google(v) {
+    var r = v.r;
+    var nota = r.numeros[0][0].indexOf(',') > 0 ? r.numeros[0][0] : '4,9';
+    var busca = r.rotulo.toLowerCase() + (v.cidade ? ' em ' + v.cidade : ' perto de mim');
+    var fotos = [foto(v, 'gg-foto', 0), foto(v, 'gg-foto', 1), foto(v, 'gg-foto', 2), foto(v, 'gg-foto', 3)];
+    return '<div class="gg">' +
+      '<header class="gg-topo"><b class="gg-logo"><i>G</i><i>o</i><i>o</i><i>g</i><i>l</i><i>e</i></b>' +
+        '<div class="gg-busca">' + ico('busca') + '<span>' + busca + '</span></div></header>' +
+      '<nav class="gg-abas"><span class="is-on">Tudo</span><span>Maps</span><span>Imagens</span><span>Notícias</span></nav>' +
+      '<div class="gg-mapa" aria-hidden="true"><i class="gg-rua gg-rua--1"></i><i class="gg-rua gg-rua--2"></i><i class="gg-rua gg-rua--3"></i><i class="gg-quadra"></i>' +
+        '<span class="gg-pino">' + ico('local') + '</span><span class="gg-rotulo-mapa">' + v.nome + '</span></div>' +
+      '<section class="gg-ficha">' +
+        '<h3>' + v.nome + '</h3>' +
+        '<p class="gg-nota"><b>' + nota + '</b>' + estrelas(5) + '<span>(' + (80 + v.nome.length * 7) + ')</span></p>' +
+        '<p class="gg-cat">' + r.rotulo + (v.cidade ? ' em ' + v.cidade : '') + '</p>' +
+        '<p class="gg-aberto"><b>Aberto</b> · Fecha às 19:00</p>' +
+        '<div class="gg-acoes">' +
+          [['seta', 'Rotas'], ['whats', 'Ligar'], ['casa', 'Site'], ['calendario', r.acao]].map(function (a, i) {
+            return '<button type="button" data-acao class="gg-acao' + (i === 0 ? ' is-cheio' : '') + '"><span>' + ico(a[0]) + '</span>' + a[1] + '</button>';
+          }).join('') +
+        '</div>' +
+        '<div class="gg-fotos">' + fotos.map(function (f) { return '<span class="gg-foto-caixa">' + f + '</span>'; }).join('') + '</div>' +
+        '<dl class="gg-dados"><div><dt>' + ico('local') + '</dt><dd>' + (v.cidade ? v.cidade + ' - DF' : 'Endereço do seu negócio') + '</dd></div>' +
+          '<div><dt>' + ico('relogio') + '</dt><dd>Seg a sáb, 9h às 19h</dd></div>' +
+          '<div><dt>' + ico('casa') + '</dt><dd class="gg-link">' + v.url + '</dd></div></dl>' +
+        '<div class="gg-aval"><h4>Avaliações</h4><blockquote><span class="gg-av"><i>' + inicial(r.depo[1]) + '</i><b>' + r.depo[1] + '</b></span>' + estrelas(5) + '<p>“' + r.depo[0] + '”</p></blockquote></div>' +
+      '</section>' +
+    '</div>';
+  }
+  function instagram(v, e) {
+    var r = v.r, a = e.amostra;
+    var user = v.url.replace('.com.br', '');
+    var artes = [
+      ['Agenda aberta', 'essa semana'], [r.servicos[0][0], r.servicos[0][2]], ['Obrigado', 'pelos ' + r.numeros[1][0]],
+      [r.dif[0][0], ''], ['Promo de terça', '10% off'], [r.numeros[0][0] + ' ★', r.numeros[0][1]]
+    ];
+    var grade = [];
+    for (var i = 0; i < 9; i++) {
+      grade.push(i % 3 === 1 || i === 6
+        ? '<span class="ig-post ig-post--arte" style="--ig-bg:' + (i % 2 ? a.ac : a.bg) + ';--ig-fg:' + (i % 2 ? (a.bg === '#000000' || a.bg === '#121212' ? '#000' : '#fff') : a.fg) + ';font-family:' + a.fonte + ',system-ui"><b>' + artes[i % artes.length][0] + '</b><small>' + artes[i % artes.length][1] + '</small></span>'
+        : '<span class="ig-post">' + foto(v, 'ig-foto', i % 4) + '</span>');
+    }
+    return '<div class="ig">' +
+      '<header class="ig-topo"><b>' + user + '</b><span>' + ico('menu') + '</span></header>' +
+      '<section class="ig-perfil"><span class="ig-avatar" style="--ig-ac:' + a.ac + ';--ig-bg:' + a.bg + ';--ig-fg:' + a.fg + ';font-family:' + a.fonte + ',system-ui"><i>' + v.inicial + '</i></span>' +
+        '<dl class="ig-nums"><div><dt>48</dt><dd>posts</dd></div><div><dt>' + (1 + v.nome.length % 8) + ',' + (v.nome.length % 10) + ' mil</dt><dd>seguidores</dd></div><div><dt>312</dt><dd>seguindo</dd></div></dl></section>' +
+      '<div class="ig-bio"><b>' + v.nome + '</b><small>' + r.rotulo + '</small><p>' + r.curto + '<br>' + (v.cidade ? '📍 ' + v.cidade + '<br>' : '') + '👇 ' + r.cta + ' pelo link</p><a>' + v.url + '</a></div>' +
+      '<div class="ig-bts"><button type="button" data-acao class="is-azul">Seguir</button><button type="button" data-acao>Mensagem</button><button type="button" data-acao>' + r.acao + '</button></div>' +
+      '<div class="ig-destaques">' + [r.nav[0], 'Antes e depois', 'Preços', 'Onde fica'].map(function (t, i) {
+        return '<span><i>' + foto(v, 'ig-foto', (i + 1) % 4) + '</i>' + t + '</span>';
+      }).join('') + '</div>' +
+      '<nav class="ig-abas"><span class="is-on">' + ico('lista') + '</span><span>' + ico('play') + '</span><span>' + ico('clientes') + '</span></nav>' +
+      '<div class="ig-grade">' + grade.join('') + '</div>' +
+    '</div>';
+  }
+
+  /* ===============================================================
+     ANTES x DEPOIS
+     "Do jeito antigo": o site de 2005 que muito negocio ainda tem -- Times
+     New Roman, "seja bem-vindo!!!", contador de visitas, "em construcao".
+     Largura fixa de proposito: no celular ele nao cabe, que e exatamente o
+     problema. E caricatura assumida (o selo diz "do jeito antigo"), nao o
+     site de ninguem.
+     =============================================================== */
+  function antigo(v) {
+    var r = v.r;
+    return '<div class="old">' +
+      '<div class="old-letreiro"><span>*** Seja bem-vindo ao site oficial da ' + v.nome + '!!! *** Ligue já! ***</span></div>' +
+      '<h1 class="old-titulo">' + v.nome + '</h1>' +
+      '<p class="old-sub">' + r.rotulo + (v.cidade ? ' em ' + v.cidade : '') + ' &mdash; desde 2009</p>' +
+      '<p class="old-menu">[ <u>Home</u> ] [ <u>Quem Somos</u> ] [ <u>Serviços</u> ] [ <u>Contato</u> ] [ <u>Livro de Visitas</u> ]</p>' +
+      '<table class="old-tabela"><tr>' +
+        '<td class="old-lado"><b class="old-novo">NOVO!</b><br>Confira nossas<br>promoções!!<br><br><span class="old-foto">' + foto(v, 'old-img', 0) + '</span></td>' +
+        '<td class="old-texto"><h2>Bem-vindo!</h2><p>Aqui você encontra os melhores serviços de ' + r.rotulo.toLowerCase() + ' da região. Qualidade e bom atendimento é com a gente!!!</p>' +
+          '<p>Para agendar, ligue para o nosso telefone em horário comercial. <b>Não atendemos por WhatsApp.</b></p>' +
+          '<div class="old-obras">⚠ SITE EM CONSTRUÇÃO ⚠</div></td>' +
+      '</tr></table>' +
+      '<p class="old-cont">Você é o visitante nº <span>004127</span></p>' +
+      '<p class="old-pe">Melhor visualizado em 800x600 &middot; Internet Explorer 6 &middot; &copy; 2009</p>' +
+    '</div>';
+  }
+  function antesDepois(v, e) {
+    return '<div class="ad" data-ad>' +
+      '<div class="ad-camada ad-depois">' + e.render(v) + '</div>' +
+      '<div class="ad-camada ad-antes" aria-hidden="true">' + antigo(v) + '</div>' +
+      '<span class="ad-selo ad-selo--antes">Do jeito antigo</span><span class="ad-selo ad-selo--depois">Com a ACTech</span>' +
+      '<i class="ad-linha" aria-hidden="true"><b>‹ ›</b></i>' +
+      '<input type="range" class="ad-range" min="0" max="100" value="50" data-ad-range aria-label="Arraste pra comparar o antes e o depois" />' +
+    '</div>';
+  }
+
+  /* ===============================================================
      O CONFIGURADOR
      =============================================================== */
   function montar(raiz, opts) {
@@ -655,8 +758,19 @@
       dados: null,          // null = ainda nao personalizou
       rascunho: {},
       disp: 'pc',
+      vista: 'site',        // site | google | insta
       etapa: 'convite'      // convite | nome | ramo | cidade | montando | null
     };
+    // Quem chega por um link compartilhado ("Mandar pra alguem") ja ve a
+    // previa montada. Isso nao contradiz o F5 zerar: so abre montada quando
+    // o proprio link traz os dados.
+    var doLink = lerLink();
+    if (doLink) {
+      st.dados = doLink; st.estilo = doLink.estilo;
+      st.rascunho = { nome: doLink.nome, ramo: doLink.ramo, outro: doLink.outro, cidade: doLink.cidade };
+      st.etapa = null;
+      window.ACTechPrevia = doLink;
+    }
 
     raiz.classList.add('est');
     raiz.innerHTML =
@@ -670,7 +784,12 @@
         }).join('') +
       '</div>' +
       '<div class="est-palco">' +
-        '<div class="est-barra"><span class="est-barra-txt">Veja no</span>' +
+        '<div class="est-barra"><span class="est-vistas" role="tablist" aria-label="O que ver">' +
+            '<button type="button" role="tab" data-vista="site" aria-selected="true">Site</button>' +
+            '<button type="button" role="tab" data-vista="google" aria-selected="false">Google</button>' +
+            '<button type="button" role="tab" data-vista="insta" aria-selected="false">Instagram</button>' +
+            '<button type="button" role="tab" data-vista="antes" aria-selected="false">Antes × Depois</button></span>' +
+          '<span class="est-barra-txt">Veja no</span>' +
           '<span class="est-disp" role="group" aria-label="Ver como">' +
             '<button type="button" data-disp="pc" aria-pressed="true" title="Computador">' + ico('pc') + '<span>Computador</span></button>' +
             '<button type="button" data-disp="cel" aria-pressed="false" title="Celular">' + ico('cel') + '<span>Celular</span></button></span></div>' +
@@ -698,7 +817,12 @@
       '</div>' +
       '<div class="est-acoes" data-acoes>' +
         '<p data-acoes-txt></p>' +
+        // o QR: abre no celular da pessoa o cardapio/catalogo com o nome dela
+        '<div class="est-qr" data-qr><span class="est-qr-img" data-qr-img aria-hidden="true"></span>' +
+          '<span class="est-qr-txt"><b data-qr-titulo></b><small>Aponte a câmera do celular e veja o de vocês funcionando.</small>' +
+          '<a class="est-qr-link" data-qr-link target="_blank" rel="noopener">Abrir aqui</a></span></div>' +
         '<div class="est-acoes-bts"><button type="button" class="btn btn-secondary btn-sm" data-trocar>Trocar os dados</button>' +
+        '<a class="btn btn-secondary btn-sm" data-compartilhar data-sem-portao target="_blank" rel="noopener">' + ico('seta') + 'Mandar pra alguém</a>' +
         '<a class="btn btn-primary btn-sm" data-quero data-sem-portao target="_blank" rel="noopener">' + ico('whats') + 'Quero um site assim</a></div>' +
       '</div>' +
       '<p class="est-sr" aria-live="polite" data-fala></p>';
@@ -748,13 +872,16 @@
         b.setAttribute('aria-checked', on ? 'true' : 'false');
         b.tabIndex = on ? 0 : -1;
       });
-      $('[data-url]').textContent = v.url;
+      raiz.querySelectorAll('[data-vista]').forEach(function (x) { x.setAttribute('aria-selected', x.dataset.vista === st.vista ? 'true' : 'false'); });
+      $('[data-url]').textContent = st.vista === 'google' ? 'google.com.br' : st.vista === 'insta' ? 'instagram.com/' + v.url.replace('.com.br', '') : v.url;
       var troca = function () {
-        site.innerHTML = e.render(v);
-        site.dataset.estilo = e.id;
-        // a barra de status do iPhone pega a cor do topo do site
-        vidro.style.setProperty('--st-bg', e.amostra.bg);
-        vidro.style.setProperty('--st-fg', e.amostra.fg);
+        site.innerHTML = st.vista === 'google' ? google(v) : st.vista === 'insta' ? instagram(v, e) : st.vista === 'antes' ? antesDepois(v, e) : e.render(v);
+        if (st.vista === 'antes') abreCortina();
+        site.dataset.estilo = st.vista === 'site' ? e.id : st.vista;
+        // a barra de status do iPhone pega a cor do topo da tela
+        var comoSite = st.vista === 'site' || st.vista === 'antes';
+        vidro.style.setProperty('--st-bg', comoSite ? e.amostra.bg : '#ffffff');
+        vidro.style.setProperty('--st-fg', comoSite ? e.amostra.fg : '#111111');
         site.scrollTop = 0;
         site.classList.remove('is-saindo');
       };
@@ -773,6 +900,12 @@
           'Negócio: ' + v.cru.nome + '\nRamo: ' + v.cru.rotulo + (v.cru.cidade ? '\nCidade: ' + v.cru.cidade : '') +
           '\nEstilo: ' + e.nome + '\n\nQuero um site assim!';
         $('[data-quero]').href = 'https://wa.me/' + fone + '?text=' + encodeURIComponent(msg);
+        var link = linkDaPrevia(st.dados, e.id);
+        poeQr(link.replace(/\/?\?/, '/catalogo.html?').replace('#modelos', ''), st.dados.ramo);
+        var sh = $('[data-compartilhar]');
+        sh.dataset.link = link;
+        sh.dataset.titulo = 'Site: ' + v.cru.nome;
+        sh.href = 'https://wa.me/?text=' + encodeURIComponent('Olha como ficaria o nosso site (' + v.cru.nome + '): ' + link);
       }
     }
 
@@ -860,6 +993,16 @@
         raiz.querySelectorAll('[data-disp]').forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
         return;
       }
+      if ((b = t.closest('[data-vista]'))) {
+        if (st.vista !== b.dataset.vista) { st.vista = b.dataset.vista; desenhar(true); fala(b.textContent + '.'); }
+        return;
+      }
+      if ((b = t.closest('[data-compartilhar]')) && navigator.share) {
+        // no celular, o menu de compartilhar do proprio aparelho
+        ev.preventDefault();
+        navigator.share({ title: b.dataset.titulo, text: 'Olha como ficaria o nosso site:', url: b.dataset.link }).catch(function () {});
+        return;
+      }
       if (t.closest('[data-comecar]')) { etapa('nome'); return; }
       if (t.closest('[data-fechar]')) { etapa(st.dados ? null : 'convite'); return; }
       if (t.closest('[data-voltar]')) { etapa(st.etapa === 'cidade' ? 'ramo' : 'nome'); return; }
@@ -898,6 +1041,7 @@
         b.classList.toggle('is-on');
         return;
       }
+      if (t.closest('[data-ad]')) return;
       if (t.closest('[data-acao]')) {
         aviso('No site de verdade, este botão leva o cliente direto pro seu WhatsApp ou pra sua agenda.');
       }
@@ -951,6 +1095,25 @@
       }
     }
 
+    // a biblioteca do QR (20 KB) so desce quando ha QR pra desenhar
+    var qrUltimo = '';
+    function poeQr(url, ramo) {
+      $('[data-qr-titulo]').textContent = ramo === 'restaurante' ? 'Cardápio digital' : ramo === 'mercado' ? 'Ofertas no celular' : 'Catálogo de serviços';
+      $('[data-qr-link]').href = url;
+      if (url === qrUltimo) return;
+      qrUltimo = url;
+      var desenha = function () {
+        if (!window.qrcode) return;
+        var q = window.qrcode(0, 'M'); q.addData(url); q.make();
+        $('[data-qr-img]').innerHTML = q.createSvgTag({ cellSize: 3, margin: 2, scalable: true });
+      };
+      if (window.qrcode) return desenha();
+      if (document.querySelector('script[data-qr-js]')) return;
+      var js = document.createElement('script');
+      js.src = 'vendor/qrcode-1.4.4.min.js'; js.async = true; js.dataset.qrJs = '';
+      js.onload = function () { qrUltimo = ''; poeQr($('[data-qr-link]').href, ramo); };
+      document.head.appendChild(js);
+    }
     function aviso(txt) {
       var a = $('[data-aviso]');
       a.textContent = txt;
@@ -959,6 +1122,38 @@
       tiraAviso = setTimeout(function () { a.classList.remove('is-on'); }, 3200);
     }
     function fala(txt) { $('[data-fala]').textContent = txt; }
+
+    /* ---- a cortina do antes x depois ----
+       Arrasta com dedo ou mouse em qualquer ponto; o range escondido por
+       baixo e o que da teclado e leitor de tela. A abertura faz um "vai e
+       volta" pra mostrar que da pra arrastar. */
+    function poeCortina(pct) {
+      var ad = site.querySelector('[data-ad]'); if (!ad) return;
+      pct = Math.max(0, Math.min(100, pct));
+      ad.style.setProperty('--ad', pct + '%');
+      var r = ad.querySelector('[data-ad-range]'); if (r) r.value = Math.round(pct);
+    }
+    function abreCortina() {
+      var ad = site.querySelector('[data-ad]'); if (!ad) return;
+      if (reduzido()) return poeCortina(50);
+      ad.classList.add('is-anima'); poeCortina(88);
+      setTimeout(function () { poeCortina(50); }, 350);
+      setTimeout(function () { ad.classList.remove('is-anima'); }, 1300);
+    }
+    var arrastando = false;
+    function posDoPonteiro(ev) {
+      var ad = site.querySelector('[data-ad]'); var box = ad.getBoundingClientRect();
+      poeCortina((ev.clientX - box.left) / box.width * 100);
+    }
+    site.addEventListener('pointerdown', function (ev) {
+      if (!ev.target.closest('[data-ad]')) return;
+      arrastando = true; posDoPonteiro(ev);
+      try { site.setPointerCapture(ev.pointerId); } catch (x) {}
+    });
+    site.addEventListener('pointermove', function (ev) { if (arrastando) { ev.preventDefault(); posDoPonteiro(ev); } });
+    site.addEventListener('pointerup', function () { arrastando = false; });
+    site.addEventListener('pointercancel', function () { arrastando = false; });
+    site.addEventListener('input', function (ev) { if (ev.target.matches('[data-ad-range]')) poeCortina(+ev.target.value); });
 
     raiz.addEventListener('click', noClique);
     raiz.addEventListener('submit', noEnvio);
@@ -982,9 +1177,32 @@
     return api;
   }
 
+  /* ---- o link da previa ----
+     ?n=nome&r=ramo&c=cidade&o=outro&e=estilo#modelos. Tudo validado na
+     volta: ramo e estilo tem que existir, texto e cortado em 30 caracteres
+     (e depois escapado pelos templates, como qualquer dado digitado). */
+  function linkDaPrevia(d, estilo) {
+    var q = new URLSearchParams();
+    q.set('n', d.nome); q.set('r', d.ramo);
+    if (d.cidade) q.set('c', d.cidade);
+    if (d.ramo === 'outro' && d.outro) q.set('o', d.outro);
+    q.set('e', estilo);
+    return location.origin + location.pathname + '?' + q.toString() + '#modelos';
+  }
+  function lerLink() {
+    try {
+      var q = new URLSearchParams(location.search);
+      var nome = (q.get('n') || '').trim().slice(0, 30), ramo = q.get('r');
+      if (!nome || !RAMOS[ramo]) return null;
+      var e = q.get('e');
+      var existe = ESTILOS.some(function (x) { return x.id === e; });
+      return { nome: nome, ramo: ramo, cidade: (q.get('c') || '').trim().slice(0, 30), outro: (q.get('o') || '').trim().slice(0, 30), estilo: existe ? e : ESTILOS[0].id };
+    } catch (x) { return null; }
+  }
+
   function reduzido() {
     return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   }
 
-  window.ACTechEstilos = { montar: montar, fontes: FONTES, estilos: ESTILOS, ramos: RAMOS };
+  window.ACTechEstilos = { temLink: function () { return !!lerLink(); }, montar: montar, fontes: FONTES, estilos: ESTILOS, ramos: RAMOS };
 })();

@@ -21,6 +21,23 @@ o visual já está calibrado para a paleta neumórfica.
 | TrueFocus | React Bits | título de `#planos`, `setupTrueFocus()` | `motion` |
 | DriftWall (parede 3D em marquee) | — | seção `#trabalhos`, classes `.wall` / `.wall-col` / `.wtile` | nenhuma (transform 3D + `@keyframes`) |
 
+## Bibliotecas servidas pelo próprio site (`vendor/`)
+
+React 18.3.1, ReactDOM 18.3.1 e GSAP 3.12.5 ficam em `vendor/` e carregam no `<head>`, antes
+do `support.js`. O runtime só busca o React no unpkg.com se `window.React` ainda não existir;
+carregado antes, o site deixa de depender de CDN de terceiro. Antes, unpkg fora do ar ou
+bloqueado numa rede de empresa deixava a página em branco. Os arquivos são os mesmos do
+unpkg: o sha384 bate com o `REACT_SRI`/`REACT_DOM_SRI` do runtime. Testado com unpkg,
+jsdelivr e Google Fonts bloqueados: a página monta inteira.
+
+Fontes e GSAP saíram do `<helmet>` do template pro `<head>` de verdade. No helmet o
+navegador baixava tudo duas vezes (uma lendo o HTML, outra quando o runtime montava o
+helmet). A segunda leitura do `index.html` que continua aparecendo é do próprio runtime:
+ele relê o arquivo cru pra recuperar atributos com maiúscula (`onClick`), que o navegador
+converte pra minúscula. Não mexer.
+
+A licença do GSAP 3 (sem custo, "Standard License") permite servir o arquivo no próprio site.
+
 ## Parâmetros mantidos
 
 - **Click Effects**: `interactionMode="sniper"`, `duration=0.3`, `strokeWidth=2`, `effectSize=90`;
@@ -548,6 +565,35 @@ que faz o botão "Celular" funcionar: ele só estreita a moldura pra 380px.
 > `#e00b41`, porque o `#ff385c` original dá 3,5:1 no branco e ficou só no ícone. E nos
 > cartões coloridos (Colorido e Estúdio) o texto é escuro no rosa, azul, laranja e verde,
 > onde branco não passa de 3,4:1. Ao criar um estilo, refaça essas contas.
+
+**Link de compartilhar.** "Mandar pra alguém" gera
+`?n=nome&r=ramo&c=cidade&o=outro&e=estilo#modelos`. No celular abre o menu de compartilhar do
+aparelho (`navigator.share`); no computador, o WhatsApp sem destinatário. Quem abre o link
+encontra a prévia montada: o `setupEstilos()` carrega o módulo na hora e rola até ela, e o
+sistema herda o nome. Na volta tudo é validado (ramo e estilo precisam existir, texto
+cortado em 30 caracteres e escapado pelos templates, como qualquer dado digitado).
+
+**Site, Google e Instagram.** O aparelho tem três abas. Com os mesmos dados, "Google" mostra
+a busca com a ficha do negócio (mapa desenhado em CSS, nota, Rotas/Ligar/Site, fotos, horário,
+avaliação) e "Instagram" mostra o perfil (bio, destaques, grade com fotos do ramo e artes nas
+cores do estilo escolhido).
+
+**Antes × Depois.** Quarta aba do aparelho. Duas camadas no mesmo lugar: embaixo o site no
+estilo escolhido, em cima um site "do jeito antigo" (Times New Roman, letreiro, contador de
+visitas, "em construção") recortado por `clip-path` até a cortina (`--ad`, registrada com
+`@property` pra poder animar a abertura). Arrasta com dedo ou mouse; um `<input type=range>`
+invisível por baixo dá teclado e leitor de tela. O site antigo tem largura fixa de 640px de
+propósito: no celular ele não cabe, que é exatamente o argumento. É caricatura assumida (o
+selo diz "do jeito antigo"), não o site de ninguém.
+
+**QR do cardápio/catálogo.** Depois de montar, as ações da prévia mostram um QR que abre
+`catalogo.html` com os mesmos parâmetros do link de compartilhar: cardápio (restaurante),
+ofertas (mercado) ou serviços e preços (os outros), com o nome e as cores do estilo, e um
+pedido de mentira que no fim explica que no de verdade ele cai no WhatsApp do negócio. No
+celular o QR vira botão. O QR é gerado no navegador por `vendor/qrcode-1.4.4.min.js`
+(qrcode-generator, Kazuhiko Arase, MIT, 20 KB), que só desce quando há QR pra desenhar.
+`catalogo.html` tem `noindex`: é exemplo, não página de ninguém. Os itens vêm de `RAMOS`
+(estilos.js) mais `ITENS_EXTRAS` no próprio catalogo.html.
 
 **Nada fica guardado.** A prévia vive só enquanto a aba está aberta: F5 volta pro convite,
 do zero, e nada sai do navegador até a pessoa clicar em "Quero um site assim".
