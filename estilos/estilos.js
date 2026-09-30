@@ -299,7 +299,8 @@
     cel: '<rect x="7" y="3" width="10" height="18" rx="2.2"/><path d="M11 17.6h2"/>',
     pausa: '<path d="M10 9v6M14 9v6"/>',
     sacola: '<path d="M5.5 8h13l-1 12h-11z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/>',
-    calendario: '<rect x="4" y="5.5" width="16" height="14.5" rx="2"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4"/>'
+    calendario: '<rect x="4" y="5.5" width="16" height="14.5" rx="2"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4"/>',
+    clientes: '<path d="M16 20v-1.5a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4V20"/><circle cx="9.5" cy="7.5" r="3.5"/>'
   };
   function ico(n, cls) {
     return '<svg class="est-i' + (cls ? ' ' + cls : '') + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + (ICONES[n] || '') + '</svg>';
@@ -641,6 +642,73 @@
   }
 
   /* ===============================================================
+     GOOGLE E INSTAGRAM
+     As outras duas coisas que a ACTech entrega, com os mesmos dados da
+     previa: a ficha do negocio no Google e o perfil no Instagram. As cores
+     do Instagram seguem o estilo escolhido, pra parecer a mesma marca.
+     =============================================================== */
+  function estrelas(n) {
+    var out = '';
+    for (var i = 0; i < 5; i++) out += '<i class="gg-estrela' + (i < Math.round(n) ? '' : ' is-vazia') + '">★</i>';
+    return out;
+  }
+  function google(v) {
+    var r = v.r;
+    var nota = r.numeros[0][0].indexOf(',') > 0 ? r.numeros[0][0] : '4,9';
+    var busca = r.rotulo.toLowerCase() + (v.cidade ? ' em ' + v.cidade : ' perto de mim');
+    var fotos = [foto(v, 'gg-foto', 0), foto(v, 'gg-foto', 1), foto(v, 'gg-foto', 2), foto(v, 'gg-foto', 3)];
+    return '<div class="gg">' +
+      '<header class="gg-topo"><b class="gg-logo"><i>G</i><i>o</i><i>o</i><i>g</i><i>l</i><i>e</i></b>' +
+        '<div class="gg-busca">' + ico('busca') + '<span>' + busca + '</span></div></header>' +
+      '<nav class="gg-abas"><span class="is-on">Tudo</span><span>Maps</span><span>Imagens</span><span>Notícias</span></nav>' +
+      '<div class="gg-mapa" aria-hidden="true"><i class="gg-rua gg-rua--1"></i><i class="gg-rua gg-rua--2"></i><i class="gg-rua gg-rua--3"></i><i class="gg-quadra"></i>' +
+        '<span class="gg-pino">' + ico('local') + '</span><span class="gg-rotulo-mapa">' + v.nome + '</span></div>' +
+      '<section class="gg-ficha">' +
+        '<h3>' + v.nome + '</h3>' +
+        '<p class="gg-nota"><b>' + nota + '</b>' + estrelas(5) + '<span>(' + (80 + v.nome.length * 7) + ')</span></p>' +
+        '<p class="gg-cat">' + r.rotulo + (v.cidade ? ' em ' + v.cidade : '') + '</p>' +
+        '<p class="gg-aberto"><b>Aberto</b> · Fecha às 19:00</p>' +
+        '<div class="gg-acoes">' +
+          [['seta', 'Rotas'], ['whats', 'Ligar'], ['casa', 'Site'], ['calendario', r.acao]].map(function (a, i) {
+            return '<button type="button" data-acao class="gg-acao' + (i === 0 ? ' is-cheio' : '') + '"><span>' + ico(a[0]) + '</span>' + a[1] + '</button>';
+          }).join('') +
+        '</div>' +
+        '<div class="gg-fotos">' + fotos.map(function (f) { return '<span class="gg-foto-caixa">' + f + '</span>'; }).join('') + '</div>' +
+        '<dl class="gg-dados"><div><dt>' + ico('local') + '</dt><dd>' + (v.cidade ? v.cidade + ' - DF' : 'Endereço do seu negócio') + '</dd></div>' +
+          '<div><dt>' + ico('relogio') + '</dt><dd>Seg a sáb, 9h às 19h</dd></div>' +
+          '<div><dt>' + ico('casa') + '</dt><dd class="gg-link">' + v.url + '</dd></div></dl>' +
+        '<div class="gg-aval"><h4>Avaliações</h4><blockquote><span class="gg-av"><i>' + inicial(r.depo[1]) + '</i><b>' + r.depo[1] + '</b></span>' + estrelas(5) + '<p>“' + r.depo[0] + '”</p></blockquote></div>' +
+      '</section>' +
+    '</div>';
+  }
+  function instagram(v, e) {
+    var r = v.r, a = e.amostra;
+    var user = v.url.replace('.com.br', '');
+    var artes = [
+      ['Agenda aberta', 'essa semana'], [r.servicos[0][0], r.servicos[0][2]], ['Obrigado', 'pelos ' + r.numeros[1][0]],
+      [r.dif[0][0], ''], ['Promo de terça', '10% off'], [r.numeros[0][0] + ' ★', r.numeros[0][1]]
+    ];
+    var grade = [];
+    for (var i = 0; i < 9; i++) {
+      grade.push(i % 3 === 1 || i === 6
+        ? '<span class="ig-post ig-post--arte" style="--ig-bg:' + (i % 2 ? a.ac : a.bg) + ';--ig-fg:' + (i % 2 ? (a.bg === '#000000' || a.bg === '#121212' ? '#000' : '#fff') : a.fg) + ';font-family:' + a.fonte + ',system-ui"><b>' + artes[i % artes.length][0] + '</b><small>' + artes[i % artes.length][1] + '</small></span>'
+        : '<span class="ig-post">' + foto(v, 'ig-foto', i % 4) + '</span>');
+    }
+    return '<div class="ig">' +
+      '<header class="ig-topo"><b>' + user + '</b><span>' + ico('menu') + '</span></header>' +
+      '<section class="ig-perfil"><span class="ig-avatar" style="--ig-ac:' + a.ac + ';--ig-bg:' + a.bg + ';--ig-fg:' + a.fg + ';font-family:' + a.fonte + ',system-ui"><i>' + v.inicial + '</i></span>' +
+        '<dl class="ig-nums"><div><dt>48</dt><dd>posts</dd></div><div><dt>' + (1 + v.nome.length % 8) + ',' + (v.nome.length % 10) + ' mil</dt><dd>seguidores</dd></div><div><dt>312</dt><dd>seguindo</dd></div></dl></section>' +
+      '<div class="ig-bio"><b>' + v.nome + '</b><small>' + r.rotulo + '</small><p>' + r.curto + '<br>' + (v.cidade ? '📍 ' + v.cidade + '<br>' : '') + '👇 ' + r.cta + ' pelo link</p><a>' + v.url + '</a></div>' +
+      '<div class="ig-bts"><button type="button" data-acao class="is-azul">Seguir</button><button type="button" data-acao>Mensagem</button><button type="button" data-acao>' + r.acao + '</button></div>' +
+      '<div class="ig-destaques">' + [r.nav[0], 'Antes e depois', 'Preços', 'Onde fica'].map(function (t, i) {
+        return '<span><i>' + foto(v, 'ig-foto', (i + 1) % 4) + '</i>' + t + '</span>';
+      }).join('') + '</div>' +
+      '<nav class="ig-abas"><span class="is-on">' + ico('lista') + '</span><span>' + ico('play') + '</span><span>' + ico('clientes') + '</span></nav>' +
+      '<div class="ig-grade">' + grade.join('') + '</div>' +
+    '</div>';
+  }
+
+  /* ===============================================================
      O CONFIGURADOR
      =============================================================== */
   function montar(raiz, opts) {
@@ -655,6 +723,7 @@
       dados: null,          // null = ainda nao personalizou
       rascunho: {},
       disp: 'pc',
+      vista: 'site',        // site | google | insta
       etapa: 'convite'      // convite | nome | ramo | cidade | montando | null
     };
 
@@ -670,7 +739,11 @@
         }).join('') +
       '</div>' +
       '<div class="est-palco">' +
-        '<div class="est-barra"><span class="est-barra-txt">Veja no</span>' +
+        '<div class="est-barra"><span class="est-vistas" role="tablist" aria-label="O que ver">' +
+            '<button type="button" role="tab" data-vista="site" aria-selected="true">Site</button>' +
+            '<button type="button" role="tab" data-vista="google" aria-selected="false">Google</button>' +
+            '<button type="button" role="tab" data-vista="insta" aria-selected="false">Instagram</button></span>' +
+          '<span class="est-barra-txt">Veja no</span>' +
           '<span class="est-disp" role="group" aria-label="Ver como">' +
             '<button type="button" data-disp="pc" aria-pressed="true" title="Computador">' + ico('pc') + '<span>Computador</span></button>' +
             '<button type="button" data-disp="cel" aria-pressed="false" title="Celular">' + ico('cel') + '<span>Celular</span></button></span></div>' +
@@ -748,13 +821,14 @@
         b.setAttribute('aria-checked', on ? 'true' : 'false');
         b.tabIndex = on ? 0 : -1;
       });
-      $('[data-url]').textContent = v.url;
+      raiz.querySelectorAll('[data-vista]').forEach(function (x) { x.setAttribute('aria-selected', x.dataset.vista === st.vista ? 'true' : 'false'); });
+      $('[data-url]').textContent = st.vista === 'google' ? 'google.com.br' : st.vista === 'insta' ? 'instagram.com/' + v.url.replace('.com.br', '') : v.url;
       var troca = function () {
-        site.innerHTML = e.render(v);
-        site.dataset.estilo = e.id;
-        // a barra de status do iPhone pega a cor do topo do site
-        vidro.style.setProperty('--st-bg', e.amostra.bg);
-        vidro.style.setProperty('--st-fg', e.amostra.fg);
+        site.innerHTML = st.vista === 'google' ? google(v) : st.vista === 'insta' ? instagram(v, e) : e.render(v);
+        site.dataset.estilo = st.vista === 'site' ? e.id : st.vista;
+        // a barra de status do iPhone pega a cor do topo da tela
+        vidro.style.setProperty('--st-bg', st.vista === 'site' ? e.amostra.bg : '#ffffff');
+        vidro.style.setProperty('--st-fg', st.vista === 'site' ? e.amostra.fg : '#111111');
         site.scrollTop = 0;
         site.classList.remove('is-saindo');
       };
@@ -858,6 +932,10 @@
         st.disp = b.dataset.disp;
         aplicaModo();
         raiz.querySelectorAll('[data-disp]').forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+        return;
+      }
+      if ((b = t.closest('[data-vista]'))) {
+        if (st.vista !== b.dataset.vista) { st.vista = b.dataset.vista; desenhar(true); fala(b.textContent + '.'); }
         return;
       }
       if (t.closest('[data-comecar]')) { etapa('nome'); return; }
