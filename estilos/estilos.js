@@ -726,6 +726,16 @@
       vista: 'site',        // site | google | insta
       etapa: 'convite'      // convite | nome | ramo | cidade | montando | null
     };
+    // Quem chega por um link compartilhado ("Mandar pra alguem") ja ve a
+    // previa montada. Isso nao contradiz o F5 zerar: so abre montada quando
+    // o proprio link traz os dados.
+    var doLink = lerLink();
+    if (doLink) {
+      st.dados = doLink; st.estilo = doLink.estilo;
+      st.rascunho = { nome: doLink.nome, ramo: doLink.ramo, outro: doLink.outro, cidade: doLink.cidade };
+      st.etapa = null;
+      window.ACTechPrevia = doLink;
+    }
 
     raiz.classList.add('est');
     raiz.innerHTML =
@@ -772,6 +782,7 @@
       '<div class="est-acoes" data-acoes>' +
         '<p data-acoes-txt></p>' +
         '<div class="est-acoes-bts"><button type="button" class="btn btn-secondary btn-sm" data-trocar>Trocar os dados</button>' +
+        '<a class="btn btn-secondary btn-sm" data-compartilhar data-sem-portao target="_blank" rel="noopener">' + ico('seta') + 'Mandar pra alguém</a>' +
         '<a class="btn btn-primary btn-sm" data-quero data-sem-portao target="_blank" rel="noopener">' + ico('whats') + 'Quero um site assim</a></div>' +
       '</div>' +
       '<p class="est-sr" aria-live="polite" data-fala></p>';
@@ -847,6 +858,11 @@
           'Negócio: ' + v.cru.nome + '\nRamo: ' + v.cru.rotulo + (v.cru.cidade ? '\nCidade: ' + v.cru.cidade : '') +
           '\nEstilo: ' + e.nome + '\n\nQuero um site assim!';
         $('[data-quero]').href = 'https://wa.me/' + fone + '?text=' + encodeURIComponent(msg);
+        var link = linkDaPrevia(st.dados, e.id);
+        var sh = $('[data-compartilhar]');
+        sh.dataset.link = link;
+        sh.dataset.titulo = 'Site: ' + v.cru.nome;
+        sh.href = 'https://wa.me/?text=' + encodeURIComponent('Olha como ficaria o nosso site (' + v.cru.nome + '): ' + link);
       }
     }
 
@@ -936,6 +952,12 @@
       }
       if ((b = t.closest('[data-vista]'))) {
         if (st.vista !== b.dataset.vista) { st.vista = b.dataset.vista; desenhar(true); fala(b.textContent + '.'); }
+        return;
+      }
+      if ((b = t.closest('[data-compartilhar]')) && navigator.share) {
+        // no celular, o menu de compartilhar do proprio aparelho
+        ev.preventDefault();
+        navigator.share({ title: b.dataset.titulo, text: 'Olha como ficaria o nosso site:', url: b.dataset.link }).catch(function () {});
         return;
       }
       if (t.closest('[data-comecar]')) { etapa('nome'); return; }
@@ -1060,9 +1082,32 @@
     return api;
   }
 
+  /* ---- o link da previa ----
+     ?n=nome&r=ramo&c=cidade&o=outro&e=estilo#modelos. Tudo validado na
+     volta: ramo e estilo tem que existir, texto e cortado em 30 caracteres
+     (e depois escapado pelos templates, como qualquer dado digitado). */
+  function linkDaPrevia(d, estilo) {
+    var q = new URLSearchParams();
+    q.set('n', d.nome); q.set('r', d.ramo);
+    if (d.cidade) q.set('c', d.cidade);
+    if (d.ramo === 'outro' && d.outro) q.set('o', d.outro);
+    q.set('e', estilo);
+    return location.origin + location.pathname + '?' + q.toString() + '#modelos';
+  }
+  function lerLink() {
+    try {
+      var q = new URLSearchParams(location.search);
+      var nome = (q.get('n') || '').trim().slice(0, 30), ramo = q.get('r');
+      if (!nome || !RAMOS[ramo]) return null;
+      var e = q.get('e');
+      var existe = ESTILOS.some(function (x) { return x.id === e; });
+      return { nome: nome, ramo: ramo, cidade: (q.get('c') || '').trim().slice(0, 30), outro: (q.get('o') || '').trim().slice(0, 30), estilo: existe ? e : ESTILOS[0].id };
+    } catch (x) { return null; }
+  }
+
   function reduzido() {
     return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   }
 
-  window.ACTechEstilos = { montar: montar, fontes: FONTES, estilos: ESTILOS, ramos: RAMOS };
+  window.ACTechEstilos = { temLink: function () { return !!lerLink(); }, montar: montar, fontes: FONTES, estilos: ESTILOS, ramos: RAMOS };
 })();

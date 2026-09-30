@@ -566,6 +566,18 @@ que faz o botão "Celular" funcionar: ele só estreita a moldura pra 380px.
 > cartões coloridos (Colorido e Estúdio) o texto é escuro no rosa, azul, laranja e verde,
 > onde branco não passa de 3,4:1. Ao criar um estilo, refaça essas contas.
 
+**Link de compartilhar.** "Mandar pra alguém" gera
+`?n=nome&r=ramo&c=cidade&o=outro&e=estilo#modelos`. No celular abre o menu de compartilhar do
+aparelho (`navigator.share`); no computador, o WhatsApp sem destinatário. Quem abre o link
+encontra a prévia montada: o `setupEstilos()` carrega o módulo na hora e rola até ela, e o
+sistema herda o nome. Na volta tudo é validado (ramo e estilo precisam existir, texto
+cortado em 30 caracteres e escapado pelos templates, como qualquer dado digitado).
+
+**Site, Google e Instagram.** O aparelho tem três abas. Com os mesmos dados, "Google" mostra
+a busca com a ficha do negócio (mapa desenhado em CSS, nota, Rotas/Ligar/Site, fotos, horário,
+avaliação) e "Instagram" mostra o perfil (bio, destaques, grade com fotos do ramo e artes nas
+cores do estilo escolhido).
+
 **Nada fica guardado.** A prévia vive só enquanto a aba está aberta: F5 volta pro convite,
 do zero, e nada sai do navegador até a pessoa clicar em "Quero um site assim".
 

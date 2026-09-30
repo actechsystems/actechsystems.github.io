@@ -3712,7 +3712,7 @@ class Component extends DCLogic {
   setupEstilos() {
     const raiz = document.querySelector('[data-estilos]');
     if (!raiz) return;
-    const V = '6';
+    const V = '7';
     const whatsapp = this.props.whatsappNumber ?? '5561994299823';
     let api = null;
 
@@ -3745,6 +3745,12 @@ class Component extends DCLogic {
       document.head.appendChild(js);
     };
 
+    // link compartilhado (?n=...&r=...): carrega ja e leva a pessoa ate la
+    if (/[?&]n=/.test(location.search) && /[?&]r=/.test(location.search)) {
+      carregar();
+      const ir = () => raiz.scrollIntoView({ block: 'start' });
+      setTimeout(ir, 600); setTimeout(ir, 1500);
+    }
     const io = new IntersectionObserver((entries) => {
       if (!entries.some((e) => e.isIntersecting)) return;
       io.disconnect();
