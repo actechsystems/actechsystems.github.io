@@ -473,9 +473,38 @@ um bloco de CSS com prefixo próprio de duas letras e, se a fonte for nova, uma 
 
 **Conteúdo dos ramos.** Barbearia, salão, pet shop, clínica, restaurante, mercado e "outro
 ramo" ficam em `RAMOS`, no topo do `estilos.js`. Todos os estilos leem dali, então o texto
-de um ramo muda num lugar só. As fotos continuam sendo as de `imgs/mod-*.webp` (Unsplash,
-uso comercial sem atribuição). "Outro ramo" não tem foto: cada estilo mostra um bloco com a
-inicial do negócio.
+de um ramo muda num lugar só. A foto principal de cada ramo é a de `imgs/mod-*.webp`
+(Unsplash, uso comercial sem atribuição), e mais três extras ficam em `imgs/ramos/`, pra
+cartões e faixas não repetirem a mesma imagem. O "outro ramo" também tem as dele.
+
+As extras são do StockSnap, via [Openverse](https://openverse.org), todas **CC0**: domínio
+público, uso comercial livre, sem crédito obrigatório. Saem em WebP 800×600 com qualidade 68,
+cerca de 30 KB cada, e cada prévia só baixa as quatro do ramo escolhido.
+
+| Arquivo | Foto | Origem | Licença |
+|---|---|---|---|
+| `imgs/ramos/barbearia-1.webp` | Barbershop Chair | [StockSnap](https://stocksnap.io/photo/barbershop-chair-7M505B7MYV) | CC0 |
+| `imgs/ramos/barbearia-2.webp` | Barbershop Brush | [StockSnap](https://stocksnap.io/photo/barbershop-brush-GZP9ZEQPFL) | CC0 |
+| `imgs/ramos/barbearia-3.webp` | Barber Razor | [StockSnap](https://stocksnap.io/photo/barber-razor-06HGN8LMUX) | CC0 |
+| `imgs/ramos/salao-1.webp` | Hairdresser Cut | [StockSnap](https://stocksnap.io/photo/hairdresser-cut-S7UEWWIRTD) | CC0 |
+| `imgs/ramos/salao-2.webp` | People Hands | [StockSnap](https://stocksnap.io/photo/people-hands-XX356Q6EI4) | CC0 |
+| `imgs/ramos/salao-3.webp` | Hair Curls | [StockSnap](https://stocksnap.io/photo/hair-curls-R6CKAMVOMZ) | CC0 |
+| `imgs/ramos/petshop-1.webp` | Animal Dog | [StockSnap](https://stocksnap.io/photo/animal-dog-ZO5GDP2QY1) | CC0 |
+| `imgs/ramos/petshop-2.webp` | Animals Puppy | [StockSnap](https://stocksnap.io/photo/animals-puppy-OOH59BAHBL) | CC0 |
+| `imgs/ramos/petshop-3.webp` | Cat Pet | [StockSnap](https://stocksnap.io/photo/cat-pet-XHBLQZQP6J) | CC0 |
+| `imgs/ramos/clinica-1.webp` | Doctor Patient | [StockSnap](https://stocksnap.io/photo/doctor-patient-EDI8LWKSBB) | CC0 |
+| `imgs/ramos/clinica-2.webp` | Stethoscope Medical | [StockSnap](https://stocksnap.io/photo/stethoscope-medical-9M1HWW2JFV) | CC0 |
+| `imgs/ramos/clinica-3.webp` | Male Doctor | [StockSnap](https://stocksnap.io/photo/male-doctor-KN1OCKC4Y2) | CC0 |
+| `imgs/ramos/restaurante-1.webp` | Food Plate | [StockSnap](https://stocksnap.io/photo/food-plate-LF3YEO5Q13) | CC0 |
+| `imgs/ramos/restaurante-2.webp` | Restaurant Kitchen | [StockSnap](https://stocksnap.io/photo/restaurant-kitchen-0HCMIT272C) | CC0 |
+| `imgs/ramos/restaurante-3.webp` | Steak Potatoes | [StockSnap](https://stocksnap.io/photo/steak-potatoes-WYGI6J1B0S) | CC0 |
+| `imgs/ramos/mercado-1.webp` | Guy Man | [StockSnap](https://stocksnap.io/photo/guy-man-HGWAXJFSVV) | CC0 |
+| `imgs/ramos/mercado-2.webp` | Fruit Vegetables | [StockSnap](https://stocksnap.io/photo/fruit-vegetables-F8B73CPSBK) | CC0 |
+| `imgs/ramos/mercado-3.webp` | Market Fruits | [StockSnap](https://stocksnap.io/photo/market-fruits-VBQSBXBAO8) | CC0 |
+| `imgs/ramos/outro-0.webp` | Office Work | [StockSnap](https://stocksnap.io/photo/office-work-42H3JH8QI5) | CC0 |
+| `imgs/ramos/outro-1.webp` | Floorplan Workshop | [StockSnap](https://stocksnap.io/photo/floorplan-workshop-N3BPNPN0FY) | CC0 |
+| `imgs/ramos/outro-2.webp` | Tools Workshop | [StockSnap](https://stocksnap.io/photo/tools-workshop-KD30XPQR0A) | CC0 |
+| `imgs/ramos/outro-3.webp` | Office Work | [StockSnap](https://stocksnap.io/photo/office-work-030TCBJQ8C) | CC0 |
 
 **Responsivo sem media query de janela.** Os mini-sites usam *container queries*
 (`@container site`): quem decide o layout é a largura da moldura, não a da tela. É isso
