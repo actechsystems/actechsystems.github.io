@@ -719,35 +719,6 @@
     margin-top: 56px; padding: 40px 42px;
     background: var(--bg); border-radius: var(--r-card); box-shadow: var(--nm-out);
   }
-  .conta-linha {
-    display: flex; align-items: stretch; justify-content: center; gap: 18px;
-    flex-wrap: wrap; margin-top: 34px;
-  }
-  .conta-passo {
-    flex: 1 1 190px; min-width: 0; padding: 24px 22px; border-radius: var(--r-base);
-    background: var(--bg); box-shadow: var(--nm-in-sm); text-align: center;
-  }
-  .conta-passo--fim { box-shadow: var(--nm-out-sm); }
-  /* cada passo da conta com a sua cor: o custo em indigo, o ticket em ambar e
-     o resultado em verde - a cor conta a historia junto com o numero */
-  .conta-passo:nth-of-type(1) .conta-num { color: var(--t1); }
-  .conta-passo:nth-of-type(2) .conta-num { color: var(--t6); }
-  .conta-passo--fim .conta-num { color: var(--t8); }
-  .conta-passo--fim { background: var(--f8); }
-  .conta-op:nth-of-type(1) { color: var(--t6); }
-  .conta-num {
-    display: block; font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
-    font-weight: 800; font-size: clamp(26px, 3.2vw, 36px); letter-spacing: -.035em; color: var(--fg);
-  }
-  .conta-rot { display: block; margin-top: 8px; font-size: 13.5px; line-height: 1.45; color: var(--muted); }
-  .conta-op {
-    align-self: center; font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
-    font-weight: 800; font-size: 26px; color: var(--placeholder); flex: none;
-  }
-  .conta-pe {
-    display: flex; align-items: center; justify-content: space-between; gap: 22px;
-    flex-wrap: wrap; margin-top: 32px;
-  }
 
   /* ---------- os tres cartoes do diagnostico ----------
      Eram pastilhas de uma linha, todas roxas. Agora cada um diz o que a pessoa
@@ -988,6 +959,7 @@
     .sis-nums { grid-template-columns: minmax(0,1fr); }
   }
 
+  .calc:empty { min-height: 330px; }
   /* as duas portas do topo: previa de site e sistema que funciona */
   .hero-teste { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 12px; margin-top: 26px; font-size: 14.5px; color: #59616E; }
   .hero-teste a {
@@ -1769,11 +1741,6 @@
     .duelo-linha { padding: 13px 12px; margin: 0 -12px; }
     .duelo-medidor { padding: 24px 20px; }
     .duelo-barra-cab { flex-wrap: wrap; }
-    /* em coluna, o flex-basis de 190px vira ALTURA e estica os cartões */
-    .conta-linha { flex-direction: column; gap: 10px; margin-top: 26px; }
-    .conta-passo { flex: 0 0 auto; width: 100%; }
-    .conta-op { font-size: 22px; }   /* girado, o "÷" vira um glifo estranho */
-    .conta-passo { padding: 20px 18px; }
     /* ADS OFF */
     /* .ads-chip { font-size: 13px; padding: 10px 15px 10px 11px; } */
 
@@ -2903,46 +2870,23 @@
       </div>
     </div>
 
-    <!-- A conta do padeiro: mostra em quantos clientes a mensalidade se paga.
-         O ticket médio de R$ 50 é o chute que faz a conta fechar em 4 clientes;
-         mexeu no preço do plano, confira os dois números aqui embaixo. -->
+    <!-- A conta do padeiro, agora mexivel: em quantos clientes a mensalidade se
+         paga. Os precos dos planos estao em PLANOS, no extras/calculadora.js --
+         mexeu no preco dos cards, muda la tambem. -->
     <div data-reveal="1" class="conta">
       <div class="conta-cab">
         <div class="eyebrow eyebrow--8">A conta</div>
         <h3 class="font-display" style="font-weight: 800; font-size: clamp(24px, 3vw, 34px); line-height: 1.1; margin: 14px 0 0; color: #3D4852; max-width: 20ch;">Quando é que o plano se paga?</h3>
         <p style="margin: 14px 0 0; font-size: 15.5px; line-height: 1.7; color: #59616E; max-width: 44ch;">
-          A mensalidade não é uma despesa a mais no mês — é a conta mais simples que você faz hoje.
+          Coloque os seus números: quanto um cliente gasta, quantas vezes volta e quantos
+          clientes novos você espera. A conta aparece na hora.
         </p>
       </div>
 
-      <div class="conta-linha">
-        <div class="conta-passo">
-          <span class="conta-num">R$ 259,99</span>
-          <span class="conta-rot">o Essencial, por mês</span>
-        </div>
-        <span class="conta-op" aria-hidden="true">÷</span>
-        <div class="conta-passo">
-          <span class="conta-num">R$ 50</span>
-          <span class="conta-rot">o que um cliente novo deixa no caixa</span>
-        </div>
-        <span class="conta-op" aria-hidden="true">=</span>
-        <div class="conta-passo conta-passo--fim">
-          <span class="conta-num">6 clientes</span>
-          <span class="conta-rot">e o mês inteiro já se pagou</span>
-        </div>
-      </div>
-
-      <div class="conta-pe">
-        <div class="nm-pill" style="padding: 12px 20px;">
-          <span style="width: 8px; height: 8px; border-radius: 999px; background: var(--c8); display: block;"></span>
-          <span style="color: var(--t8); font-weight: 700;">Do sétimo cliente em diante, é lucro</span>
-        </div>
-        <p style="margin: 0; font-size: 12.5px; line-height: 1.6; color: #7F8898; max-width: 52ch;">
-          Conta feita com ticket médio de R$ 50 — troque pelo seu que a lógica é a mesma
-          (no Completo, R$ 597,99, são 12 clientes). É um exemplo de como pensar o investimento,
-          não uma promessa de resultado.
-        </p>
-      </div>
+      <!-- A calculadora (extras/calculadora.js): plano, ticket, frequencia e
+           clientes novos, tudo informado pela pessoa. Monta vazia do React e
+           e preenchida quando a secao chega perto (setupCalculadora). -->
+      <div class="calc" data-calc></div>
     </div>
   </section>
 
@@ -3654,6 +3598,7 @@ class Component extends DCLogic {
     this.setupEstilos();
     this.setupSistemas();
     this.setupSistema();
+    this.setupCalculadora();
   }
 
   /* ---------------------------------------------------------------
@@ -3758,6 +3703,32 @@ class Component extends DCLogic {
     }, { rootMargin: '900px 0px' });
     io.observe(raiz);
     this._teardown.push(() => { io.disconnect(); if (api) api.destruir(); });
+  }
+
+  /* ---------------------------------------------------------------
+     A calculadora dos planos (extras/). Mesmo esquema de sob demanda.
+     --------------------------------------------------------------- */
+  setupCalculadora() {
+    const raiz = document.querySelector('[data-calc]');
+    if (!raiz) return;
+    const V = '1';
+    const carregar = () => {
+      if (window.ACTechCalc) return window.ACTechCalc.montar(raiz);
+      const css = document.createElement('link');
+      css.rel = 'stylesheet'; css.href = 'extras/extras.css?v=' + V;
+      const js = document.createElement('script');
+      js.src = 'extras/calculadora.js?v=' + V; js.async = true;
+      let prontos = 0;
+      const um = () => { if (++prontos === 2 && window.ACTechCalc) window.ACTechCalc.montar(raiz); };
+      css.onload = um; css.onerror = um; js.onload = um;
+      document.head.appendChild(css); document.head.appendChild(js);
+    };
+    const io = new IntersectionObserver((entries) => {
+      if (!entries.some((e) => e.isIntersecting)) return;
+      io.disconnect(); carregar();
+    }, { rootMargin: '900px 0px' });
+    io.observe(raiz);
+    this._teardown.push(() => io.disconnect());
   }
 
   /* ---------------------------------------------------------------
