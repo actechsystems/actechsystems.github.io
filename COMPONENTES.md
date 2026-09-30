@@ -531,6 +531,14 @@ cerca de 30 KB cada, e cada prévia só baixa as quatro do ramo escolhido.
 | `imgs/ramos/outro-2.webp` | Tools Workshop | [StockSnap](https://stocksnap.io/photo/tools-workshop-KD30XPQR0A) | CC0 |
 | `imgs/ramos/outro-3.webp` | Office Work | [StockSnap](https://stocksnap.io/photo/office-work-030TCBJQ8C) | CC0 |
 
+**O aparelho.** A prévia fica dentro de um notebook (tela com borda, câmera, barra do
+navegador com os três botões coloridos e base de alumínio) ou de um celular (ilha da câmera,
+barra de status com hora e bateria, endereço embaixo e botões laterais). É o mesmo HTML: o
+`data-modo` do `.est-aparelho` troca a forma e o CSS anima a passagem. Em tela de até 760px
+não tem escolha: abre direto no celular. A barra de status pega a cor de fundo do estilo
+(`amostra.bg`), e a hora é a do relógio do visitante. É desenho em CSS, sem logo nem imagem
+de marca.
+
 **Responsivo sem media query de janela.** Os mini-sites usam *container queries*
 (`@container site`): quem decide o layout é a largura da moldura, não a da tela. É isso
 que faz o botão "Celular" funcionar: ele só estreita a moldura pra 380px.

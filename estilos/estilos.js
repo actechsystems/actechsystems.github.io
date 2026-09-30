@@ -670,13 +670,31 @@
         }).join('') +
       '</div>' +
       '<div class="est-palco">' +
-        '<div class="est-barra"><span class="est-bolinhas"><i></i><i></i><i></i></span><span class="est-url" data-url></span>' +
+        '<div class="est-barra"><span class="est-barra-txt">Veja no</span>' +
           '<span class="est-disp" role="group" aria-label="Ver como">' +
             '<button type="button" data-disp="pc" aria-pressed="true" title="Computador">' + ico('pc') + '<span>Computador</span></button>' +
             '<button type="button" data-disp="cel" aria-pressed="false" title="Celular">' + ico('cel') + '<span>Celular</span></button></span></div>' +
-        '<div class="est-moldura" data-moldura><div class="est-site" data-site role="region" aria-label="Prévia do site" tabindex="-1"></div>' +
-          '<div class="est-aviso" data-aviso role="status"></div>' +
-          '<div class="est-veu" data-veu></div></div>' +
+        // o aparelho: MacBook no computador, iPhone no celular. O mesmo HTML
+        // muda de forma so pelo data-modo -- a troca anima no CSS.
+        '<div class="est-aparelho" data-aparelho>' +
+          '<div class="est-corpo">' +
+            '<i class="est-camera" aria-hidden="true"></i>' +
+            '<div class="est-vidro" data-vidro>' +
+              '<div class="est-status" aria-hidden="true"><b data-hora>9:41</b><span>' +
+                '<svg viewBox="0 0 18 12"><rect x="0" y="8" width="3" height="4" rx=".8"/><rect x="5" y="5.5" width="3" height="6.5" rx=".8"/><rect x="10" y="3" width="3" height="9" rx=".8"/><rect x="15" y="0" width="3" height="12" rx=".8"/></svg>' +
+                '<svg viewBox="0 0 16 12"><path d="M8 11.5l2.4-2.9a3.6 3.6 0 0 0-4.8 0zM3.3 6.3a7 7 0 0 1 9.4 0l1.6-1.9a9.6 9.6 0 0 0-12.6 0zM.2 2.6a11.7 11.7 0 0 1 15.6 0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>' +
+                '<i class="est-bateria"><i></i></i></span></div>' +
+              '<div class="est-safari"><span class="est-semaforo" aria-hidden="true"><i></i><i></i><i></i></span>' +
+                '<span class="est-setas" aria-hidden="true">‹ ›</span>' +
+                '<span class="est-url"><svg viewBox="0 0 12 14" aria-hidden="true"><rect x="1" y="6" width="10" height="7.5" rx="1.6"/><path d="M3.5 6V4.2a2.5 2.5 0 0 1 5 0V6" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><span data-url></span></span></div>' +
+              '<div class="est-moldura" data-moldura><div class="est-site" data-site role="region" aria-label="Prévia do site" tabindex="-1"></div>' +
+                '<div class="est-aviso" data-aviso role="status"></div>' +
+                '<div class="est-veu" data-veu></div></div>' +
+              '<i class="est-home" aria-hidden="true"></i>' +
+            '</div>' +
+          '</div>' +
+          '<div class="est-base" aria-hidden="true"><i></i></div>' +
+        '</div>' +
       '</div>' +
       '<div class="est-acoes" data-acoes>' +
         '<p data-acoes-txt></p>' +
@@ -687,6 +705,18 @@
 
     var $ = function (s) { return raiz.querySelector(s); };
     var lista = $('.est-lista'), site = $('[data-site]'), veu = $('[data-veu]'), moldura = $('[data-moldura]');
+    var aparelho = $('[data-aparelho]'), vidro = $('[data-vidro]');
+    // tela estreita (celular de verdade): nao tem escolha, e iPhone
+    var estreita = window.matchMedia ? window.matchMedia('(max-width: 760px)') : { matches: false };
+    function aplicaModo() {
+      var modo = estreita.matches ? 'cel' : st.disp;
+      aparelho.dataset.modo = modo;
+      moldura.dataset.modo = modo;
+      var d = new Date();
+      $('[data-hora]').textContent = d.getHours() + ':' + ('0' + d.getMinutes()).slice(-2);
+    }
+    function mudouTela() { aplicaModo(); }
+    if (estreita.addEventListener) estreita.addEventListener('change', mudouTela);
     var opcoes = [].slice.call(raiz.querySelectorAll('.est-opcao'));
     var tiraAviso;
 
@@ -722,6 +752,9 @@
       var troca = function () {
         site.innerHTML = e.render(v);
         site.dataset.estilo = e.id;
+        // a barra de status do iPhone pega a cor do topo do site
+        vidro.style.setProperty('--st-bg', e.amostra.bg);
+        vidro.style.setProperty('--st-fg', e.amostra.fg);
         site.scrollTop = 0;
         site.classList.remove('is-saindo');
       };
@@ -823,7 +856,7 @@
       }
       if ((b = t.closest('[data-disp]'))) {
         st.disp = b.dataset.disp;
-        moldura.dataset.modo = st.disp;
+        aplicaModo();
         raiz.querySelectorAll('[data-disp]').forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
         return;
       }
@@ -931,7 +964,7 @@
     raiz.addEventListener('submit', noEnvio);
     raiz.addEventListener('keydown', noTeclado);
 
-    moldura.dataset.modo = st.disp;
+    aplicaModo();
     desenhar(false);
     etapa(st.etapa);
 
@@ -940,6 +973,7 @@
         raiz.removeEventListener('click', noClique);
         raiz.removeEventListener('submit', noEnvio);
         raiz.removeEventListener('keydown', noTeclado);
+        if (estreita.removeEventListener) estreita.removeEventListener('change', mudouTela);
         clearTimeout(tiraAviso);
         raiz.__estilos = null;
       }

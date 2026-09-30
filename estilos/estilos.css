@@ -40,17 +40,11 @@
 
 .est-palco {
   position: relative; min-width: 0; border-radius: var(--r-card);
-  background: var(--bg); box-shadow: var(--nm-out); padding: 12px 14px 14px;
+  background: var(--bg); box-shadow: var(--nm-out); padding: 14px 24px 30px;
 }
-.est-barra { display: flex; align-items: center; gap: 10px; padding: 0 4px 12px; min-width: 0; }
-.est-bolinhas { display: flex; gap: 7px; flex: none; }
-.est-bolinhas i { width: 9px; height: 9px; border-radius: 999px; background: rgba(61,72,92,.24); }
-.est-url {
-  min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-  font-size: 12.5px; padding: 5px 14px; border-radius: var(--r-pill);
-  color: var(--muted); box-shadow: var(--nm-in-sm);
-}
-.est-disp { margin-left: auto; display: flex; gap: 4px; padding: 4px; border-radius: 12px; box-shadow: var(--nm-in-sm); flex: none; }
+.est-barra { display: flex; align-items: center; justify-content: flex-end; gap: 10px; padding: 0 0 16px; min-width: 0; }
+.est-barra-txt { font-size: 12.5px; font-weight: 700; color: var(--muted); }
+.est-disp { display: flex; gap: 4px; padding: 4px; border-radius: 12px; box-shadow: var(--nm-in-sm); flex: none; }
 .est-disp button {
   display: inline-flex; align-items: center; gap: 6px; border: 0; background: transparent; font: inherit;
   font-size: 12.5px; font-weight: 700; color: var(--muted); padding: 6px 10px; border-radius: 9px;
@@ -59,15 +53,92 @@
 .est-disp button[aria-pressed="true"] { color: var(--accent); background: var(--bg); box-shadow: var(--nm-out-sm); }
 .est-disp .est-i { width: 16px; height: 16px; }
 
-.est-moldura {
-  position: relative; height: 600px; max-width: 100%; margin: 0 auto;
-  border-radius: 18px; overflow: hidden; background: #fff;
-  transition: max-width .5s var(--ease), height .5s var(--ease), border-radius .5s var(--ease), box-shadow .5s var(--ease);
+/* ---- o aparelho ----
+   Um HTML so, duas formas. data-modo="pc": tampa de notebook com borda
+   preta, camera em cima, barra do navegador com os tres botoes e a base de
+   aluminio embaixo. data-modo="cel": corpo de celular arredondado, ilha da
+   camera, barra de status com hora e bateria, endereco embaixo como no
+   navegador do celular e o risquinho de "voltar pro inicio". Tudo que muda
+   de um pro outro anima: largura, altura, raio e a base sumindo. */
+.est-aparelho { position: relative; margin: 0 auto; }
+.est-corpo {
+  position: relative; width: 100%; margin: 0 auto; padding: 18px 14px 14px; border-radius: 18px 18px 6px 6px;
+  background: #0d0e11; box-shadow: inset 0 0 0 1.5px #34373e, 0 22px 40px rgba(20,30,50,.22);
+  transition: width .55s var(--ease), padding .55s var(--ease), border-radius .55s var(--ease), box-shadow .55s var(--ease);
 }
-.est-moldura[data-modo="cel"] {
-  max-width: 380px; height: 660px; border-radius: 38px; margin: 10px auto;
-  box-shadow: 0 0 0 9px #1b1e25, 0 0 0 10px #3b404b, 0 26px 50px rgba(20,30,50,.28);
+.est-camera {
+  position: absolute; z-index: 8; left: 50%; top: 6px; width: 6px; height: 6px; transform: translateX(-50%);
+  border-radius: 99px; background: #23262d; box-shadow: inset 0 0 0 1.5px #3a3e47;
+  transition: top .55s var(--ease), width .55s var(--ease), height .55s var(--ease), background .55s;
 }
+.est-vidro {
+  --st-bg: #fff; --st-fg: #111;
+  position: relative; display: flex; flex-direction: column; height: 580px; overflow: hidden;
+  border-radius: 4px; background: #fff;
+  transition: height .55s var(--ease), border-radius .55s var(--ease);
+}
+/* a barra de status so existe no celular */
+.est-status { display: none; }
+.est-safari {
+  flex: none; display: flex; align-items: center; gap: 14px; height: 40px; padding: 0 14px;
+  background: #f3f3f5; border-bottom: 1px solid #dcdce1; color: #3a3a3c;
+}
+.est-safari::after { content: ''; flex: none; width: 96px; }
+.est-semaforo { display: flex; gap: 7px; flex: none; }
+.est-semaforo i { width: 12px; height: 12px; border-radius: 99px; background: #ff5f57; box-shadow: inset 0 0 0 .5px rgba(0,0,0,.12); }
+.est-semaforo i:nth-child(2) { background: #febc2e; }
+.est-semaforo i:nth-child(3) { background: #28c840; }
+.est-setas { flex: none; font-size: 20px; line-height: 1; letter-spacing: 6px; color: #a1a1a6; }
+.est-url {
+  display: flex; align-items: center; justify-content: center; gap: 6px; min-width: 0; flex: 0 1 380px; margin: 0 auto;
+  padding: 5px 12px; border-radius: 8px; background: #e4e4e9; font-size: 12.5px;
+}
+.est-url > span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.est-url svg { flex: none; width: 10px; height: 12px; fill: currentColor; opacity: .55; }
+.est-moldura { position: relative; flex: 1; min-height: 0; background: #fff; }
+.est-home { display: none; }
+.est-base {
+  position: relative; height: 14px; margin: 0 -22px; border-radius: 2px 2px 14px 14px / 2px 2px 10px 10px;
+  background: linear-gradient(180deg, #eceef1 0, #cfd3d8 45%, #a8adb5 100%);
+  box-shadow: 0 14px 22px rgba(20,30,50,.18);
+  transition: opacity .35s var(--ease), height .45s var(--ease);
+}
+.est-base i { position: absolute; left: 50%; top: 0; width: 15%; height: 5px; transform: translateX(-50%); border-radius: 0 0 7px 7px; background: #b3b8c0; }
+
+/* celular */
+.est-aparelho[data-modo="cel"] .est-corpo {
+  width: 360px; max-width: 100%; padding: 12px; border-radius: 58px; background: #111216;
+  box-shadow: inset 0 0 0 2px #2b2e35, 0 0 0 2px #7f848d, 0 0 0 3.5px #3b3e46, 0 30px 60px rgba(20,30,50,.3);
+}
+/* botoes laterais: silencio e volume na esquerda, liga/desliga na direita */
+.est-aparelho[data-modo="cel"] .est-corpo::before,
+.est-aparelho[data-modo="cel"] .est-corpo::after {
+  content: ''; position: absolute; width: 4px; border-radius: 2px; background: #7f848d;
+}
+.est-aparelho[data-modo="cel"] .est-corpo::before { left: -5px; top: 118px; height: 28px; box-shadow: 0 52px 0 0 #7f848d, 0 112px 0 0 #7f848d; }
+.est-aparelho[data-modo="cel"] .est-corpo::after { right: -5px; top: 186px; height: 86px; }
+.est-aparelho[data-modo="cel"] .est-camera { top: 22px; width: 98px; height: 29px; background: #000; box-shadow: none; }
+.est-aparelho[data-modo="cel"] .est-vidro { height: 700px; border-radius: 46px; }
+.est-aparelho[data-modo="cel"] .est-status {
+  flex: none; display: flex; align-items: center; justify-content: space-between; height: 50px; padding: 8px 30px 0 34px;
+  background: var(--st-bg); color: var(--st-fg); font: 600 15px/1 -apple-system, 'SF Pro Text', system-ui, sans-serif;
+}
+.est-status > span { display: flex; align-items: center; gap: 6px; }
+.est-status svg { height: 11px; width: auto; fill: currentColor; }
+.est-bateria { position: relative; display: block; width: 24px; height: 12px; border-radius: 4px; box-shadow: inset 0 0 0 1.3px currentColor; opacity: .9; }
+.est-bateria::after { content: ''; position: absolute; right: -3px; top: 4px; width: 2px; height: 4px; border-radius: 0 1px 1px 0; background: currentColor; }
+.est-bateria i { position: absolute; left: 2.5px; top: 2.5px; bottom: 2.5px; width: 14px; border-radius: 2px; background: currentColor; }
+.est-aparelho[data-modo="cel"] .est-safari {
+  order: 3; justify-content: center; height: 70px; padding: 8px 18px 22px; background: #f6f6f8; border: 0; border-top: 1px solid #e2e2e7;
+}
+.est-aparelho[data-modo="cel"] .est-safari::after,
+.est-aparelho[data-modo="cel"] .est-semaforo,
+.est-aparelho[data-modo="cel"] .est-setas { display: none; }
+.est-aparelho[data-modo="cel"] .est-url { flex: 1 1 auto; margin: 0; padding: 10px 14px; border-radius: 12px; background: #e6e6eb; font-size: 13.5px; }
+.est-aparelho[data-modo="cel"] .est-moldura { order: 2; }
+.est-aparelho[data-modo="cel"] .est-home { display: block; position: absolute; z-index: 7; left: 50%; bottom: 8px; width: 124px; height: 5px; transform: translateX(-50%); border-radius: 99px; background: #111; }
+.est-aparelho[data-modo="cel"] .est-base { opacity: 0; height: 0; }
+
 .est-site {
   height: 100%; overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain;
   container-type: inline-size; container-name: site;
@@ -169,9 +240,11 @@
   .est-acoes { grid-column: auto; }
 }
 @media (max-width: 760px) {
-  .est-disp { display: none; }
-  .est-palco { padding: 10px 10px 10px; }
-  .est-moldura, .est-moldura[data-modo="cel"] { height: 580px; max-width: 100%; margin: 0; border-radius: 16px; box-shadow: none; }
+  .est-barra { display: none; }
+  .est-palco { padding: 18px 10px 20px; }
+  .est-aparelho[data-modo="cel"] .est-corpo { width: min(360px, calc(100% - 8px)); padding: 10px; border-radius: 50px; }
+  .est-aparelho[data-modo="cel"] .est-vidro { height: 640px; border-radius: 40px; }
+  .est-aparelho[data-modo="cel"] .est-camera { top: 19px; width: 88px; height: 26px; }
   .est-cartao { padding: 20px; }
   .est-cartao--convite > b { font-size: 19px; }
   .est-acoes-bts, .est-acoes-bts .btn { width: 100%; }
