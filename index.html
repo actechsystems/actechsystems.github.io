@@ -1028,93 +1028,18 @@
     .sis-nums { grid-template-columns: minmax(0,1fr); }
   }
 
-  /* ---------- modelos de site: o demonstrativo ----------
-     Cada modelo e um mini-site montado em HTML e CSS, nao uma captura. Custa
-     zero byte de imagem, fica nitido em qualquer tela e da pra editar o texto
-     de um segmento sem abrir editor de imagem. A troca de segmento e so troca
-     de classe: as quatro telas ja estao no DOM, empilhadas na mesma celula de
-     grid, e a que esta ativa sobe em opacidade.
-
-     As cores de cada modelo entram por variavel inline (--tb fundo, --tf texto,
-     --ta destaque, --ts cartao, --tbt texto do botao). Todas as combinacoes
-     foram medidas: texto/fundo fica entre 11,9 e 15,8, destaque/fundo nunca
-     abaixo de 4,5 e o texto do botao sobre o destaque tambem passa. Ao criar
-     um modelo novo, refaca essas tres contas. */
-  .mod { margin-top: 42px; }
-  .mod-abas { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 26px; }
-  .mod-aba {
-    border: none; cursor: pointer; font: inherit; font-size: 14.5px; font-weight: 700;
-    padding: 12px 22px; border-radius: var(--r-pill); color: var(--muted);
-    background: var(--bg); box-shadow: var(--nm-out-sm);
-    transition: color .25s var(--ease), box-shadow .25s var(--ease), transform .25s var(--ease);
+  /* ---------- modelos de site: "veja como ficaria o seu site" ----------
+     O configurador inteiro (lista de estilos, perguntas, os nove mini-sites)
+     mora em estilos/estilos.css e estilos/estilos.js, que so descem quando a
+     secao chega perto da tela -- ver setupEstilos(). Aqui fica so o que
+     precisa existir antes disso: a altura reservada, pra pagina nao pular
+     quando o modulo monta. */
+  .est:empty {
+    min-height: 700px; margin-top: 42px; border-radius: var(--r-card);
+    background: var(--bg); box-shadow: var(--nm-out);
   }
-  .mod-aba:hover { transform: translateY(-2px); color: var(--fg); }
-  .mod-aba.is-on { color: var(--aba, var(--accent)); box-shadow: var(--nm-in); transform: none; }
-
-  .mod-palco {
-    position: relative; display: grid; border-radius: var(--r-card);
-    background: var(--bg); box-shadow: var(--nm-out); padding: 14px;
-  }
-  .mod-tela {
-    grid-area: 1 / 1; border-radius: 18px; overflow: hidden;
-    background: var(--tb); color: var(--tf);
-    opacity: 0; visibility: hidden; transform: translateY(10px) scale(.994);
-    transition: opacity .45s var(--ease), transform .45s var(--ease), visibility .45s;
-  }
-  .mod-tela.is-on { opacity: 1; visibility: visible; transform: none; }
-
-  .mod-chrome {
-    display: flex; align-items: center; gap: 7px; padding: 11px 14px;
-    background: color-mix(in srgb, var(--tf) 7%, var(--tb));
-  }
-  .mod-chrome i { width: 9px; height: 9px; border-radius: 999px; background: color-mix(in srgb, var(--tf) 22%, var(--tb)); flex: none; }
-  .mod-url {
-    margin-left: 8px; font-size: 11.5px; padding: 4px 14px; border-radius: 999px;
-    background: var(--tb); color: color-mix(in srgb, var(--tf) 62%, var(--tb));
-  }
-
-  .mod-nav { display: flex; align-items: center; gap: 20px; padding: 16px 26px; font-size: 12.5px; }
-  .mod-nav b { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; font-weight: 800; font-size: 15px; letter-spacing: -.02em; }
-  .mod-nav span { color: color-mix(in srgb, var(--tf) 70%, var(--tb)); }
-  .mod-nav em { margin-left: auto; font-style: normal; font-weight: 700; padding: 8px 16px; border-radius: 999px; background: var(--ta); color: var(--tbt); }
-
-  .mod-hero { display: grid; grid-template-columns: minmax(0,1.05fr) minmax(0,.95fr); gap: 26px; align-items: center; padding: 22px 26px 26px; }
-  .mod-hero h3 {
-    font-family: 'Plus Jakarta Sans', system-ui, sans-serif; font-weight: 800;
-    font-size: clamp(19px, 2.3vw, 27px); line-height: 1.12; letter-spacing: -.025em; margin: 0;
-  }
-  .mod-hero p { margin: 11px 0 0; font-size: 13px; line-height: 1.6; color: color-mix(in srgb, var(--tf) 72%, var(--tb)); }
-  .mod-btn { display: inline-block; margin-top: 16px; font-size: 12.5px; font-weight: 700; padding: 10px 20px; border-radius: 999px; background: var(--ta); color: var(--tbt); }
-  /* A foto entra por variavel (--tfoto) e o gradiente do modelo fica por cima,
-     em veu: e ele que amarra quatro fotos de origens diferentes a paleta de
-     cada template. Sem o veu, as fotos brigavam com a cor do site. */
-  .mod-arte {
-    border-radius: 14px; aspect-ratio: 4 / 3; position: relative; overflow: hidden;
-    background: var(--tg) center / cover no-repeat;
-  }
-  .mod-arte img {
-    position: absolute; inset: 0; width: 100%; height: 100%;
-    object-fit: cover; display: block;
-  }
-  .mod-arte::after {
-    content: ''; position: absolute; inset: 0;
-    background: var(--tg); opacity: .26; mix-blend-mode: multiply;
-  }
-
-  .mod-cards { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 12px; padding: 0 26px 26px; }
-  .mod-card { border-radius: 12px; padding: 14px 15px; background: var(--ts); }
-  .mod-card b { display: block; font-size: 12.5px; font-weight: 700; }
-  .mod-card span { display: block; margin-top: 5px; font-size: 11.5px; line-height: 1.5; color: color-mix(in srgb, var(--tf) 68%, var(--ts)); }
-
+  @media (max-width: 980px) { .est:empty { min-height: 780px; } }
   .mod-pe { margin: 18px 0 0; font-size: 12.5px; line-height: 1.6; color: var(--placeholder); text-align: center; }
-
-  @media (max-width: 760px) {
-    .mod-hero { grid-template-columns: minmax(0,1fr); gap: 18px; }
-    .mod-hero .mod-arte { order: -1; aspect-ratio: 16 / 9; }
-    .mod-cards { grid-template-columns: 1fr; }
-    .mod-nav span { display: none; }
-    .mod-aba { font-size: 13px; padding: 10px 16px; }
-  }
 
   /* ---------- aurora: as cores que passam no fundo ----------
      Sao manchas de cor que derivam devagar atras de tudo. Duas regras que essa
@@ -2365,155 +2290,24 @@
   </section>
 
 
-  <!-- Os modelos sao mini-sites de verdade, montados em HTML e CSS: nenhuma
-       imagem, nitidos em qualquer tela, e trocar o texto de um segmento e
-       editar texto, nao abrir editor de imagem. As quatro telas vivem juntas
-       na mesma celula de grid; trocar de segmento e trocar de classe. -->
+  <!-- "Veja como ficaria o seu site": a pessoa escolhe um estilo, diz o nome,
+       o ramo e a cidade, e ve um mini-site de verdade com o nome dela, em
+       nove estilos. O [data-estilos] sai do React VAZIO de proposito: quem
+       enche e o estilos/estilos.js (setupEstilos), e como o React nao tem
+       filho nenhum ali, re-render do componente nunca apaga a previa. -->
   <section data-anima id="modelos" class="wrap pad-section" style="position: relative; z-index: 1; padding-top: 20px; padding-bottom: 100px;">
     <div data-reveal="1" style="text-align: center; max-width: 62ch; margin: 0 auto;">
       <div class="eyebrow eyebrow--3">Modelos de site</div>
-      <h2 class="font-display" style="font-weight: 800; font-size: clamp(30px, 4.2vw, 50px); line-height: 1.05; margin: 18px 0 0; color: var(--fg);">O seu site não vai parecer o de todo mundo.</h2>
+      <h2 class="font-display" style="font-weight: 800; font-size: clamp(30px, 4.2vw, 50px); line-height: 1.05; margin: 18px 0 0; color: var(--fg);">Veja o seu site pronto antes de fechar qualquer coisa.</h2>
       <p style="margin: 22px 0 0; font-size: 16.5px; line-height: 1.7; color: var(--muted);">
-        Cada ramo vende de um jeito, então cada um ganha um site com a sua cara.
-        Escolha o seu aí embaixo e veja como ele ficaria.
+        Escolha um estilo, conte o nome do seu negócio e veja na hora como ele ficaria,
+        no computador e no celular. São três perguntas.
       </p>
     </div>
 
-    <div class="mod" data-reveal="1" data-mod>
-      <div class="mod-abas" role="tablist" aria-label="Segmentos">
-        <button class="mod-aba is-on" data-mod-aba="0" type="button" role="tab" aria-selected="true" style="--aba: #2E7D34;">Mercado</button>
-        <button class="mod-aba" data-mod-aba="1" type="button" role="tab" aria-selected="false" style="--aba: #9A6F12;">Barbearia</button>
-        <button class="mod-aba" data-mod-aba="2" type="button" role="tab" aria-selected="false" style="--aba: #B2481A;">Restaurante</button>
-        <button class="mod-aba" data-mod-aba="3" type="button" role="tab" aria-selected="false" style="--aba: #17699C;">Clínica</button>
-        <button class="mod-aba" data-mod-aba="4" type="button" role="tab" aria-selected="false" style="--aba: #B45309;">Pet shop</button>
-        <button class="mod-aba" data-mod-aba="5" type="button" role="tab" aria-selected="false" style="--aba: #A31E4D;">Salão</button>
-      </div>
+    <div class="est" data-reveal="1" data-estilos></div>
 
-      <div class="mod-palco">
-        <div class="mod-tela is-on" data-mod-tela="0" 
-             style="--tb: #F7FBF4; --tf: #1B3A22; --ta: #2E7D34; --ts: #E4F2E5; --tbt: #FFFFFF; --tg: linear-gradient(140deg,#5FBF66,#2E7D34);">
-          <div class="mod-chrome"><i></i><i></i><i></i><span class="mod-url">mercadodobairro.com.br</span></div>
-          <div class="mod-nav"><b>Mercado do Bairro</b><span>Ofertas</span><span>Setores</span><span>Entrega</span><em>Pedir no WhatsApp</em></div>
-          <div class="mod-hero">
-            <div>
-              <h3>A feira da semana, entregue na sua porta.</h3>
-              <p>Mais de dois mil itens, preço de mercado de bairro e entrega no mesmo dia para quem mora perto.</p>
-              <span class="mod-btn">Ver ofertas da semana</span>
-            </div>
-            <div class="mod-arte">
-              <img src="imgs/mod-mercado.webp" alt="Prateleira de hortifruícolas num mercado de bairro" loading="lazy" decoding="async" />
-            </div>
-          </div>
-          <div class="mod-cards">
-            <div class="mod-card"><b>Entrega no dia</b><span>Pedido até as 16h chega até as 19h.</span></div>
-            <div class="mod-card"><b>Ofertas toda terça</b><span>A lista nova sai cedo, direto no WhatsApp.</span></div>
-            <div class="mod-card"><b>Conta do mês</b><span>Cliente antigo fecha no fim do mês, como sempre foi.</span></div>
-          </div>
-        </div>
-        <div class="mod-tela" data-mod-tela="1" aria-hidden="true"
-             style="--tb: #17171A; --tf: #F5F0EA; --ta: #D9A441; --ts: #232328; --tbt: #17171A; --tg: linear-gradient(140deg,#3A3A42,#17171A);">
-          <div class="mod-chrome"><i></i><i></i><i></i><span class="mod-url">barbearianavalha.com.br</span></div>
-          <div class="mod-nav"><b>Navalha</b><span>Serviços</span><span>Equipe</span><span>Horários</span><em>Agendar</em></div>
-          <div class="mod-hero">
-            <div>
-              <h3>Corte marcado. Sem fila, sem esperar.</h3>
-              <p>Escolha o barbeiro e o horário. A agenda é online e o lembrete chega no seu WhatsApp na véspera.</p>
-              <span class="mod-btn">Marcar meu horário</span>
-            </div>
-            <div class="mod-arte">
-              <img src="imgs/mod-barbearia.webp" alt="Barbeiro fazendo a barba de um cliente na cadeira" loading="lazy" decoding="async" />
-            </div>
-          </div>
-          <div class="mod-cards">
-            <div class="mod-card"><b>Agenda online</b><span>Escolhe o dia e o barbeiro em trinta segundos.</span></div>
-            <div class="mod-card"><b>Lembrete automático</b><span>Aviso na véspera pra ninguém esquecer.</span></div>
-            <div class="mod-card"><b>Combo barba e cabelo</b><span>Preço fechado e tempo reservado.</span></div>
-          </div>
-        </div>
-        <div class="mod-tela" data-mod-tela="2" aria-hidden="true"
-             style="--tb: #FFF7F1; --tf: #3A2118; --ta: #B2481A; --ts: #FBE5D6; --tbt: #FFFFFF; --tg: linear-gradient(140deg,#E8853F,#B2481A);">
-          <div class="mod-chrome"><i></i><i></i><i></i><span class="mod-url">cantinhodobairro.com.br</span></div>
-          <div class="mod-nav"><b>Cantinho</b><span>Cardápio</span><span>Delivery</span><span>Reservas</span><em>Pedir agora</em></div>
-          <div class="mod-hero">
-            <div>
-              <h3>O prato feito que o bairro inteiro conhece.</h3>
-              <p>Cardápio do dia publicado toda manhã, com foto de verdade. Entrega própria, sem taxa de aplicativo.</p>
-              <span class="mod-btn">Ver o cardápio de hoje</span>
-            </div>
-            <div class="mod-arte">
-              <img src="imgs/mod-restaurante.webp" alt="Salão de restaurante com mesas de madeira postas" loading="lazy" decoding="async" />
-            </div>
-          </div>
-          <div class="mod-cards">
-            <div class="mod-card"><b>Cardápio do dia</b><span>Atualizado toda manhã, com foto real.</span></div>
-            <div class="mod-card"><b>Entrega própria</b><span>Sem taxa de aplicativo mordendo a margem.</span></div>
-            <div class="mod-card"><b>Reserva de mesa</b><span>Fim de semana com lugar garantido.</span></div>
-          </div>
-        </div>
-        <div class="mod-tela" data-mod-tela="3" aria-hidden="true"
-             style="--tb: #F3F9FD; --tf: #0F2E48; --ta: #17699C; --ts: #DCEDF8; --tbt: #FFFFFF; --tg: linear-gradient(140deg,#5AA9D6,#17699C);">
-          <div class="mod-chrome"><i></i><i></i><i></i><span class="mod-url">clinicabemestar.com.br</span></div>
-          <div class="mod-nav"><b>Bem-Estar</b><span>Especialidades</span><span>Convênios</span><span>Equipe</span><em>Agendar consulta</em></div>
-          <div class="mod-hero">
-            <div>
-              <h3>Consulta marcada sem precisar ligar.</h3>
-              <p>Especialidades, convênios aceitos e horários livres, tudo na tela. Confirmação na hora.</p>
-              <span class="mod-btn">Ver horários livres</span>
-            </div>
-            <div class="mod-arte">
-              <img src="imgs/mod-clinica.webp" alt="Recepção clara de uma clínica" loading="lazy" decoding="async" />
-            </div>
-          </div>
-          <div class="mod-cards">
-            <div class="mod-card"><b>Convênios na tela</b><span>A pessoa confere o dela antes de ligar.</span></div>
-            <div class="mod-card"><b>Confirmação na hora</b><span>Sem telefone ocupado, sem retorno.</span></div>
-            <div class="mod-card"><b>Equipe e registros</b><span>Cada profissional com a sua formação.</span></div>
-          </div>
-        </div>
-        <div class="mod-tela" data-mod-tela="4" aria-hidden="true"
-             style="--tb: #FFFBEB; --tf: #3A2A0F; --ta: #D97706; --ts: #FEF3C7; --tbt: #FFFFFF; --tg: linear-gradient(140deg,#F5A742,#D97706);">
-          <div class="mod-chrome"><i></i><i></i><i></i><span class="mod-url">amigopet.com.br</span></div>
-          <div class="mod-nav"><b>Amigo Pet</b><span>Serviços</span><span>Loja</span><span>Banho e tosa</span><em>Agendar banho</em></div>
-          <div class="mod-hero">
-            <div>
-              <h3>Banho marcado, sem precisar telefonar.</h3>
-              <p>Agenda de banho e tosa online, com lembrete no WhatsApp e o histórico de cada bichinho guardado.</p>
-              <span class="mod-btn">Agendar banho e tosa</span>
-            </div>
-            <div class="mod-arte">
-              <img src="imgs/mod-petshop.webp" alt="Tosador aparando o pelo de um cachorro pequeno com tesoura" loading="lazy" decoding="async" />
-            </div>
-          </div>
-          <div class="mod-cards">
-            <div class="mod-card"><b>Agenda online</b><span>Banho, tosa e consulta no mesmo lugar.</span></div>
-            <div class="mod-card"><b>Histórico do pet</b><span>Vacina, peso e última visita à mão.</span></div>
-            <div class="mod-card"><b>Loja de produtos</b><span>Ração e itens frequentes, com reposição avisada.</span></div>
-          </div>
-        </div>
-        <div class="mod-tela" data-mod-tela="5" aria-hidden="true"
-             style="--tb: #FFF5F8; --tf: #3A1220; --ta: #C2255C; --ts: #FBD9E6; --tbt: #FFFFFF; --tg: linear-gradient(140deg,#E8598F,#C2255C);">
-          <div class="mod-chrome"><i></i><i></i><i></i><span class="mod-url">espacobela.com.br</span></div>
-          <div class="mod-nav"><b>Espaço Bela</b><span>Serviços</span><span>Profissionais</span><span>Portfólio</span><em>Agendar horário</em></div>
-          <div class="mod-hero">
-            <div>
-              <h3>Seu horário guardado, sem grupo de zap.</h3>
-              <p>A cliente escolhe o serviço, a profissional e o horário — a confirmação chega sozinha, sem ida e volta.</p>
-              <span class="mod-btn">Agendar meu horário</span>
-            </div>
-            <div class="mod-arte">
-              <img src="imgs/mod-salao.webp" alt="Profissional lavando o cabelo de uma cliente na pia do salão" loading="lazy" decoding="async" />
-            </div>
-          </div>
-          <div class="mod-cards">
-            <div class="mod-card"><b>Agenda por profissional</b><span>Cada uma com a própria escala de horários.</span></div>
-            <div class="mod-card"><b>Portfólio de fotos</b><span>Trabalho recente, direto na tela.</span></div>
-            <div class="mod-card"><b>Lembrete automático</b><span>Aviso na véspera pra ninguém faltar.</span></div>
-          </div>
-        </div>
-      </div>
-
-      <p class="mod-pe">Modelos ilustrativos, montados aqui mesmo — o seu é feito com a sua marca, as suas fotos e o seu texto.</p>
-    </div>
+    <p class="mod-pe">Prévia ilustrativa, montada aqui mesmo. O seu site é feito com a sua marca, as suas fotos e os seus textos.</p>
   </section>
 
 
@@ -3937,7 +3731,7 @@ class Component extends DCLogic {
     this.setupTrueFocus();
     this.setupCardSwap();
     this.setupDuelo();
-    this.setupModelos();
+    this.setupEstilos();
     this.setupSistemas();
   }
 
@@ -3986,58 +3780,61 @@ class Component extends DCLogic {
   }
 
   /* ---------------------------------------------------------------
-     Modelos de site. As quatro telas ja estao no DOM, empilhadas na mesma
-     celula de grid, entao trocar de segmento e so trocar de classe - nada
-     e montado ou destruido, e a transicao fica de graca no CSS.
+     Modelos de site. O configurador (estilos/estilos.js + .css + as
+     fontes dos nove modelos) pesa mais que a secao inteira de antes, entao
+     so desce quando #modelos chega a ~1 tela de distancia. Quem nunca
+     rola ate ali nao paga nada.
 
-     As telas inativas levam aria-hidden e visibility: hidden, e nao so
-     opacity: 0. Sem isso, leitor de tela leria os quatro mini-sites em
-     sequencia e o Tab passaria por dentro de tela invisivel.
+     O ?v= e o cache: o GitHub Pages segura arquivo por ~10 min. Mexeu no
+     estilos.js ou no estilos.css, suba o numero.
      --------------------------------------------------------------- */
-  setupModelos() {
-    const raiz = document.querySelector('[data-mod]');
+  setupEstilos() {
+    const raiz = document.querySelector('[data-estilos]');
     if (!raiz) return;
-    const abas = [...raiz.querySelectorAll('[data-mod-aba]')];
-    const telas = [...raiz.querySelectorAll('[data-mod-tela]')];
-    if (!abas.length || abas.length !== telas.length) return;
+    const V = '1';
+    const whatsapp = this.props.whatsappNumber ?? '5561994299823';
+    let api = null;
 
-    const mostrar = (i) => {
-      abas.forEach((a, n) => {
-        a.classList.toggle('is-on', n === i);
-        a.setAttribute('aria-selected', n === i ? 'true' : 'false');
-      });
-      telas.forEach((t, n) => {
-        t.classList.toggle('is-on', n === i);
-        if (n === i) t.removeAttribute('aria-hidden');
-        else t.setAttribute('aria-hidden', 'true');
-      });
+    const montar = () => {
+      if (!window.ACTechEstilos || !raiz.isConnected) return;
+      api = window.ACTechEstilos.montar(raiz, { whatsapp });
+    };
+    const carregar = () => {
+      if (window.ACTechEstilos) return montar();
+      if (document.querySelector('script[data-estilos-js]')) return;
+      const css = document.createElement('link');
+      css.rel = 'stylesheet';
+      css.href = 'estilos/estilos.css?v=' + V;
+      document.head.appendChild(css);
+      const js = document.createElement('script');
+      js.src = 'estilos/estilos.js?v=' + V;
+      js.async = true;
+      js.dataset.estilosJs = '';
+      // monta so depois do CSS tambem, senao a previa pisca sem estilo
+      let prontos = 0;
+      const um = () => { if (++prontos === 2) {
+        montar();
+        const f = document.createElement('link');
+        f.rel = 'stylesheet';
+        f.href = window.ACTechEstilos.fontes;
+        document.head.appendChild(f);
+      } };
+      css.onload = um; css.onerror = um;
+      js.onload = um;
+      document.head.appendChild(js);
     };
 
-    abas.forEach((a, i) => {
-      const ir = () => mostrar(i);
-      a.addEventListener('click', ir);
-      this._teardown.push(() => a.removeEventListener('click', ir));
-    });
-
-    // setas do teclado andam entre as abas, como manda um tablist
-    const porTecla = (e) => {
-      const d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
-      if (!d) return;
-      e.preventDefault();
-      const atual = abas.findIndex((a) => a.classList.contains('is-on'));
-      const alvo = (atual + d + abas.length) % abas.length;
-      mostrar(alvo);
-      abas[alvo].focus();
-    };
-    raiz.querySelector('[role="tablist"]').addEventListener('keydown', porTecla);
-    this._teardown.push(() => {
-      const tl = raiz.querySelector('[role="tablist"]');
-      if (tl) tl.removeEventListener('keydown', porTecla);
-    });
+    const io = new IntersectionObserver((entries) => {
+      if (!entries.some((e) => e.isIntersecting)) return;
+      io.disconnect();
+      carregar();
+    }, { rootMargin: '900px 0px' });
+    io.observe(raiz);
+    this._teardown.push(() => { io.disconnect(); if (api) api.destruir(); });
   }
 
   /* ---------------------------------------------------------------
-     As abas dos casos de sistema -- mesmo padrao de setupModelos(): painel
+     As abas dos casos de sistema: o painel
      certo entra em opacity+transform, os outros ficam empilhados no mesmo
      grid-area, aria-hidden pra leitor de tela e Tab nao passarem por dentro
      de painel invisivel. Sem arrasto, sem intervalo -- so clique e seta.
@@ -4139,6 +3936,7 @@ class Component extends DCLogic {
       const a = e.target.closest && e.target.closest('a[href*="wa.me"]');
       if (!a) return;
       if (a.closest('.modal')) return;              // links de dentro do modal, nunca
+      if (a.closest('[data-sem-portao]')) return;   // a previa de site ja fez as perguntas dela
 
       e.preventDefault();
       this._alvo = a.href;                          // guarda pra usar no "prefiro falar direto"

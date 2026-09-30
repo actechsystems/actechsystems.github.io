@@ -431,37 +431,75 @@ parte, fora dos planos mensais** — senão a seção cria a expectativa de que 
 
 ## Modelos de site (`#modelos`)
 
-O demonstrativo: quatro segmentos (mercado, barbearia, restaurante, clínica), cada um com um
-mini-site que renderiza ao vivo numa moldura de navegador.
+"Veja como ficaria o seu site": a pessoa escolhe um de **nove estilos**, responde três
+perguntas (nome do negócio, ramo, cidade) e vê um mini-site de verdade com o nome dela,
+no computador ou no celular. No fim, "Quero um site assim" abre o WhatsApp com negócio,
+ramo, cidade e estilo já escritos.
 
-**São mini-sites de verdade, montados em HTML e CSS — não capturas.** Custa zero byte de
-imagem, fica nítido em qualquer tela e trocar o texto de um segmento é editar texto, não abrir
-editor de imagem.
+**Onde está.** Tudo mora em `estilos/`: `estilos.js` (conteúdo dos ramos, os nove
+`render()` e o configurador) e `estilos.css` (a interface do configurador e um bloco por
+estilo). No `index.html` fica só a seção com um `<div data-estilos>` vazio e o
+`setupEstilos()`, que baixa os dois arquivos e as fontes quando a seção chega a ~1 tela
+de distância. Quem nunca rola até ali não paga nada.
 
-As quatro telas vivem **empilhadas na mesma célula de grid** (`grid-area: 1 / 1`), então trocar
-de segmento é trocar de classe: nada é montado ou destruído e a transição sai de graça no CSS.
+> **Mexeu em `estilos.js` ou `estilos.css`? Suba o `V` no `setupEstilos()`.** O GitHub
+> Pages segura arquivo em cache por uns 10 minutos, e o `?v=` é o que força a versão nova.
 
-A identidade de cada um entra por variável inline — `--tb` fundo, `--tf` texto, `--ta` destaque,
-`--ts` cartão, `--tbt` texto do botão. A barbearia é escura e as outras três claras, o que é
-metade da graça: mostra que o site não sai de fôrma.
+**Por que DOM na mão e não template do x-dc.** O `[data-estilos]` sai do React sem filho
+nenhum, então o React nunca mexe no que o módulo põe ali: abrir o diagnóstico ou o menu
+re-renderiza o componente e a prévia continua intacta.
 
-**As fotos.** Cada modelo tem uma foto no bloco do hero (`imgs/mod-*.webp`, 760×570, 204 KB
-no total, com `loading="lazy"`). São do **Unsplash**, cuja licença permite uso comercial sem
-atribuição. Estão aqui como o que são: material ilustrativo de um mockup — o site do cliente
-usa as fotos dele, e o rodapé da seção já diz isso.
+**Os estilos e de onde vieram.** Cada um foi montado a partir de um DESIGN.md do repositório
+[VoltAgent/awesome-design-md](https://github.com/VoltAgent/awesome-design-md) (licença MIT):
+cores, tipografia, raios, sombras e o elemento marcante de cada sistema. **Na tela nenhum
+leva nome de marca, e não há logo nem fonte proprietária**: as fontes são equivalentes
+livres do Google Fonts.
 
-> **O véu é o que faz quatro fotos de origens diferentes conviverem.** `.mod-arte::after`
-> aplica o gradiente do próprio modelo em `mix-blend-mode: multiply` a 26%. Sem ele as fotos
-> brigavam com a paleta de cada template e a seção virava uma colcha de retalhos. Ao trocar
-> uma foto, confira como ela fica **depois** do véu, não antes.
+| Estilo na tela | Referência | Fonte usada | O que marca |
+|---|---|---|---|
+| Vitrine | tesla | Outfit | foto de tela cheia, azul só no botão, raio de 4px |
+| Café | starbucks | Nunito Sans | creme, quatro verdes, pílulas, botão flutuante redondo |
+| Palco | spotify | Figtree | escuro de app, serviços como "faixas", barra de "tocando" |
+| Impacto | lamborghini | Barlow Condensed | preto, dourado, caixa alta gigante, hexágono de pausa |
+| Colorido | clay | Bricolage Grotesque + Inter | creme, cartões saturados, bolinhas "de massinha" |
+| Agenda | cal | Cal Sans + Inter | branco, agenda funcionando já na primeira dobra |
+| Pista | bmw-m | Archivo | preto técnico, faixa de três cores, maiúsculas pesadas |
+| Convite | airbnb | DM Sans | busca em pílula, fotos em cartão com coração |
+| Estúdio | webflow | Geist | título editorial, blocos de cor chapada |
 
-> **Ao criar um modelo novo, refaça três contas:** texto/fundo, destaque/fundo e texto do
-> botão/destaque. Os atuais ficam em 11,9–15,8 no primeiro e nunca abaixo de 4,5 nos outros
-> dois. Foi assim que o laranja do restaurante mudou de `#C2511F` (4,42) para `#B2481A`.
+**Acrescentar um estilo:** um objeto novo em `ESTILOS` (id, nome, desc, amostra, render),
+um bloco de CSS com prefixo próprio de duas letras e, se a fonte for nova, uma linha em
+`FONTES`. A lista, o modo celular e a mensagem do WhatsApp leem dali sozinhos.
 
-As telas inativas levam `aria-hidden` **e** `visibility: hidden`, não só `opacity: 0`. Sem
-isso, leitor de tela leria os quatro mini-sites em sequência e o Tab passaria por dentro de
-tela invisível. As setas do teclado andam entre as abas, como manda um `tablist`.
+**Conteúdo dos ramos.** Barbearia, salão, pet shop, clínica, restaurante, mercado e "outro
+ramo" ficam em `RAMOS`, no topo do `estilos.js`. Todos os estilos leem dali, então o texto
+de um ramo muda num lugar só. As fotos continuam sendo as de `imgs/mod-*.webp` (Unsplash,
+uso comercial sem atribuição). "Outro ramo" não tem foto: cada estilo mostra um bloco com a
+inicial do negócio.
+
+**Responsivo sem media query de janela.** Os mini-sites usam *container queries*
+(`@container site`): quem decide o layout é a largura da moldura, não a da tela. É isso
+que faz o botão "Celular" funcionar: ele só estreita a moldura pra 380px.
+
+> **Contraste.** Os pares de texto e fundo dos nove estilos foram medidos e ficam todos em
+> 4,5:1 ou mais. Dois ajustes saíram disso: o vermelho do Convite em texto e botão é
+> `#e00b41`, porque o `#ff385c` original dá 3,5:1 no branco e ficou só no ícone. E nos
+> cartões coloridos (Colorido e Estúdio) o texto é escuro no rosa, azul, laranja e verde,
+> onde branco não passa de 3,4:1. Ao criar um estilo, refaça essas contas.
+
+**O que fica guardado.** Nome, ramo, cidade e estilo vão pro `localStorage` do visitante
+(chave `actech-previa`), então quem volta encontra a prévia montada. Nada sai do navegador
+até a pessoa clicar em "Quero um site assim".
+
+**Portão do diagnóstico.** O botão "Quero um site assim" leva `data-sem-portao`, e o
+`setupPortao()` deixa esse link passar direto: a pessoa acabou de responder três perguntas,
+não faz sentido mandar pra outras dez. Pra voltar a exigir o diagnóstico, apague a linha
+do `data-sem-portao` no `setupPortao()`.
+
+**Acessibilidade.** A lista de estilos é um `radiogroup` (setas trocam o estilo), o botão
+Computador/Celular usa `aria-pressed`, e enquanto as perguntas estão abertas a prévia fica
+`inert`, então o Tab não entra nela. Esc fecha as perguntas. Com
+`prefers-reduced-motion`, nada flutua nem desliza.
 
 ## A assinatura do rodapé
 
