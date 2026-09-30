@@ -20,6 +20,9 @@
   var FREQ = [[1, '1 vez'], [2, '2 vezes'], [4, 'Toda semana']];
   var fmt = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 });
   function real(v) { return fmt.format(Math.round(v)); }
+  // preco de plano sai com centavos, igual ao card: R$ 259,99 e nao R$ 260
+  var fmtC = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
+  function centavos(v) { return fmtC.format(v); }
 
   function montar(raiz) {
     if (!raiz || raiz.__calc) return;
@@ -35,7 +38,7 @@
       '<div class="calc-grade">' +
         '<div class="calc-campos">' +
           '<div class="calc-campo"><span class="calc-rot">Plano</span><div class="calc-seg" role="radiogroup" aria-label="Plano">' +
-            PLANOS.map(function (p, i) { return '<button type="button" role="radio" data-plano="' + i + '">' + p[0] + '<small>' + real(p[1]) + '/mês</small></button>'; }).join('') + '</div></div>' +
+            PLANOS.map(function (p, i) { return '<button type="button" role="radio" data-plano="' + i + '">' + p[0] + '<small>' + centavos(p[1]) + '/mês</small></button>'; }).join('') + '</div></div>' +
           '<label class="calc-campo"><span class="calc-rot">Quanto um cliente gasta por visita <b data-out="ticket"></b></span>' +
             '<input type="range" min="10" max="500" step="5" data-in="ticket" aria-label="Ticket médio em reais" /></label>' +
           '<div class="calc-campo"><span class="calc-rot">Quantas vezes ele volta no mês</span><div class="calc-seg" role="radiogroup" aria-label="Frequência">' +
@@ -69,7 +72,7 @@
       $('[data-out="ticket"]').textContent = real(st.ticket);
       $('[data-out="novos"]').textContent = st.novos;
       $('[data-out="paga"]').textContent = paga + (paga === 1 ? ' cliente novo' : ' clientes novos');
-      $('[data-out="custo"]').textContent = real(plano);
+      $('[data-out="custo"]').textContent = centavos(plano);
       $('[data-out="entra"]').textContent = real(entra);
       var max = Math.max(plano, entra);
       $('[data-barra="custo"]').style.width = (plano / max * 100) + '%';
