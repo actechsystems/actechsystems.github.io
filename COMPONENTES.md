@@ -487,9 +487,8 @@ que faz o botão "Celular" funcionar: ele só estreita a moldura pra 380px.
 > cartões coloridos (Colorido e Estúdio) o texto é escuro no rosa, azul, laranja e verde,
 > onde branco não passa de 3,4:1. Ao criar um estilo, refaça essas contas.
 
-**O que fica guardado.** Nome, ramo, cidade e estilo vão pro `localStorage` do visitante
-(chave `actech-previa`), então quem volta encontra a prévia montada. Nada sai do navegador
-até a pessoa clicar em "Quero um site assim".
+**Nada fica guardado.** A prévia vive só enquanto a aba está aberta: F5 volta pro convite,
+do zero, e nada sai do navegador até a pessoa clicar em "Quero um site assim".
 
 **Portão do diagnóstico.** O botão "Quero um site assim" leva `data-sem-portao`, e o
 `setupPortao()` deixa esse link passar direto: a pessoa acabou de responder três perguntas,

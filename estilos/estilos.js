@@ -24,9 +24,6 @@
 (function () {
   'use strict';
 
-  var VERSAO_DADOS = 1;
-  var CHAVE = 'actech-previa';
-
   /* Fontes livres do Google Fonts no lugar das tipografias proprietarias
      que inspiraram cada modelo. Uma requisicao so, e so quando a secao
      aparece. DM Sans a pagina ja carrega. */
@@ -621,13 +618,14 @@
     opts = opts || {};
     var fone = opts.whatsapp || '5561994299823';
 
-    var salvo = ler();
+    // Nada e guardado de proposito: F5 volta pro convite, do zero. A previa
+    // vive so enquanto a aba esta aberta.
     var st = {
-      estilo: salvo && achaEstilo(salvo.estilo) ? salvo.estilo : ESTILOS[0].id,
-      dados: salvo && salvo.nome ? salvo : null,       // null = ainda nao personalizou
-      rascunho: salvo ? { nome: salvo.nome, ramo: salvo.ramo, outro: salvo.outro, cidade: salvo.cidade } : {},
+      estilo: ESTILOS[0].id,
+      dados: null,          // null = ainda nao personalizou
+      rascunho: {},
       disp: 'pc',
-      etapa: salvo && salvo.nome ? null : 'convite'   // convite | nome | ramo | cidade | montando | null
+      etapa: 'convite'      // convite | nome | ramo | cidade | montando | null
     };
 
     raiz.classList.add('est');
@@ -771,8 +769,7 @@
 
     function concluir() {
       var r = st.rascunho;
-      st.dados = { v: VERSAO_DADOS, nome: r.nome.trim(), ramo: r.ramo, outro: (r.outro || '').trim(), cidade: (r.cidade || '').trim(), estilo: st.estilo };
-      grava(st.dados);
+      st.dados = { nome: r.nome.trim(), ramo: r.ramo, outro: (r.outro || '').trim(), cidade: (r.cidade || '').trim() };
       etapa('montando');
       setTimeout(function () {
         etapa(null);
@@ -878,7 +875,6 @@
     function escolher(id) {
       if (id === st.estilo) return;
       st.estilo = id;
-      if (st.dados) { st.dados.estilo = id; grava(st.dados); }
       desenhar(true);
       fala('Estilo ' + achaEstilo(id).nome + '.');
       // no celular a lista rola de lado: traz a opcao escolhida pro meio
@@ -920,16 +916,6 @@
 
   function reduzido() {
     return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  }
-  // localStorage pode nao existir (aba anonima, bloqueio): tudo em try
-  function ler() {
-    try {
-      var o = JSON.parse(localStorage.getItem(CHAVE) || 'null');
-      return o && o.v === VERSAO_DADOS && RAMOS[o.ramo] ? o : null;
-    } catch (x) { return null; }
-  }
-  function grava(o) {
-    try { localStorage.setItem(CHAVE, JSON.stringify(o)); } catch (x) {}
   }
 
   window.ACTechEstilos = { montar: montar, fontes: FONTES, estilos: ESTILOS, ramos: RAMOS };
