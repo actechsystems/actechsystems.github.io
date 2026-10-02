@@ -1599,7 +1599,7 @@
       <div>
         <div data-reveal="1" class="nm-pill" style="padding-left: 8px;">
           <span class="nm-chip">1º MÊS GRÁTIS</span>
-          Sem taxa de setup. Cancelamento após a fidelidade.
+          Sem taxa de setup. Cancele quando quiser.
         </div>
 
         <h1 data-reveal="1" class="font-display" style="font-weight: 800; font-size: clamp(40px, 6.4vw, 76px); line-height: .98; letter-spacing: -.035em; margin: 26px 0 0; max-width: 15ch; text-wrap: balance; color: #3D4852;">
@@ -2431,7 +2431,7 @@
         <span class="focus-word">Duas</span><span class="focus-word">mensalidades.</span><span class="focus-word">Zero</span><span class="focus-word">surpresa.</span>
         <span class="focus-frame" data-focus-frame><i></i><i></i><i></i><i></i></span>
       </h2>
-      <p style="margin: 16px 0 0; font-size: 16.5px; color: #59616E; line-height: 1.65;">O primeiro mês é grátis nos dois planos. Fidelidade de 6 meses.</p>
+      <p style="margin: 16px 0 0; font-size: 16.5px; color: #59616E; line-height: 1.65;">O primeiro mês é grátis nos dois planos. Sem fidelidade.</p>
     </div>
 
     <div class="pricing-grid">
@@ -2445,7 +2445,7 @@
             <div class="blob-head">
               <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
                 <div class="font-display" style="font-weight: 800; font-size: 25px;">Essencial</div>
-                <div style="font-size: 12.5px; color: rgba(255,255,255,.78);">Fidelidade 6 meses</div>
+                <div style="font-size: 12.5px; color: rgba(255,255,255,.78);">Sem fidelidade</div>
               </div>
               <div style="margin: 16px 0 12px;">
                 <span style="display: inline-flex; background: rgba(255,255,255,.2); color: #fff; font-weight: 700; font-size: 12px; letter-spacing: .08em; padding: 7px 14px; border-radius: var(--r-pill);">1º MÊS GRÁTIS</span>
@@ -2487,7 +2487,7 @@
             <div class="blob-head">
               <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
                 <div class="font-display" style="font-weight: 800; font-size: 25px;">Completo</div>
-                <div style="font-size: 12.5px; color: rgba(255,255,255,.78);">Fidelidade 6 meses</div>
+                <div style="font-size: 12.5px; color: rgba(255,255,255,.78);">Sem fidelidade</div>
               </div>
               <div style="margin: 16px 0 12px;">
                 <span style="display: inline-flex; background: rgba(255,255,255,.22); color: #fff; font-weight: 700; font-size: 12px; letter-spacing: .08em; padding: 7px 14px; border-radius: var(--r-pill);">1º MÊS GRÁTIS</span>
@@ -4027,7 +4027,7 @@ class Component extends DCLogic {
     const faqData = this.memo('faq', () => [
       { q: 'Em quanto tempo meu site fica pronto?', a: 'Até 5 dias úteis depois que recebemos o material básico: logo, fotos, textos e informações de contato. Se preferir, a gente ajuda a organizar esse conteúdo antes de começar.' },
       { q: 'Como funciona o 1º mês grátis?', a: 'Você não paga a primeira mensalidade. Nesse período já fazemos o site, publicamos os posts e configuramos o Google Meu Negócio. A cobrança começa no segundo mês.' },
-      { q: 'O que é a fidelidade de 6 meses?', a: 'É o compromisso mínimo de permanência no plano. Existe porque o site, o domínio e a estruturação inicial são entregues sem custo de setup, e porque marketing digital só mostra resultado com alguns meses de constância. Depois dos 6 meses o contrato segue mês a mês.' },
+      { q: 'Tenho que ficar preso por algum tempo?', a: 'Não. Não há fidelidade nem multa: o plano é mês a mês e você cancela quando quiser, direto pelo app do Mercado Pago. Só um aviso honesto: presença digital rende com constância, e quem desiste no segundo mês costuma sair antes de o resultado aparecer. O site continua seu — a gente passa os arquivos e o domínio se você decidir sair.' },
       { q: 'Qual é a diferença entre o Essencial e o Completo?', a: 'O Essencial põe a base de pé: site no ar, 8 posts por mês e a ficha do Google otimizada. O Completo é para quem quer acelerar — sobe para 20 posts com artes elaboradas, mantém a ficha do Google ativa toda semana, faz 4 atualizações no site e entrega um relatório mensal do que deu resultado.' }
       // ADS OFF - pergunta da verba de anúncio, guardada para quando o tráfego pago voltar:
       // { q: 'O que significa "verba de anúncio separada"?', a: 'No plano Completo a ACTech cria, configura e otimiza as campanhas no Google e Meta. O valor que vai para o anúncio em si é pago diretamente às plataformas e você define quanto quer investir — ele não está incluído na mensalidade.' }
@@ -4096,7 +4096,7 @@ class Component extends DCLogic {
         '8 posts/mês nas redes sociais',
         'SEO local (Google Meu Negócio otimizado)',
         '1 atualização de conteúdo por mês',
-        'Fidelidade de 6 meses'
+        'Sem fidelidade: cancele quando quiser'
       ],
       completo: [
         '20 posts/mês nas redes sociais com artes elaboradas',
@@ -4106,7 +4106,7 @@ class Component extends DCLogic {
         'Relatório mensal de desempenho',
         '4 atualizações de conteúdo por mês no site',
         'Suporte prioritário',
-        'Fidelidade de 6 meses'
+        'Sem fidelidade: cancele quando quiser'
       ],
       diferenciais: this.memo('difs', () => [
         { title: 'Site pronto em até 5 dias', body: 'Processo enxuto e direto: você aprova, a gente publica. Sem meses de espera.', icon: this.icon(['M13 2L3 14h7l-1 8 10-12h-7z']) },
