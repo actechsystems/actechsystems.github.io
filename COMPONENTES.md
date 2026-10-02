@@ -21,6 +21,23 @@ o visual já está calibrado para a paleta neumórfica.
 | TrueFocus | React Bits | título de `#planos`, `setupTrueFocus()` | `motion` |
 | DriftWall (parede 3D em marquee) | — | seção `#trabalhos`, classes `.wall` / `.wall-col` / `.wtile` | nenhuma (transform 3D + `@keyframes`) |
 
+## Bibliotecas servidas pelo próprio site (`vendor/`)
+
+React 18.3.1, ReactDOM 18.3.1 e GSAP 3.12.5 ficam em `vendor/` e carregam no `<head>`, antes
+do `support.js`. O runtime só busca o React no unpkg.com se `window.React` ainda não existir;
+carregado antes, o site deixa de depender de CDN de terceiro. Antes, unpkg fora do ar ou
+bloqueado numa rede de empresa deixava a página em branco. Os arquivos são os mesmos do
+unpkg: o sha384 bate com o `REACT_SRI`/`REACT_DOM_SRI` do runtime. Testado com unpkg,
+jsdelivr e Google Fonts bloqueados: a página monta inteira.
+
+Fontes e GSAP saíram do `<helmet>` do template pro `<head>` de verdade. No helmet o
+navegador baixava tudo duas vezes (uma lendo o HTML, outra quando o runtime montava o
+helmet). A segunda leitura do `index.html` que continua aparecendo é do próprio runtime:
+ele relê o arquivo cru pra recuperar atributos com maiúscula (`onClick`), que o navegador
+converte pra minúscula. Não mexer.
+
+A licença do GSAP 3 (sem custo, "Standard License") permite servir o arquivo no próprio site.
+
 ## Parâmetros mantidos
 
 - **Click Effects**: `interactionMode="sniper"`, `duration=0.3`, `strokeWidth=2`, `effectSize=90`;
@@ -429,39 +446,167 @@ Abaixo, quatro tipos de sistema (painel de gestão, financeiro, agenda, integra�
 com a sua cor da roda. E o rodapé diz o que precisa ser dito: **sistema sob medida é orçado à
 parte, fora dos planos mensais** — senão a seção cria a expectativa de que cabe nos R$ 397.
 
+## "Monte o seu sistema" (`#sistemas`)
+
+O painel de exemplo da seção de sistemas funciona. A pessoa escolhe o ramo e os módulos
+(caixa, agenda, clientes, estoque, ordens de serviço, metas) e usa: lança venda, fecha o
+dia, marca e conclui horário, busca e cadastra cliente, repõe estoque, avança OS, muda a
+meta. "Quero um sistema assim" manda pro WhatsApp o ramo, os módulos e o que ela mais usou.
+
+**Onde está.** `sistema/sistema.js` e `sistema/sistema.css`, baixados pelo
+`setupSistema()` quando a seção chega perto, igual ao `estilos/`. Mexeu? Suba o `V`.
+
+**Os módulos dividem o mesmo estado.** É o que faz parecer sistema, e não um monte de telas
+soltas: concluir horário ou entregar OS lança no caixa, vender produto baixa o estoque, e
+a meta e a visão geral acompanham tudo na hora.
+
+**Liga com a prévia de site.** Quando alguém monta a prévia em `#modelos`, o `estilos.js`
+publica `window.ACTechPrevia` e dispara o evento `actech:previa`. O sistema escuta e abre
+com o mesmo nome e ramo, então a pessoa vê o site e o sistema do negócio dela.
+
+**Dados de exemplo.** Ficam em `RAMOS` no topo do `sistema.js`: serviços e preços,
+profissionais, estoque, despesas, faturamento dos últimos dias e meta de cada ramo. São
+ilustrativos, gerados com semente (o mesmo ramo sempre abre igual) e zeram no F5.
+
+**Celular.** Por *container query* (`@container painel`), abaixo de 700px o menu lateral
+vira uma faixa de abas em cima e os formulários empilham.
+
 ## Modelos de site (`#modelos`)
 
-O demonstrativo: quatro segmentos (mercado, barbearia, restaurante, clínica), cada um com um
-mini-site que renderiza ao vivo numa moldura de navegador.
+"Veja como ficaria o seu site": a pessoa escolhe um de **nove estilos**, responde três
+perguntas (nome do negócio, ramo, cidade) e vê um mini-site de verdade com o nome dela,
+no computador ou no celular. No fim, "Quero um site assim" abre o WhatsApp com negócio,
+ramo, cidade e estilo já escritos.
 
-**São mini-sites de verdade, montados em HTML e CSS — não capturas.** Custa zero byte de
-imagem, fica nítido em qualquer tela e trocar o texto de um segmento é editar texto, não abrir
-editor de imagem.
+**Onde está.** Tudo mora em `estilos/`: `estilos.js` (conteúdo dos ramos, os nove
+`render()` e o configurador) e `estilos.css` (a interface do configurador e um bloco por
+estilo). No `index.html` fica só a seção com um `<div data-estilos>` vazio e o
+`setupEstilos()`, que baixa os dois arquivos e as fontes quando a seção chega a ~1 tela
+de distância. Quem nunca rola até ali não paga nada.
 
-As quatro telas vivem **empilhadas na mesma célula de grid** (`grid-area: 1 / 1`), então trocar
-de segmento é trocar de classe: nada é montado ou destruído e a transição sai de graça no CSS.
+> **Mexeu em `estilos.js` ou `estilos.css`? Suba o `V` no `setupEstilos()`.** O GitHub
+> Pages segura arquivo em cache por uns 10 minutos, e o `?v=` é o que força a versão nova.
 
-A identidade de cada um entra por variável inline — `--tb` fundo, `--tf` texto, `--ta` destaque,
-`--ts` cartão, `--tbt` texto do botão. A barbearia é escura e as outras três claras, o que é
-metade da graça: mostra que o site não sai de fôrma.
+**Por que DOM na mão e não template do x-dc.** O `[data-estilos]` sai do React sem filho
+nenhum, então o React nunca mexe no que o módulo põe ali: abrir o diagnóstico ou o menu
+re-renderiza o componente e a prévia continua intacta.
 
-**As fotos.** Cada modelo tem uma foto no bloco do hero (`imgs/mod-*.webp`, 760×570, 204 KB
-no total, com `loading="lazy"`). São do **Unsplash**, cuja licença permite uso comercial sem
-atribuição. Estão aqui como o que são: material ilustrativo de um mockup — o site do cliente
-usa as fotos dele, e o rodapé da seção já diz isso.
+**Os estilos e de onde vieram.** Cada um foi montado a partir de um DESIGN.md do repositório
+[VoltAgent/awesome-design-md](https://github.com/VoltAgent/awesome-design-md) (licença MIT):
+cores, tipografia, raios, sombras e o elemento marcante de cada sistema. **Na tela nenhum
+leva nome de marca, e não há logo nem fonte proprietária**: as fontes são equivalentes
+livres do Google Fonts.
 
-> **O véu é o que faz quatro fotos de origens diferentes conviverem.** `.mod-arte::after`
-> aplica o gradiente do próprio modelo em `mix-blend-mode: multiply` a 26%. Sem ele as fotos
-> brigavam com a paleta de cada template e a seção virava uma colcha de retalhos. Ao trocar
-> uma foto, confira como ela fica **depois** do véu, não antes.
+| Estilo na tela | Referência | Fonte usada | O que marca |
+|---|---|---|---|
+| Vitrine | tesla | Outfit | foto de tela cheia, azul só no botão, raio de 4px |
+| Café | starbucks | Nunito Sans | creme, quatro verdes, pílulas, botão flutuante redondo |
+| Palco | spotify | Figtree | escuro de app, serviços como "faixas", barra de "tocando" |
+| Impacto | lamborghini | Barlow Condensed | preto, dourado, caixa alta gigante, hexágono de pausa |
+| Colorido | clay | Bricolage Grotesque + Inter | creme, cartões saturados, bolinhas "de massinha" |
+| Agenda | cal | Cal Sans + Inter | branco, agenda funcionando já na primeira dobra |
+| Pista | bmw-m | Archivo | preto técnico, faixa de três cores, maiúsculas pesadas |
+| Convite | airbnb | DM Sans | busca em pílula, fotos em cartão com coração |
+| Estúdio | webflow | Geist | título editorial, blocos de cor chapada |
 
-> **Ao criar um modelo novo, refaça três contas:** texto/fundo, destaque/fundo e texto do
-> botão/destaque. Os atuais ficam em 11,9–15,8 no primeiro e nunca abaixo de 4,5 nos outros
-> dois. Foi assim que o laranja do restaurante mudou de `#C2511F` (4,42) para `#B2481A`.
+**Acrescentar um estilo:** um objeto novo em `ESTILOS` (id, nome, desc, amostra, render),
+um bloco de CSS com prefixo próprio de duas letras e, se a fonte for nova, uma linha em
+`FONTES`. A lista, o modo celular e a mensagem do WhatsApp leem dali sozinhos.
 
-As telas inativas levam `aria-hidden` **e** `visibility: hidden`, não só `opacity: 0`. Sem
-isso, leitor de tela leria os quatro mini-sites em sequência e o Tab passaria por dentro de
-tela invisível. As setas do teclado andam entre as abas, como manda um `tablist`.
+**Conteúdo dos ramos.** Barbearia, salão, pet shop, clínica, restaurante, mercado e "outro
+ramo" ficam em `RAMOS`, no topo do `estilos.js`. Todos os estilos leem dali, então o texto
+de um ramo muda num lugar só. A foto principal de cada ramo é a de `imgs/mod-*.webp`
+(Unsplash, uso comercial sem atribuição), e mais três extras ficam em `imgs/ramos/`, pra
+cartões e faixas não repetirem a mesma imagem. O "outro ramo" também tem as dele.
+
+As extras são do StockSnap, via [Openverse](https://openverse.org), todas **CC0**: domínio
+público, uso comercial livre, sem crédito obrigatório. Saem em WebP 800×600 com qualidade 68,
+cerca de 30 KB cada, e cada prévia só baixa as quatro do ramo escolhido.
+
+| Arquivo | Foto | Origem | Licença |
+|---|---|---|---|
+| `imgs/ramos/barbearia-1.webp` | Barbershop Chair | [StockSnap](https://stocksnap.io/photo/barbershop-chair-7M505B7MYV) | CC0 |
+| `imgs/ramos/barbearia-2.webp` | Barbershop Brush | [StockSnap](https://stocksnap.io/photo/barbershop-brush-GZP9ZEQPFL) | CC0 |
+| `imgs/ramos/barbearia-3.webp` | Barber Razor | [StockSnap](https://stocksnap.io/photo/barber-razor-06HGN8LMUX) | CC0 |
+| `imgs/ramos/salao-1.webp` | Hairdresser Cut | [StockSnap](https://stocksnap.io/photo/hairdresser-cut-S7UEWWIRTD) | CC0 |
+| `imgs/ramos/salao-2.webp` | People Hands | [StockSnap](https://stocksnap.io/photo/people-hands-XX356Q6EI4) | CC0 |
+| `imgs/ramos/salao-3.webp` | Hair Curls | [StockSnap](https://stocksnap.io/photo/hair-curls-R6CKAMVOMZ) | CC0 |
+| `imgs/ramos/petshop-1.webp` | Animal Dog | [StockSnap](https://stocksnap.io/photo/animal-dog-ZO5GDP2QY1) | CC0 |
+| `imgs/ramos/petshop-2.webp` | Animals Puppy | [StockSnap](https://stocksnap.io/photo/animals-puppy-OOH59BAHBL) | CC0 |
+| `imgs/ramos/petshop-3.webp` | Cat Pet | [StockSnap](https://stocksnap.io/photo/cat-pet-XHBLQZQP6J) | CC0 |
+| `imgs/ramos/clinica-1.webp` | Doctor Patient | [StockSnap](https://stocksnap.io/photo/doctor-patient-EDI8LWKSBB) | CC0 |
+| `imgs/ramos/clinica-2.webp` | Stethoscope Medical | [StockSnap](https://stocksnap.io/photo/stethoscope-medical-9M1HWW2JFV) | CC0 |
+| `imgs/ramos/clinica-3.webp` | Male Doctor | [StockSnap](https://stocksnap.io/photo/male-doctor-KN1OCKC4Y2) | CC0 |
+| `imgs/ramos/restaurante-1.webp` | Food Plate | [StockSnap](https://stocksnap.io/photo/food-plate-LF3YEO5Q13) | CC0 |
+| `imgs/ramos/restaurante-2.webp` | Restaurant Kitchen | [StockSnap](https://stocksnap.io/photo/restaurant-kitchen-0HCMIT272C) | CC0 |
+| `imgs/ramos/restaurante-3.webp` | Steak Potatoes | [StockSnap](https://stocksnap.io/photo/steak-potatoes-WYGI6J1B0S) | CC0 |
+| `imgs/ramos/mercado-1.webp` | Guy Man | [StockSnap](https://stocksnap.io/photo/guy-man-HGWAXJFSVV) | CC0 |
+| `imgs/ramos/mercado-2.webp` | Fruit Vegetables | [StockSnap](https://stocksnap.io/photo/fruit-vegetables-F8B73CPSBK) | CC0 |
+| `imgs/ramos/mercado-3.webp` | Market Fruits | [StockSnap](https://stocksnap.io/photo/market-fruits-VBQSBXBAO8) | CC0 |
+| `imgs/ramos/outro-0.webp` | Office Work | [StockSnap](https://stocksnap.io/photo/office-work-42H3JH8QI5) | CC0 |
+| `imgs/ramos/outro-1.webp` | Floorplan Workshop | [StockSnap](https://stocksnap.io/photo/floorplan-workshop-N3BPNPN0FY) | CC0 |
+| `imgs/ramos/outro-2.webp` | Tools Workshop | [StockSnap](https://stocksnap.io/photo/tools-workshop-KD30XPQR0A) | CC0 |
+| `imgs/ramos/outro-3.webp` | Office Work | [StockSnap](https://stocksnap.io/photo/office-work-030TCBJQ8C) | CC0 |
+
+**O aparelho.** A prévia fica dentro de um notebook (tela com borda, câmera, barra do
+navegador com os três botões coloridos e base de alumínio) ou de um celular (ilha da câmera,
+barra de status com hora e bateria, endereço embaixo e botões laterais). É o mesmo HTML: o
+`data-modo` do `.est-aparelho` troca a forma e o CSS anima a passagem. Em tela de até 760px
+não tem escolha: abre direto no celular. A barra de status pega a cor de fundo do estilo
+(`amostra.bg`), e a hora é a do relógio do visitante. É desenho em CSS, sem logo nem imagem
+de marca.
+
+**Responsivo sem media query de janela.** Os mini-sites usam *container queries*
+(`@container site`): quem decide o layout é a largura da moldura, não a da tela. É isso
+que faz o botão "Celular" funcionar: ele só estreita a moldura pra 380px.
+
+> **Contraste.** Os pares de texto e fundo dos nove estilos foram medidos e ficam todos em
+> 4,5:1 ou mais. Dois ajustes saíram disso: o vermelho do Convite em texto e botão é
+> `#e00b41`, porque o `#ff385c` original dá 3,5:1 no branco e ficou só no ícone. E nos
+> cartões coloridos (Colorido e Estúdio) o texto é escuro no rosa, azul, laranja e verde,
+> onde branco não passa de 3,4:1. Ao criar um estilo, refaça essas contas.
+
+**Link de compartilhar.** "Mandar pra alguém" gera
+`?n=nome&r=ramo&c=cidade&o=outro&e=estilo#modelos`. No celular abre o menu de compartilhar do
+aparelho (`navigator.share`); no computador, o WhatsApp sem destinatário. Quem abre o link
+encontra a prévia montada: o `setupEstilos()` carrega o módulo na hora e rola até ela, e o
+sistema herda o nome. Na volta tudo é validado (ramo e estilo precisam existir, texto
+cortado em 30 caracteres e escapado pelos templates, como qualquer dado digitado).
+
+**Site, Google e Instagram.** O aparelho tem três abas. Com os mesmos dados, "Google" mostra
+a busca com a ficha do negócio (mapa desenhado em CSS, nota, Rotas/Ligar/Site, fotos, horário,
+avaliação) e "Instagram" mostra o perfil (bio, destaques, grade com fotos do ramo e artes nas
+cores do estilo escolhido).
+
+**Antes × Depois.** Quarta aba do aparelho. Duas camadas no mesmo lugar: embaixo o site no
+estilo escolhido, em cima um site "do jeito antigo" (Times New Roman, letreiro, contador de
+visitas, "em construção") recortado por `clip-path` até a cortina (`--ad`, registrada com
+`@property` pra poder animar a abertura). Arrasta com dedo ou mouse; um `<input type=range>`
+invisível por baixo dá teclado e leitor de tela. O site antigo tem largura fixa de 640px de
+propósito: no celular ele não cabe, que é exatamente o argumento. É caricatura assumida (o
+selo diz "do jeito antigo"), não o site de ninguém.
+
+**QR do cardápio/catálogo.** Depois de montar, as ações da prévia mostram um QR que abre
+`catalogo.html` com os mesmos parâmetros do link de compartilhar: cardápio (restaurante),
+ofertas (mercado) ou serviços e preços (os outros), com o nome e as cores do estilo, e um
+pedido de mentira que no fim explica que no de verdade ele cai no WhatsApp do negócio. No
+celular o QR vira botão. O QR é gerado no navegador por `vendor/qrcode-1.4.4.min.js`
+(qrcode-generator, Kazuhiko Arase, MIT, 20 KB), que só desce quando há QR pra desenhar.
+`catalogo.html` tem `noindex`: é exemplo, não página de ninguém. Os itens vêm de `RAMOS`
+(estilos.js) mais `ITENS_EXTRAS` no próprio catalogo.html.
+
+**Nada fica guardado.** A prévia vive só enquanto a aba está aberta: F5 volta pro convite,
+do zero, e nada sai do navegador até a pessoa clicar em "Quero um site assim".
+
+**Portão do diagnóstico.** O botão "Quero um site assim" leva `data-sem-portao`, e o
+`setupPortao()` deixa esse link passar direto: a pessoa acabou de responder três perguntas,
+não faz sentido mandar pra outras dez. Pra voltar a exigir o diagnóstico, apague a linha
+do `data-sem-portao` no `setupPortao()`.
+
+**Acessibilidade.** A lista de estilos é um `radiogroup` (setas trocam o estilo), o botão
+Computador/Celular usa `aria-pressed`, e enquanto as perguntas estão abertas a prévia fica
+`inert`, então o Tab não entra nela. Esc fecha as perguntas. Com
+`prefers-reduced-motion`, nada flutua nem desliza.
 
 ## A assinatura do rodapé
 
