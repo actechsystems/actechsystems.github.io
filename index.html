@@ -2942,7 +2942,7 @@
   </a>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;whatsappNumber&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;5561994299823&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Contato&quot;},&quot;whatsappMessage&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Olá! Vi a página da ACTech e quero saber mais sobre os planos.&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Contato&quot;},&quot;instagramUser&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;actech.systems&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Contato&quot;},&quot;assinaturaEssencial&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Pagamento&quot;},&quot;assinaturaCompleto&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Pagamento&quot;}}">
+<script type="text/x-dc" data-dc-script data-props="{&quot;whatsappNumber&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;5561994299823&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Contato&quot;},&quot;whatsappMessage&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Olá! Vi a página da ACTech e quero saber mais sobre os planos.&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Contato&quot;},&quot;instagramUser&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;actech.systems&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Contato&quot;},&quot;assinaturaEssencial&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Pagamento&quot;},&quot;assinaturaCompleto&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Pagamento&quot;},&quot;ga4Id&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Medição&quot;},&quot;googleAdsId&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Medição&quot;},&quot;googleAdsConversao&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Medição&quot;},&quot;metaPixelId&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Medição&quot;}}">
 class Component extends DCLogic {
   state = { open: 0, menu: false, lesson: -1, faixa: '6M' };
 
@@ -2972,6 +2972,8 @@ class Component extends DCLogic {
 
     this._teardown = [];
 
+    // Primeiro de todos: o page_view não deve esperar a enfeitação da página.
+    this.setupMedicao();
     this.setupPausar();
     this.setupClickFx();
     this.setupHoverReveal();
@@ -3652,6 +3654,116 @@ class Component extends DCLogic {
       desktop.removeEventListener('change', syncMode);
       bound.forEach((fn) => fn());
     });
+  }
+
+  /* ---------------------------------------------------------------
+     Medição: GA4, Google Ads e pixel da Meta.
+
+     Os quatro IDs são campos da seção "Medição". Enquanto estiverem vazios
+     NADA é carregado — nenhum script de terceiro, nenhum cookie. A página
+     continua exatamente como está hoje, e a medição liga sozinha no dia em
+     que os IDs entrarem, sem mexer em código.
+
+     O que é medido são as saídas: clique no WhatsApp, download do guia,
+     clique de assinatura e Instagram. Não há evento de "viu a seção" — o
+     que paga anúncio é a conversa que começa, não o scroll.
+
+     Para conferir sem conta nenhuma: abra a página com ?medir=debug e os
+     eventos aparecem no console.
+     --------------------------------------------------------------- */
+  setupMedicao() {
+    const ga = (this.props.ga4Id ?? '').trim();
+    const ads = (this.props.googleAdsId ?? '').trim();
+    const meta = (this.props.metaPixelId ?? '').trim();
+    this._adsConv = (this.props.googleAdsConversao ?? '').trim();
+    this._debug = /[?&]medir=debug/.test(location.search);
+
+    if (ga || ads) {
+      // gtag.js é um só pros dois: carrega uma vez com o primeiro ID e
+      // depois cada produto entra com seu próprio config.
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function () { window.dataLayer.push(arguments); };
+      window.gtag('js', new Date());
+
+      const s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(ga || ads);
+      document.head.appendChild(s);
+
+      if (ga) window.gtag('config', ga);
+      if (ads) window.gtag('config', ads);
+    }
+
+    if (meta) {
+      /* eslint-disable */
+      !function (f, b, e, v, n, t, s) {
+        if (f.fbq) return; n = f.fbq = function () { n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments); };
+        if (!f._fbq) f._fbq = n; n.push = n; n.loaded = true; n.version = '2.0'; n.queue = [];
+        t = b.createElement(e); t.async = true; t.src = v;
+        s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s);
+      }(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+      /* eslint-enable */
+      window.fbq('init', meta);
+      window.fbq('track', 'PageView');
+    }
+
+    /* Um ouvinte só pra todas as saídas, no capture, pelo href. Nada de
+       marcar botão a botão: botão novo passa a ser medido sozinho, que foi
+       a lição do carrossel e das abas desta página. */
+    const naSaida = (e) => {
+      const a = e.target.closest && e.target.closest('a[href]');
+      if (!a) return;
+      const href = a.getAttribute('href') || '';
+
+      let evento = '';
+      const dados = {};
+
+      if (/wa\.me|api\.whatsapp\.com/.test(href)) evento = 'contato_whatsapp';
+      else if (/mercadopago|mercadolivre/.test(href)) evento = 'inicio_assinatura';
+      else if (/\.pdf($|[?#])/i.test(href)) evento = 'baixou_guia';
+      else if (/instagram\.com/.test(href)) evento = 'clique_instagram';
+      else return;
+
+      // Onde a pessoa estava: a seção que contém o link. Serve pra saber qual
+      // pedaço da página puxa conversa -- e nenhuma lista precisa ser mantida.
+      const sec = a.closest('section[id]');
+      dados.secao = sec ? sec.id : (a.classList.contains('fab') ? 'flutuante' : 'rodape');
+
+      // Dentro de um card de plano, qual deles. O título é a fonte: mudou o
+      // nome do plano na página, muda no relatório junto.
+      const card = a.closest('.blob-card');
+      if (card) {
+        const t = card.querySelector('.blob-head .font-display');
+        if (t) dados.plano = t.textContent.trim();
+        // o botão de assinar ainda cai no WhatsApp enquanto não há link do
+        // Mercado Pago: é início de assinatura do mesmo jeito, não só contato
+        if (evento === 'contato_whatsapp' && a.classList.contains('btn-block')) evento = 'inicio_assinatura';
+      }
+
+      this.marcar(evento, dados);
+    };
+    document.addEventListener('click', naSaida, true);
+    this._teardown.push(() => document.removeEventListener('click', naSaida, true));
+  }
+
+  /** Manda o evento pra quem estiver configurado. Sem nada configurado não
+      faz nada -- exceto com ?medir=debug, que imprime no console. */
+  marcar(nome, dados) {
+    if (this._debug) console.log('[medir]', nome, dados);
+    if (window.gtag) {
+      window.gtag('event', nome, dados);
+      // A conversão do Google Ads é um envio à parte, com o rótulo da
+      // conversão criada no painel. Só a assinatura conta como conversão:
+      // marcar tudo como conversão é o mesmo que não marcar nada.
+      if (this._adsConv && nome === 'inicio_assinatura') {
+        window.gtag('event', 'conversion', { send_to: this._adsConv });
+      }
+    }
+    if (window.fbq) {
+      const mapa = { inicio_assinatura: 'InitiateCheckout', contato_whatsapp: 'Contact', baixou_guia: 'Lead' };
+      if (mapa[nome]) window.fbq('track', mapa[nome], dados);
+      else window.fbq('trackCustom', nome, dados);
+    }
   }
 
   /* ---------------------------------------------------------------
