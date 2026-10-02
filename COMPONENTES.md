@@ -100,7 +100,7 @@ barras de volume e eixos.
   `subida` e os rótulos do eixo de baixo. O rodapé do cartão diz "Exemplo ilustrativo" de
   propósito: sem isso o gráfico se lê como resultado real de cliente.
 - A curva usa ruído com semente fixa, não `Math.random`: sem isso o gráfico se redesenharia
-  a cada re-render (abrir o menu, responder o quiz).
+  a cada re-render (abrir o menu, trocar de faixa).
 - `delta` e a base tracejada são a mesma coisa: a linha pontilhada é o ponto de partida e o
   `delta` é o quanto a curva subiu dali até a ponta.
 - **Só linha e área são SVG.** Grade, base, ponto e barras são HTML posicionado por
@@ -156,9 +156,8 @@ A página junta muita coisa cara ao mesmo tempo: sete faixas em loop, quatro blo
    escrevia o `transform`. Agora mede uma vez no `pointerenter` e escreve uma vez por
    quadro via `requestAnimationFrame` — 120 eventos viram 1 escrita de estilo.
 
-Também: `renderVals()` roda inteiro a cada `setState` (e o quiz dispara um por resposta),
-então o que não muda passou por `memo()` — perguntas, ícones, os 40 quadros da parede,
-a curva do gráfico por faixa. E os raios de blur caíram um pouco (`.fluid` 50→40px,
+Também: `renderVals()` roda inteiro a cada `setState`, então o que não muda passou por
+`memo()` — os 40 quadros da parede, a curva do gráfico por faixa. E os raios de blur caíram um pouco (`.fluid` 50→40px,
 glow 26→21px): o custo cresce com o raio e a diferença não aparece.
 
 ### O desfoque dos cards de plano virou textura
@@ -334,11 +333,11 @@ não só no cinza limpo — por isso todos batem ~6,0 no cinza e ~4,5 sob a auro
 > hora:** as vivas ficam entre 2,0 e 3,1 sobre a aurora. Foi essa conta que mostrou que os
 > eyebrows já reprovavam antes, no roxo #6C63FF (3,41).
 
-Onde a roda é usada: cada **opção do quiz** (pela posição na grade), cada **eyebrow** de seção,
-os quatro **ícones de "Por que ACTech"**, e o **check de cada plano**, que acompanha a cor do
-próprio card — verde-água no Essencial, roxo no Completo.
+Onde a roda é usada: cada **eyebrow** de seção, os quatro **ícones de "Por que ACTech"**,
+e o **check de cada plano**, que acompanha a cor do próprio card — verde-água no Essencial,
+roxo no Completo.
 
-### O diagnóstico com movimento
+### Movimento
 
 Tudo anima **só `transform` e `opacity`**, que o compositor resolve sem repintar. Nada de
 animar `box-shadow` ou `width` — essa página já pagou essa conta uma vez nos cards de plano.
@@ -363,15 +362,6 @@ Medido: 60fps com tudo rodando.
 ### Cor que carrega informação
 
 `icon()` e `ico()` usam `currentColor` — quem manda na cor é o recipiente.
-
-- **Cada pergunta do quiz tem seu tom.** A classe `q0..q9` vai no `.modal-panel`, não na
-  grade: a barra de progresso é irmã da grade e não enxergaria a variável de lá. Só enquanto
-  pergunta. No formato cartão o tom tinge o ladrilho do ícone; no formato lista o `.pick-ico`
-  é o próprio radio, e tingir o fundo dele fazia a opção parecer já escolhida — ali a cor vai
-  no anel do radio e numa barra à esquerda da linha.
-- **A nota reage ao resultado.** Era sempre roxa; um 22 e um 85 ficavam idênticos. Agora
-  vermelho (&lt;40), âmbar (40–67) e verde (≥68), com um chip dizendo a faixa. As faixas são as
-  mesmas que decidem o título em `quizResult()` — **mexeu numa, mexa na outra.**
 
 > **Anel vivo, número escuro, de propósito.** O âmbar e o verde vibrantes não passam 3:1
 > contra o fundo, o mínimo para um gráfico. Mas o número declara a nota em texto do lado,
@@ -488,8 +478,8 @@ de distância. Quem nunca rola até ali não paga nada.
 > Pages segura arquivo em cache por uns 10 minutos, e o `?v=` é o que força a versão nova.
 
 **Por que DOM na mão e não template do x-dc.** O `[data-estilos]` sai do React sem filho
-nenhum, então o React nunca mexe no que o módulo põe ali: abrir o diagnóstico ou o menu
-re-renderiza o componente e a prévia continua intacta.
+nenhum, então o React nunca mexe no que o módulo põe ali: abrir o menu re-renderiza o
+componente e a prévia continua intacta.
 
 **Os estilos e de onde vieram.** Cada um foi montado a partir de um DESIGN.md do repositório
 [VoltAgent/awesome-design-md](https://github.com/VoltAgent/awesome-design-md) (licença MIT):
@@ -598,11 +588,6 @@ celular o QR vira botão. O QR é gerado no navegador por `vendor/qrcode-1.4.4.m
 **Nada fica guardado.** A prévia vive só enquanto a aba está aberta: F5 volta pro convite,
 do zero, e nada sai do navegador até a pessoa clicar em "Quero um site assim".
 
-**Portão do diagnóstico.** O botão "Quero um site assim" leva `data-sem-portao`, e o
-`setupPortao()` deixa esse link passar direto: a pessoa acabou de responder três perguntas,
-não faz sentido mandar pra outras dez. Pra voltar a exigir o diagnóstico, apague a linha
-do `data-sem-portao` no `setupPortao()`.
-
 **Acessibilidade.** A lista de estilos é um `radiogroup` (setas trocam o estilo), o botão
 Computador/Celular usa `aria-pressed`, e enquanto as perguntas estão abertas a prévia fica
 `inert`, então o Tab não entra nela. Esc fecha as perguntas. Com
@@ -640,53 +625,31 @@ diz "sites e marketing digital". São posicionamentos diferentes. Vale alinhar o
 - **"Agência 3309"** aparece em duas das capturas. Não nomeia o banco, mas é um dado
   específico — se incomodar, vale borrar antes de republicar.
 
-## Diagnóstico e presente
+## O guia gratuito
 
-Fluxo próprio, sem biblioteca de terceiros — vive no estado do `DCLogic`:
+Antes havia aqui um diagnóstico de dez perguntas: modal próprio, nota de 0 a
+100, tela de oferta no fim, e um portão (`setupPortao()`) que interceptava
+**todo** clique de WhatsApp da página pra obrigar a pessoa a responder antes de
+falar com alguém. Saiu inteiro em 01/10/2026, a pedido do dono: pedir dez
+respostas antes de entregar qualquer coisa é fricção, não qualificação — e o
+portão punia justamente quem já tinha decidido comprar.
+
+O ebook era o prêmio no fim. Agora é o que sempre deveria ter sido: um guia de
+graça, visível na seção `#guia`, que a pessoa baixa com um clique. Sem
+cadastro, sem e-mail, sem quiz.
 
 | Peça | Onde |
 |---|---|
-| Perguntas, ícones e textos | `quizData()` no `index.html` |
-| Cálculo da nota, faltas, ações e plano | `quizResult()` |
-| Apresentação do ebook | bloco `.ebook` na seção `#diagnostico` |
-| Slot do ebook | bloco `.mat-grid` no `index.html`, com as instruções em comentário logo acima |
+| A seção inteira | `#guia` no `index.html` |
+| Apresentação e capa | blocos `.gift` e `.ebook` |
+| O arquivo | `ebook.pdf` na raiz |
 
-### O fim do diagnóstico
+A capa é montada em CSS (`.ebook-capa`), não é imagem. Para trocar por uma capa
+de verdade, substitua o bloco por um `<img>` e ajuste a altura.
 
-O quiz não joga mais direto no WhatsApp. Depois do resultado (nota, o que está faltando
-e o que a gente faria primeiro), o botão leva a uma **tela de oferta** — passo `N + 3` —
-com três saídas, nesta ordem:
-
-1. **Ebook** — slot igual ao da página, marcado "Em breve" enquanto o arquivo não existe.
-   O comentário em cima do bloco tem as quatro linhas que mudam pra ligar, seja como
-   download (presente) ou como link de compra.
-2. **Auditoria em 24h** — esta já funciona: abre o WhatsApp com o diagnóstico escrito e a
-   última linha em branco (`Meu link (site, Instagram ou ficha do Google):`), esperando a
-   pessoa colar. É `res.audit`, irmã de `res.whats`.
-3. **Falar no WhatsApp** — o caminho antigo, com o perfil inteiro na mensagem.
-
-Chegar nessa tela já libera o presente na página (`unlocked`), então quem fechar o modal
-encontra o ebook esperando embaixo.
-
-> **Atenção ao ligar o ebook:** a página promete "um presente no fim" antes do quiz e o
-> bloco liberado diz "Presente liberado". Se ele virar produto pago, esses dois textos
-> precisam mudar junto — senão a página promete de graça o que cobra duas telas depois.
-
-A mensagem do WhatsApp é montada com o perfil inteiro que a pessoa respondeu —
-é o que transforma o diagnóstico em lead qualificado do lado de cá.
-
-Para mudar as perguntas, mexa só em `quizData()`: a barra de progresso, o "de N"
-e o passo do nome se ajustam sozinhos ao tamanho da lista.
-
-O slot do ebook está vazio de propósito. Enquanto estiverem com
-`data-vazio` ele aparece afundado na superfície, marcado como "Em breve" e não
-é clicável. O comentário acima do bloco explica as quatro linhas que mudam para
-ativá-lo.
-
-O diagnóstico também é o portão de entrada: `setupPortao()` intercepta qualquer
-link para o WhatsApp — CTA do topo, hero, os dois planos, o botão do CTA final e
-o flutuante — e abre o modal antes. Depois que a pessoa responde (ou escolhe
-falar direto), os links voltam a funcionar normalmente.
+> **Se o ebook virar produto pago**, o texto "Sem cadastro, sem e-mail" e o
+> rótulo "Guia gratuito" precisam mudar junto — senão a página promete de graça
+> o que cobra na hora do clique.
 
 As imagens do carrossel ficam em `imgs/`, agora em WebP: `site-home`,
 `site-portfolio`, `painel-caixa` e `livro-caixa` saíram de 1,31 MB em PNG para

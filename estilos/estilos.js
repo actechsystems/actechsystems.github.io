@@ -822,8 +822,8 @@
           '<span class="est-qr-txt"><b data-qr-titulo></b><small>Aponte a câmera do celular e veja o de vocês funcionando.</small>' +
           '<a class="est-qr-link" data-qr-link target="_blank" rel="noopener">Abrir aqui</a></span></div>' +
         '<div class="est-acoes-bts"><button type="button" class="btn btn-secondary btn-sm" data-trocar>Trocar os dados</button>' +
-        '<a class="btn btn-secondary btn-sm" data-compartilhar data-sem-portao target="_blank" rel="noopener">' + ico('seta') + 'Mandar pra alguém</a>' +
-        '<a class="btn btn-primary btn-sm" data-quero data-sem-portao target="_blank" rel="noopener">' + ico('whats') + 'Quero um site assim</a></div>' +
+        '<a class="btn btn-secondary btn-sm" data-compartilhar target="_blank" rel="noopener">' + ico('seta') + 'Mandar pra alguém</a>' +
+        '<a class="btn btn-primary btn-sm" data-quero target="_blank" rel="noopener">' + ico('whats') + 'Quero um site assim</a></div>' +
       '</div>' +
       '<p class="est-sr" aria-live="polite" data-fala></p>';
 

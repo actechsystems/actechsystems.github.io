@@ -212,7 +212,7 @@
       '<div class="sx-acoes" data-acoes>' +
         '<p data-acoes-txt></p>' +
         '<div class="sx-acoes-bts"><button type="button" class="btn btn-secondary btn-sm" data-refazer>' + ico('ajustes') + 'Trocar módulos</button>' +
-        '<a class="btn btn-primary btn-sm" data-quero data-sem-portao target="_blank" rel="noopener">' + ico('whats') + 'Quero um sistema assim</a></div>' +
+        '<a class="btn btn-primary btn-sm" data-quero target="_blank" rel="noopener">' + ico('whats') + 'Quero um sistema assim</a></div>' +
       '</div>' +
       '<p class="sx-sr" aria-live="polite" data-fala></p>';
 

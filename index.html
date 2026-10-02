@@ -234,7 +234,7 @@
   input[type="submit"], input[type="checkbox"], input[type="radio"],
   [style*="cursor: pointer"], [style*="cursor:pointer"] {
     /* mesma lógica, versão "mãozinha" — cobre os cliques nativos e os que
-       já vinham com cursor:pointer inline (quiz, carrossel, abas etc.),
+       já vinham com cursor:pointer inline (carrossel, abas etc.),
        por isso o !important: estilo inline sempre ganharia de uma regra
        externa comum. */
     cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M13 3a2 2 0 00-2 2v6.06l-1.94-1.94a1.5 1.5 0 10-2.12 2.12L10 14.3V16a5 5 0 005 5h1a5 5 0 005-5v-5a2 2 0 00-4 0V9a2 2 0 00-2-2V5a2 2 0 00-2-2z' fill='%23111111' stroke='white' stroke-width='1' stroke-linejoin='round'/%3E%3C/svg%3E") 11 3, pointer !important;
@@ -732,28 +732,6 @@
     background: var(--bg); border-radius: var(--r-card); box-shadow: var(--nm-out);
   }
 
-  /* ---------- os tres cartoes do diagnostico ----------
-     Eram pastilhas de uma linha, todas roxas. Agora cada um diz o que a pessoa
-     leva, na sua propria cor, com uma faixa no topo que amarra os tres. */
-  .diag-cards { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 16px; margin-top: 42px; text-align: left; }
-  .diag-card {
-    position: relative; overflow: hidden; padding: 24px 22px 22px;
-    border-radius: var(--r-base); background: var(--bg); box-shadow: var(--nm-out-sm);
-    transition: transform .28s var(--ease), box-shadow .28s var(--ease);
-  }
-  .diag-card::before {
-    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
-    background: var(--dc); opacity: .85;
-  }
-  .diag-card:hover { transform: translateY(-3px); box-shadow: var(--nm-out); }
-  .diag-card-ico {
-    display: grid; place-items: center; width: 42px; height: 42px; border-radius: 13px;
-    background: var(--dcf); color: var(--dc); margin-bottom: 14px;
-  }
-  .diag-card b { display: block; font-size: 15.5px; font-weight: 700; color: var(--dct); line-height: 1.3; }
-  .diag-card-txt { display: block; margin-top: 7px; font-size: 14px; line-height: 1.55; color: var(--muted); }
-  @media (max-width: 860px) { .diag-cards { grid-template-columns: minmax(0,1fr); } }
-
   /* ---------- sistemas sob medida: a vitrine ----------
      Um palco escuro (as capturas são quase todas de sistema em tema escuro e
      somem num fundo claro), uma aba por caso e, dentro de cada caso, a tela
@@ -902,8 +880,7 @@
   }
   .sis-painel.is-on .sis-thumb.is-on::after { animation: sisProg 5.5s linear forwards; }
   .sis-show:hover .sis-thumb.is-on::after,
-  .fora-de-vista .sis-thumb.is-on::after,
-  body.modal-aberto .sis-thumb.is-on::after { animation-play-state: paused; }
+  .fora-de-vista .sis-thumb.is-on::after { animation-play-state: paused; }
   @keyframes sisProg { to { transform: scaleX(1); } }
 
   .sis-tipos { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 16px; margin-top: 26px; }
@@ -1071,115 +1048,38 @@
 
   /* ---------- cor que quer dizer alguma coisa ----------
      O icone do icon() usa currentColor, entao quem manda na cor e o recipiente.
-     .nm-well mantem o roxo de sempre; no quiz, cada pergunta troca o tom. */
+     .nm-well usa o accent da marca. */
   .nm-well { color: var(--accent); }
   /* os quatro cartoes de "Por que ACTech", um de cada cor */
   .grid-2 > *:nth-child(1) .dif-ico { color: var(--c1); background: var(--f1); }
   .grid-2 > *:nth-child(2) .dif-ico { color: var(--c3); background: var(--f3); }
   .grid-2 > *:nth-child(3) .dif-ico { color: var(--c2); background: var(--f2); }
   .grid-2 > *:nth-child(4) .dif-ico { color: var(--c5); background: var(--f5); }
-  .pick-ico { color: var(--tom-q, var(--accent)); }
-  .pick.is-picked .pick-t { color: var(--tom-q-txt, var(--accent)); }
   /* Dois valores por pergunta, e nao um color-mix: --tom-q pinta o traco e
      --tom-q-bg tinge o ladrilho. Explicito assim funciona em navegador antigo
      e deixa a dose de cada tinta no olho, nao numa formula. */
   /* A pergunta da o tom da barra de progresso e do "PERGUNTA N DE 10"... */
-  .modal-panel.q0, .modal-panel.q5 { --tom-q: var(--c1); --tom-q-txt: var(--t1); }
-  .modal-panel.q1, .modal-panel.q6 { --tom-q: var(--c3); --tom-q-txt: var(--t3); }
-  .modal-panel.q2, .modal-panel.q7 { --tom-q: var(--c2); --tom-q-txt: var(--t2); }
-  .modal-panel.q3, .modal-panel.q8 { --tom-q: var(--c4); --tom-q-txt: var(--t4); }
-  .modal-panel.q4, .modal-panel.q9 { --tom-q: var(--c5); --tom-q-txt: var(--t5); }
   /* ...e cada OPCAO reescreve o tom com o seu, pela posicao na grade. Oito
      porque a pergunta do tipo de negocio tem oito opcoes. */
-  .pick:nth-child(1) { --tom-q: var(--c1); --tom-q-bg: var(--f1); --tom-q-txt: var(--t1); }
-  .pick:nth-child(2) { --tom-q: var(--c2); --tom-q-bg: var(--f2); --tom-q-txt: var(--t2); }
-  .pick:nth-child(3) { --tom-q: var(--c3); --tom-q-bg: var(--f3); --tom-q-txt: var(--t3); }
-  .pick:nth-child(4) { --tom-q: var(--c4); --tom-q-bg: var(--f4); --tom-q-txt: var(--t4); }
-  .pick:nth-child(5) { --tom-q: var(--c5); --tom-q-bg: var(--f5); --tom-q-txt: var(--t5); }
-  .pick:nth-child(6) { --tom-q: var(--c6); --tom-q-bg: var(--f6); --tom-q-txt: var(--t6); }
-  .pick:nth-child(7) { --tom-q: var(--c7); --tom-q-bg: var(--f7); --tom-q-txt: var(--t7); }
-  .pick:nth-child(8) { --tom-q: var(--c8); --tom-q-bg: var(--f8); --tom-q-txt: var(--t8); }
   /* so no formato cartao: no formato lista o .pick-ico e o proprio radio, e
      tingir ele faria a opcao parecer ja escolhida. */
-  .pick:not(.is-row) .pick-ico { background: var(--tom-q-bg, rgba(61,106,153,.13)); }
-
-  /* ---------- o diagnostico com movimento ----------
-     Tudo aqui anima so transform e opacity, que o compositor resolve sem
-     repintar. Nada de animar box-shadow ou width: essa pagina ja pagou essa
-     conta uma vez nos cards de plano. */
 
   /* as opcoes entram em cascata, e nao todas de uma vez */
-  .pick { animation: opcaoEntra .42s var(--ease) both; }
-  .pick:nth-child(1) { animation-delay: 0ms; }
-  .pick:nth-child(2) { animation-delay: 40ms; }
-  .pick:nth-child(3) { animation-delay: 80ms; }
-  .pick:nth-child(4) { animation-delay: 120ms; }
-  .pick:nth-child(5) { animation-delay: 160ms; }
-  .pick:nth-child(6) { animation-delay: 200ms; }
-  .pick:nth-child(7) { animation-delay: 240ms; }
-  .pick:nth-child(8) { animation-delay: 280ms; }
 
-  @keyframes opcaoEntra {
-    from { opacity: 0; transform: translateY(12px) scale(.97); }
-    to   { opacity: 1; transform: none; }
-  }
   /* o hover tinge o cartao inteiro, nao so o ladrilho */
-  .pick:not(.is-row):hover { background: var(--tom-q-bg, rgba(61,106,153,.13)); }
-  .pick:hover .pick-ico { transform: scale(1.12) rotate(-6deg); }
-  .pick-ico { transition: background .3s var(--ease), box-shadow .25s var(--ease), transform .3s var(--ease); }
 
   /* a barra de progresso ganha um brilho que corre por dentro */
-  .modal-bar i { position: relative; overflow: hidden; }
-  .modal-bar i::after {
-    content: ''; position: absolute; inset: 0;
-    background: linear-gradient(100deg, transparent 20%, rgba(255,255,255,.55) 50%, transparent 80%);
-    transform: translateX(-100%);
-    animation: brilhoBarra 2.4s var(--ease) infinite;
-  }
-  @keyframes brilhoBarra { to { transform: translateX(100%); } }
 
   /* o anel da nota se desenha, em vez de aparecer pronto - e o clique do funil */
-  .score-arco {
-    stroke-dasharray: 389.6;
-    stroke-dashoffset: 389.6;
-    animation: anelEnche 1.2s var(--ease) .3s both;
-  }
-  @keyframes anelEnche { to { stroke-dashoffset: var(--off, 389.6); } }
-  .score-ring { animation: notaPulsa .6s var(--ease) both; }
-  @keyframes notaPulsa { from { transform: scale(.88); opacity: 0; } to { transform: none; opacity: 1; } }
 
   /* as linhas do resultado tambem entram em cascata */
-  .gap-row { animation: opcaoEntra .45s var(--ease) both; }
-  .gap-row:nth-child(2) { animation-delay: 60ms; }
-  .gap-row:nth-child(3) { animation-delay: 120ms; }
-  .gap-row:nth-child(4) { animation-delay: 180ms; }
 
   /* o anel de "analisando" passeia pela roda de cor enquanto pensa */
-  .quiz-ring i { animation: spin .9s linear infinite, anelCor 2.5s linear infinite; }
-  @keyframes anelCor {
-    0%   { border-top-color: var(--c1); border-right-color: var(--c5); }
-    25%  { border-top-color: var(--c2); border-right-color: var(--c6); }
-    50%  { border-top-color: var(--c3); border-right-color: var(--c8); }
-    75%  { border-top-color: var(--c4); border-right-color: var(--c7); }
-    100% { border-top-color: var(--c1); border-right-color: var(--c5); }
-  }
-  .pick-ico { transition: background .3s var(--ease), box-shadow .25s var(--ease); }
-  .pick:hover .pick-ico { box-shadow: var(--nm-out-sm); }
 
   /* a nota: anel vivo, numero escuro. O numero ja declara o resultado em texto
      legivel, entao o anel pode ser vibrante sem custar leitura. */
-  .score-num { transition: color .5s var(--ease); }
-  .score-faixa {
-    display: inline-flex; align-items: center; gap: 7px; margin-bottom: 10px;
-    padding: 6px 14px; border-radius: var(--r-pill); box-shadow: var(--nm-out-sm);
-    font-size: 11.5px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase;
-  }
-  .score-faixa i { width: 8px; height: 8px; border-radius: 999px; background: currentColor; flex: none; }
 
   /* "o que falta" alerta, "o que faremos" avanca - e a cor diz qual e qual */
-  .gap-ico { color: var(--accent); }
-  .gap-row--falta .gap-ico { color: #C62A2F; background: rgba(229,72,77,.09); }
-  .gap-row--faz .gap-ico { color: #0E7C6F; background: rgba(18,165,148,.11); }
 
   /* ---------- sozinho x com a ACTech: o mesmo mes, dos dois lados ----------
      Os dois painéis não se alinham linha a linha (o texto tem tamanhos
@@ -1420,158 +1320,29 @@
   }
   .tela-img { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: top center; background: #eef1f5; }
 
-  /* ---------- Modal do diagnóstico ---------- */
-  .modal {
-    position: fixed; inset: 0; z-index: 90;
-    display: flex; align-items: center; justify-content: center; padding: 22px;
-    background: rgba(224,229,236,.84); backdrop-filter: blur(12px);
-    animation: modalIn .3s var(--ease) both;
-  }
-  @keyframes modalIn { from { opacity: 0; } to { opacity: 1; } }
-  /* Só anima o que está na tela — e nada enquanto o modal está aberto.
-     Sete faixas em loop, quatro blobs com blur de 50px e o glow girando, tudo ao
-     mesmo tempo, é GPU gasta desenhando o que ninguém está olhando. */
+  /* Só anima o que está na tela. Sete faixas em loop, quatro blobs com blur de
+     50px e o glow girando, tudo ao mesmo tempo, é GPU gasta desenhando o que
+     ninguém está olhando. */
   .fora-de-vista .wall-lane,
   .fora-de-vista .tcol,
   .fora-de-vista .fluid i,
   .fora-de-vista .blob-glow i,
   .fora-de-vista .marquee-faixa,
-  body.modal-aberto .wall-lane,
-  body.modal-aberto .tcol,
-  body.modal-aberto .fluid i,
-  body.modal-aberto .blob-glow i,
-  body.modal-aberto .float,
-  body.modal-aberto .float-slow,
-  body.modal-aberto .marquee-faixa,
-  body.modal-aberto .aurora i { animation-play-state: paused !important; }
-  /* a cor da pergunta da vez banha o alto do painel */
-  .modal-panel::after {
-    content: ''; position: absolute; top: -32%; left: 50%; width: 110%; height: 70%;
-    transform: translateX(-50%); pointer-events: none; z-index: 0;
-    background: radial-gradient(ellipse closest-side, var(--tom-q, var(--accent)), transparent 70%);
-    opacity: .13; transition: opacity .4s var(--ease), background .4s var(--ease);
-  }
-  .modal-top, .modal-body { position: relative; z-index: 1; }
-  .modal-panel {
-    position: relative; width: 100%; max-width: 800px; max-height: 88vh;
-    display: flex; flex-direction: column; overflow: hidden;
-    background: var(--bg); border-radius: var(--r-card);
-    box-shadow: 18px 18px 36px rgba(163,177,198,.75), -18px -18px 36px rgba(255,255,255,.7);
-    animation: panelIn .45s var(--ease) both;
-  }
-  @keyframes panelIn { from { opacity: 0; transform: translateY(26px) scale(.97); } to { opacity: 1; transform: none; } }
-  .modal-top { display: flex; align-items: center; gap: 16px; padding: 20px 24px 4px; flex: none; }
-  .modal-bar { flex: 1; height: 10px; border-radius: 999px; background: var(--bg); box-shadow: var(--nm-in-sm); overflow: hidden; }
-  .modal-bar i {
-    display: block; height: 100%; border-radius: 999px;
-    /* acompanha o tom da pergunta da vez; no resultado volta pro roxo */
-    background: linear-gradient(90deg, var(--tom-q, var(--accent)), var(--tom-q, var(--accent-light)));
-    transition: width .55s var(--ease), background .3s var(--ease);
-  }
-  .modal-x {
-    width: 46px; height: 46px; min-width: 46px; min-height: 46px;
-    flex: none; border: none; border-radius: 14px;
-    background: var(--bg); color: var(--fg); box-shadow: var(--nm-out-sm);
-    cursor: pointer; display: grid; place-items: center; transition: all .25s var(--ease);
-  }
-  .modal-x:active { box-shadow: var(--nm-in-sm); }
-  .modal-body { overflow-y: auto; overscroll-behavior: contain; padding: 22px 34px 34px; }
-  .modal-body::-webkit-scrollbar { width: 10px; }
-  .modal-body::-webkit-scrollbar-track { background: transparent; }
-  .modal-body::-webkit-scrollbar-thumb { border-radius: 999px; background: rgba(163,177,198,.45); }
-  /* duas animações idênticas alternadas: trocar a classe reinicia a entrada
-     a cada pergunta — mudar só o conteúdo não reiniciaria */
-  .step-a { animation: stepInA .38s var(--ease) both; }
-  .step-b { animation: stepInB .38s var(--ease) both; }
-  @keyframes stepInA { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
-  @keyframes stepInB { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
-
-  .quiz-step { font-size: 12px; letter-spacing: .18em; text-transform: uppercase; font-weight: 700; color: var(--tom-q-txt, var(--accent)); transition: color .3s var(--ease); }
-  .quiz-q {
-    font-family: 'Plus Jakarta Sans', system-ui, sans-serif; font-weight: 800;
-    font-size: clamp(23px, 2.9vw, 32px); line-height: 1.14; letter-spacing: -.03em;
-    margin: 14px 0 10px; color: var(--fg);
-  }
-  .quiz-hint { font-size: 15px; color: var(--muted); line-height: 1.65; margin: 0 0 24px; }
+  .fora-de-vista .float,
+  .fora-de-vista .float-slow,
+  .fora-de-vista .aurora i { animation-play-state: paused !important; }
 
   /* ---------- Cards de escolha ---------- */
-  .pick-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 14px; }
-  .pick-grid.is-list { grid-template-columns: 1fr; gap: 12px; }
-  .pick {
-    display: flex; flex-direction: column; align-items: flex-start; gap: 14px;
-    width: 100%; min-height: 128px; padding: 20px 18px;
-    border: none; border-radius: 22px; text-align: left; cursor: pointer;
-    background: var(--bg); color: var(--fg); font-family: inherit;
-    box-shadow: var(--nm-out-sm);
-    /* `all` fazia o navegador vigiar toda propriedade do botão a cada quadro do
-       hover; só sombra e posição mudam de verdade. */
-    transition: box-shadow .25s var(--ease), transform .25s var(--ease), color .25s var(--ease);
-  }
-  .pick:hover { transform: translateY(-2px); box-shadow: var(--nm-out); }
-  .pick:active { transform: translateY(.5px); box-shadow: var(--nm-in-sm); }
-  .pick.is-picked { box-shadow: var(--nm-in); }
-  .pick.is-picked .pick-ico { box-shadow: var(--nm-out-sm); }
-  .pick.is-picked .pick-t { color: var(--accent); }
-  .pick-ico {
-    width: 46px; height: 46px; flex: none; border-radius: 15px;
-    box-shadow: var(--nm-in-sm); display: grid; place-items: center;
-    transition: box-shadow .25s var(--ease);
-  }
-  .pick-t { display: block; font-weight: 700; font-size: 15.5px; line-height: 1.3; transition: color .25s var(--ease); }
-  .pick-s { display: block; font-size: 13px; color: var(--muted); line-height: 1.5; margin-top: 5px; font-weight: 400; }
-  .pick-s:empty { display: none; }
 
   /* variante em linha, pra perguntas de "nível" */
-  .pick.is-row { flex-direction: row; align-items: center; min-height: 74px; gap: 15px; padding: 16px 20px; border-radius: var(--r-base); }
-  .pick.is-row .pick-ico { width: 26px; height: 26px; border-radius: 999px; }
-  .pick.is-row .pick-ico b { width: 11px; height: 11px; border-radius: 999px; background: var(--tom-q, var(--accent)); display: none; }
   /* No formato lista o unico elemento era um radio cinza - a tela inteira ficava
      sem cor. O anel do radio e a barra da esquerda resolvem sem fingir selecao. */
-  .pick.is-row .pick-ico { box-shadow: var(--nm-in-sm), inset 0 0 0 2px var(--tom-q, var(--accent)); }
-  .pick.is-row { position: relative; overflow: hidden; }
-  .pick.is-row::before {
-    content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
-    background: var(--tom-q, var(--accent)); opacity: .5;
-    transition: opacity .25s var(--ease), width .25s var(--ease);
-  }
-  .pick.is-row:hover::before, .pick.is-row.is-picked::before { opacity: 1; width: 6px; }
-  .pick.is-row.is-picked .pick-ico { box-shadow: var(--nm-in-sm); }
-  .pick.is-row.is-picked .pick-ico b { display: block; }
-
-  .quiz-back {
-    background: none; border: none; color: var(--muted); font: inherit; font-size: 14.5px;
-    cursor: pointer; padding: 12px 6px; margin-top: 18px; border-radius: var(--r-inner);
-  }
-  .quiz-back:hover { color: var(--fg); }
 
   /* campo de texto (nome do negócio) */
-  .quiz-input {
-    width: 100%; border: none; border-radius: var(--r-base); background: var(--bg);
-    box-shadow: var(--nm-in-deep); padding: 18px 20px; font-family: inherit;
-    font-size: 16.5px; color: var(--fg); min-height: 58px;
-  }
-  .quiz-input::placeholder { color: var(--placeholder); }
-  .quiz-input:focus { outline: none; box-shadow: var(--nm-in-deep), 0 0 0 2px var(--bg), 0 0 0 4px var(--accent); }
 
   /* "analisando" — a pausa que faz o resultado valer */
-  .quiz-load { display: grid; place-items: center; gap: 24px; padding: 34px 0 26px; text-align: center; }
-  .quiz-ring { width: 116px; height: 116px; border-radius: 999px; box-shadow: var(--nm-in-deep); display: grid; place-items: center; position: relative; }
-  .quiz-ring i {
-    position: absolute; inset: 12px; border-radius: 999px;
-    border: 3px solid transparent; border-top-color: var(--accent); border-right-color: var(--accent-light);
-    animation: spin .9s linear infinite;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  .quiz-load-msg { font-size: 16px; color: var(--muted); min-height: 24px; }
 
   /* resultado */
-  .score-wrap { display: flex; gap: 28px; align-items: center; flex-wrap: wrap; }
-  .score-ring { width: 140px; height: 140px; border-radius: 999px; box-shadow: var(--nm-out); display: grid; place-items: center; flex: none; position: relative; }
-  .score-ring > svg { position: absolute; inset: 0; transform: rotate(-90deg); }
-  .score-num { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; font-weight: 800; font-size: 38px; letter-spacing: -.03em; color: var(--accent); line-height: 1; }
-  .score-lbl { font-size: 11.5px; color: var(--muted); letter-spacing: .1em; text-transform: uppercase; margin-top: 4px; }
-  .gap-row { display: flex; gap: 14px; align-items: flex-start; padding: 11px 0; }
-  .gap-ico { width: 30px; height: 30px; border-radius: 999px; box-shadow: var(--nm-in-sm); display: grid; place-items: center; flex: none; margin-top: 1px; }
   .rec {
     border-radius: 26px; padding: 26px 28px; background: var(--bg);
     box-shadow: var(--nm-in); margin-top: 8px;
@@ -1583,9 +1354,11 @@
     position: relative; overflow: hidden; border-radius: var(--r-card);
     background: var(--bg); box-shadow: var(--nm-out-hover);
     padding: 38px 40px 34px;
-    animation: giftIn .7s var(--ease) both;
   }
-  @keyframes giftIn { from { opacity: 0; transform: translateY(20px) scale(.97); } to { opacity: 1; transform: none; } }
+  /* A entrada era uma animação própria, de quando o card aparecia de repente ao
+     fim do diagnóstico. Agora ele está sempre na página e entra pelo
+     `data-reveal`, como todo o resto -- duas animações de entrada no mesmo
+     elemento é uma a mais. */
   /* faixa fina de accent no topo, no lugar da moldura colorida inteira */
   .gift::before {
     content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
@@ -1612,57 +1385,6 @@
   .ebook-lista li { display: flex; gap: 11px; align-items: flex-start; font-size: 14.5px; line-height: 1.5; color: var(--muted); }
   .ebook-lista b { color: var(--fg); font-weight: 700; }
   .ebook-tick { width: 22px; height: 22px; border-radius: 999px; box-shadow: var(--nm-in-sm); display: grid; place-items: center; flex: none; margin-top: 1px; }
-
-  /* ---------- Tela de oferta (último passo do diagnóstico) ---------- */
-  .oferta-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 18px; }
-  .oferta-card {
-    position: relative; display: flex; flex-direction: column;
-    padding: 24px 22px; border-radius: var(--r-card);
-    background: var(--bg); box-shadow: var(--nm-out-sm);
-  }
-  .oferta-card--destaque { box-shadow: var(--nm-out); }
-  .oferta-selo {
-    position: absolute; top: -11px; right: 20px;
-    font-size: 10.5px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase;
-    color: var(--accent-2); background: var(--bg); box-shadow: var(--nm-out-sm);
-    padding: 6px 13px; border-radius: var(--r-pill);
-  }
-  .oferta-topo { display: flex; gap: 16px; align-items: flex-start; }
-  /* a capa aqui é miniatura: menos padding e tipo menor, senão o título vaza */
-  .oferta-capa { width: 96px; flex: none; padding: 11px 9px; border-radius: 4px 10px 10px 4px; }
-  .oferta-capa .ebook-nome { font-size: 10.5px; line-height: 1.18; }
-  .oferta-capa .ebook-selo { font-size: 7.5px; letter-spacing: .12em; }
-  .oferta-capa::after { width: 6px; }
-  .oferta-ico { width: 50px; height: 50px; border-radius: 16px; flex: none; }
-  .oferta-tit {
-    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
-    font-weight: 800; font-size: 16.5px; line-height: 1.25; letter-spacing: -.02em; color: var(--fg);
-  }
-  .oferta-txt { margin: 8px 0 0; font-size: 14px; line-height: 1.6; color: var(--muted); }
-  .oferta-card .mat-grid { grid-template-columns: minmax(0,1fr); margin-top: auto; }
-
-  /* ---------- Slots do material (ebook, checklist, aula) ---------- */
-  .mat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 250px)); gap: 12px; }
-  .mat {
-    display: flex; flex-direction: column; gap: 12px; align-items: flex-start;
-    padding: 20px 18px; border-radius: 20px; text-decoration: none;
-    background: var(--bg); color: var(--fg); box-shadow: var(--nm-out-sm);
-    transition: all .25s var(--ease); min-height: 148px;
-  }
-  /* enquanto o slot está vazio ele fica afundado e não parece clicável */
-  .mat[data-vazio] { box-shadow: var(--nm-in-sm); cursor: default; }
-  a.mat:hover { transform: translateY(-2px); box-shadow: var(--nm-out); color: var(--fg); }
-  a.mat:active { transform: translateY(.5px); box-shadow: var(--nm-in-sm); }
-  .mat-ico { width: 42px; height: 42px; border-radius: 14px; box-shadow: var(--nm-in-sm); display: grid; place-items: center; flex: none; }
-  a.mat .mat-ico { box-shadow: var(--nm-out-sm); }
-  .mat-t { font-weight: 700; font-size: 15px; line-height: 1.3; }
-  .mat-s { font-size: 13px; color: var(--muted); line-height: 1.5; }
-  .mat-tag {
-    margin-top: auto; font-size: 11.5px; font-weight: 700; letter-spacing: .1em;
-    text-transform: uppercase; color: var(--muted);
-    padding: 6px 12px; border-radius: var(--r-pill); box-shadow: var(--nm-in-sm);
-  }
-  a.mat .mat-tag { color: var(--accent); box-shadow: var(--nm-out-sm); }
 
   /* ---------- layout ---------- */
   .wrap { max-width: 1180px; margin: 0 auto; padding-left: 24px; padding-right: 24px; }
@@ -1789,33 +1511,11 @@
 
     /* o modal precisa devolver largura pros cards: no celular cada pixel
        de padding tira do conteúdo */
-    .modal { padding: 12px; }
-    .modal-panel { max-height: 92vh; }
-    .modal-top { padding: 16px 16px 2px; }
-    .modal-body { padding: 18px 16px 26px; }
-    .oferta-grid { grid-template-columns: minmax(0,1fr); }
-    .pick { min-height: 112px; padding: 16px 14px; gap: 11px; border-radius: 18px; }
-    .pick-ico { width: 40px; height: 40px; border-radius: 13px; }
-    .pick-t { font-size: 14.5px; }
-    .pick-s { font-size: 12.5px; margin-top: 4px; }
-    .pick.is-row { min-height: 68px; padding: 14px 16px; }
-    .pick-grid { gap: 10px; }
-    .quiz-q { font-size: 22px; }
-    .score-ring, .score-ring > svg { width: 116px; height: 116px; }
-    .score-num { font-size: 32px; }
-
-    .mat-grid { grid-template-columns: 1fr; }
-    .mat { min-height: 0; flex-direction: row; align-items: center; flex-wrap: wrap; padding: 16px; }
-    .mat-t { flex: 1; }
-    .mat-s { width: 100%; margin-left: 54px; margin-top: -6px; }
-    .mat-tag { margin-top: 0; }
 
     .gift { padding: 28px 20px 26px; border-radius: 26px; }
     .ebook { flex-direction: column; gap: 20px; align-items: center; text-align: center; }
     .ebook-capa { width: 118px; }
     .ebook-lista li { text-align: left; }
-    .mat-grid { grid-template-columns: 1fr; }
-    .score-wrap { gap: 20px; justify-content: center; text-align: center; }
     .rec { padding: 22px 20px; }
   }
 
@@ -2673,120 +2373,55 @@
 
   </section>
 
-  <section id="diagnostico" class="wrap pad-section" style="position: relative; z-index: 1; padding-top: 20px; padding-bottom: 100px;">
-    <div data-reveal="1" class="nm-card" style="position: relative; overflow: hidden; padding: clamp(34px, 5vw, 62px) clamp(22px, 4vw, 54px); text-align: center;">
-      <div class="nm-well" style="position: absolute; width: 280px; height: 280px; border-radius: 999px; top: -150px; left: -110px;"></div>
-      <div class="nm-tile" style="position: absolute; width: 170px; height: 170px; border-radius: 999px; bottom: -80px; right: -60px;"></div>
-
-      <div style="position: relative;">
-        <div class="eyebrow eyebrow--1">Diagnóstico gratuito</div>
-        <h2 class="font-display" style="font-weight: 800; font-size: clamp(28px, 4.2vw, 48px); line-height: 1.06; margin: 18px auto 0; max-width: 20ch; color: #3D4852;">Antes de vender qualquer coisa, a gente quer te conhecer.</h2>
-        <p style="margin: 18px auto 0; max-width: 52ch; font-size: 16.5px; color: #59616E; line-height: 1.7;">
-          Dez perguntas sobre o seu negócio. No fim você recebe um diagnóstico da sua presença digital — o que já está de pé, o que está faltando e por onde começar. É seu, mesmo que não contrate nada.
-        </p>
-
-        <button class="btn btn-primary" onClick="{{ quizOpenFn }}" style="margin-top: 32px; min-width: 264px; font-size: 17px; padding: 18px 34px;">
-          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-4.5-4.5"></path></svg>
-          Fazer meu diagnóstico
-        </button>
-        <div style="margin-top: 15px; font-size: 13.5px; color: #59616E;">1 minuto · sem cadastro · sem e-mail</div>
-
-        <!-- Eram tres pastilhas de uma linha so, todas roxas e apertadas. Viraram
-             cartao de verdade: icone com a sua cor, titulo e uma linha dizendo o que
-             a pessoa leva. A faixa colorida no topo e o que amarra os tres. -->
-        <div class="diag-cards">
-          <div class="diag-card" style="--dc: var(--c1); --dcf: var(--f1); --dct: var(--t1);">
-            <span class="diag-card-ico">
-              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"></path></svg>
-            </span>
-            <b>Sua nota de 0 a 100</b>
-            <span class="diag-card-txt">Um número só, que diz onde a sua presença digital está hoje.</span>
+  <!-- Aqui havia um diagnostico de dez perguntas, com modal e um portao que
+       segurava todo clique de WhatsApp. Saiu em 01/10/2026: pedir dez
+       respostas antes de entregar qualquer coisa e friccao, nao qualificacao.
+       O ebook era o premio no fim -- agora e so o que ele sempre deveria ter
+       sido, um guia de graca que a pessoa baixa e pronto. -->
+  <section id="guia" class="wrap pad-section" style="position: relative; z-index: 1; padding-top: 20px; padding-bottom: 100px;">
+    <div data-reveal="1" class="gift-wrap" style="max-width: 880px;">
+      <div class="gift">
+        <div class="gift-deco"></div>
+        <div style="position: relative;">
+          <div style="display: flex; gap: 16px; align-items: center;">
+            <div class="nm-well" style="width: 56px; height: 56px; border-radius: 18px; flex: none;">
+              <svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="#3D6A99" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h9l5 5v11H5z"></path><path d="M14 4v5h5"></path><path d="M9 13h6"></path><path d="M9 16.5h4"></path></svg>
+            </div>
+            <div>
+              <div class="eyebrow eyebrow--1" style="margin: 0;">Guia gratuito</div>
+              <h2 class="font-display" style="font-weight: 800; font-size: clamp(22px, 3vw, 31px); line-height: 1.15; margin: 9px 0 0; color: #3D4852;">Como ser achado por quem já quer comprar de você</h2>
+            </div>
           </div>
-          <div class="diag-card" style="--dc: var(--c7); --dcf: var(--f7); --dct: var(--t7);">
-            <span class="diag-card-ico">
-              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 7-7"></path><path d="M14 8h6v6"></path></svg>
-            </span>
-            <b>O que te custa cliente</b>
-            <span class="diag-card-txt">Os três pontos que mais pesam, explicados sem palavra difícil.</span>
-          </div>
-          <div class="diag-card" style="--dc: var(--c8); --dcf: var(--f8); --dct: var(--t8);">
-            <span class="diag-card-ico">
-              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v9H4v-9"></path><path d="M2 7h20v5H2z"></path><path d="M12 21V7"></path></svg>
-            </span>
-            <b>Um presente no fim</b>
-            <span class="diag-card-txt">Um guia prático pra levar, mesmo que você não contrate nada.</span>
+
+          <div class="ebook">
+            <div class="ebook-capa">
+              <div class="ebook-selo">ACTech · Guia</div>
+              <div class="ebook-nome">Como ser achado por quem já quer comprar de você</div>
+            </div>
+
+            <div>
+              <p style="margin: 0; font-size: 15.5px; line-height: 1.7; color: #59616E;">
+                Sem enrolação e sem palavra difícil — é o que a gente te explicaria tomando um café.
+                Serve mesmo que você nunca contrate a ACTech.
+              </p>
+              <ul class="ebook-lista">
+                <li><span class="ebook-tick"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#3D6A99" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"></path></svg></span><span><b>A busca local</b> — como o cliente já procura você hoje</span></li>
+                <li><span class="ebook-tick"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#3D6A99" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"></path></svg></span><span><b>A ficha do Google</b> — vale mais que cem posts</span></li>
+                <li><span class="ebook-tick"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#3D6A99" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"></path></svg></span><span><b>O que postar</b> — cinco tipos que resolvem o mês</span></li>
+                <li><span class="ebook-tick"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#3D6A99" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"></path></svg></span><span><b>A foto que vende</b> — tirada no celular mesmo</span></li>
+                <li><span class="ebook-tick"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#3D6A99" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"></path></svg></span><span><b>Responder rápido</b> — metade da venda está aí</span></li>
+              </ul>
+
+              <a class="btn btn-primary" href="ebook.pdf" target="_blank" style="margin-top: 22px;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11"></path><path d="M7.5 10.5L12 15l4.5-4.5"></path><path d="M5 19h14"></path></svg>
+                Baixar o guia em PDF
+              </a>
+              <div style="margin-top: 12px; font-size: 13.5px; color: #59616E;">Sem cadastro, sem e-mail. É só clicar.</div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-
-    <sc-if value="{{ unlocked }}" hint-placeholder-val="{{ false }}">
-      <div class="gift-wrap" data-gift>
-        <div class="gift">
-          <div class="gift-deco"></div>
-          <div style="position: relative;">
-            <div style="display: flex; gap: 16px; align-items: center;">
-              <div class="nm-well" style="width: 56px; height: 56px; border-radius: 18px;">
-                <svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="#3D6A99" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v9H4v-9"></path><path d="M2 7h20v5H2z"></path><path d="M12 21V7"></path><path d="M12 7C9 7 7 5.5 7 4a2 2 0 014 0c0 1.5 1 3 1 3z"></path></svg>
-              </div>
-              <div>
-                <div class="quiz-step">Presente liberado</div>
-                <h3 class="font-display" style="font-weight: 800; font-size: clamp(21px, 2.5vw, 27px); line-height: 1.2; margin: 7px 0 0; color: #3D4852;">Seu ebook de marketing pra negócio de bairro</h3>
-              </div>
-            </div>
-
-            <div class="ebook">
-              <!-- Capa montada em CSS. Quando tiver a capa de verdade, troque este
-                   bloco por:  <img class="ebook-capa" src="imgs/capa-ebook.png" alt="" /> -->
-              <div class="ebook-capa">
-                <div class="ebook-selo">ACTech · Guia</div>
-                <div class="ebook-nome">Como ser achado por quem já quer comprar de você</div>
-              </div>
-
-              <div>
-                <p style="margin: 0; font-size: 15.5px; line-height: 1.7; color: #59616E;">
-                  Sem enrolação e sem palavra difícil — é o que a gente te explicaria tomando um café.
-                  Serve mesmo que você nunca contrate a ACTech.
-                </p>
-                <ul class="ebook-lista">
-                  <li><span class="ebook-tick"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#3D6A99" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"></path></svg></span><span><b>A busca local</b> — como o cliente já procura você hoje</span></li>
-                  <li><span class="ebook-tick"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#3D6A99" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"></path></svg></span><span><b>A ficha do Google</b> — vale mais que cem posts</span></li>
-                  <li><span class="ebook-tick"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#3D6A99" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"></path></svg></span><span><b>O que postar</b> — cinco tipos que resolvem o mês</span></li>
-                  <li><span class="ebook-tick"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#3D6A99" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"></path></svg></span><span><b>A foto que vende</b> — tirada no celular mesmo</span></li>
-                  <li><span class="ebook-tick"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#3D6A99" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"></path></svg></span><span><b>Responder rápido</b> — metade da venda está aí</span></li>
-                </ul>
-              </div>
-            </div>
-
-            <div class="nm-track" style="height: 6px; border-radius: 999px; margin: 28px 0 20px;"></div>
-
-            <!-- =================================================================
-                 LOCAL DO EBOOK — o slot está pronto, é só plugar.
-
-                 Quando o PDF existir:
-                 1. jogue o arquivo na raiz do projeto (ex.: ebook.pdf)
-                 2. troque a linha  <div class="mat" data-vazio>
-                    por             <a class="mat" href="ebook.pdf" target="_blank">
-                 3. troque o </div> do fim do bloco por </a>
-                 4. troque "Em breve" por "Baixar"
-
-                 O visual muda sozinho: vazio fica afundado e sem hover; preenchido
-                 sobe em relevo e vira clicável.
-                 ================================================================= -->
-            <div class="mat-grid">
-              <a class="mat" href="ebook.pdf" target="_blank">
-                <span class="mat-ico">
-                  <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#3D6A99" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h9l5 5v11H5z"></path><path d="M14 4v5h5"></path><path d="M9 13h6"></path><path d="M9 16.5h4"></path></svg>
-                </span>
-                <span class="mat-t">Ebook em PDF</span>
-                <span class="mat-s">O guia completo pra ler com calma</span>
-                <span class="mat-tag">Baixar</span>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </sc-if>
   </section>
 
   <section data-anima id="planos" class="wrap pad-section" style="position: relative; z-index: 1; padding-top: 40px; padding-bottom: 96px;">
@@ -3300,255 +2935,6 @@
     </div>
   </footer>
 
-  <sc-if value="{{ quizOpen }}" hint-placeholder-val="{{ false }}">
-    <div class="modal" data-modal role="dialog" aria-modal="true" aria-label="Diagnóstico do seu negócio">
-      <div class="{{ modalPanelCls }}">
-        <div class="modal-top">
-          <div class="modal-bar"><i style="width: {{ quizPct }};"></i></div>
-          <button class="modal-x" onClick="{{ quizClose }}" aria-label="Fechar">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3D4852" stroke-width="2.2" stroke-linecap="round"><path d="M18 6L6 18"></path><path d="M6 6l12 12"></path></svg>
-          </button>
-        </div>
-
-        <div class="modal-body">
-
-          <sc-if value="{{ quizPortal }}" hint-placeholder-val="{{ false }}">
-            <div class="{{ stepCls }}" style="text-align: center; padding: 10px 0 6px;">
-              <div class="nm-well" style="width: 78px; height: 78px; border-radius: 26px; margin: 0 auto 24px;">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#3D6A99" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"></path><path d="M8 9h8"></path><path d="M8 13h5"></path></svg>
-              </div>
-              <h3 class="quiz-q" style="margin-top: 0;">{{ portalTitulo }}</h3>
-              <p class="quiz-hint" style="max-width: 46ch; margin: 0 auto 26px;">
-                A gente não vende plano no escuro. São 10 perguntas rápidas sobre o seu negócio —
-                em um minuto você recebe um diagnóstico e a gente já fala com você sabendo do que precisa.
-              </p>
-              <button class="btn btn-primary" onClick="{{ quizComecar }}" style="min-width: 240px;">Vamos lá</button>
-              <div style="margin-top: 14px; font-size: 13.5px; color: #59616E;">Sem cadastro, sem e-mail</div>
-              <button class="quiz-back" onClick="{{ quizPular }}">Prefiro falar direto no WhatsApp</button>
-            </div>
-          </sc-if>
-
-          <sc-if value="{{ quizAsking }}" hint-placeholder-val="{{ true }}">
-            <div class="{{ stepCls }}">
-              <div class="quiz-step">{{ quizCounter }}</div>
-              <h3 class="quiz-q">{{ quizTitle }}</h3>
-              <p class="quiz-hint">{{ quizHint }}</p>
-              <div class="{{ quizGridCls }}">
-                <sc-for list="{{ quizOptions }}" as="o" hint-placeholder-count="4">
-                  <button class="{{ o.cls }}" onClick="{{ o.pick }}">
-                    <span class="pick-ico">{{ o.ico }}</span>
-                    <span>
-                      <span class="pick-t">{{ o.label }}</span>
-                      <span class="pick-s">{{ o.sub }}</span>
-                    </span>
-                  </button>
-                </sc-for>
-              </div>
-              <sc-if value="{{ quizCanBack }}" hint-placeholder-val="{{ false }}">
-                <button class="quiz-back" onClick="{{ quizBack }}">← Voltar uma pergunta</button>
-              </sc-if>
-            </div>
-          </sc-if>
-
-          <sc-if value="{{ quizNaming }}" hint-placeholder-val="{{ false }}">
-            <div class="{{ stepCls }}">
-              <div class="quiz-step">Última — e é opcional</div>
-              <h3 class="quiz-q">Como se chama o seu negócio?</h3>
-              <p class="quiz-hint">Só pra deixar o diagnóstico com a sua cara. Pode pular sem problema.</p>
-              <input class="quiz-input" data-quiz-name type="text" placeholder="Ex.: Mercado São Jorge" maxlength="60" />
-              <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 18px;">
-                <button class="btn btn-primary" onClick="{{ quizFinish }}">Ver meu diagnóstico</button>
-                <button class="btn btn-secondary" onClick="{{ quizSkipName }}">Pular</button>
-              </div>
-              <button class="quiz-back" onClick="{{ quizBack }}">← Voltar uma pergunta</button>
-            </div>
-          </sc-if>
-
-          <sc-if value="{{ quizThinking }}" hint-placeholder-val="{{ false }}">
-            <div class="quiz-load {{ stepCls }}">
-              <div class="quiz-ring">
-                <i></i>
-                <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#3D6A99" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-4.5-4.5"></path></svg>
-              </div>
-              <div class="quiz-load-msg">{{ quizLoadMsg }}</div>
-            </div>
-          </sc-if>
-
-          <sc-if value="{{ quizDone }}" hint-placeholder-val="{{ false }}">
-            <div class="{{ stepCls }}">
-              <div class="score-wrap">
-                <div class="score-ring">
-                  <svg width="140" height="140" viewBox="0 0 140 140">
-                    <circle cx="70" cy="70" r="62" fill="none" stroke="rgba(163,177,198,.35)" stroke-width="9"></circle>
-                    <circle class="score-arco" cx="70" cy="70" r="62" fill="none" stroke="{{ scoreCor }}" stroke-width="9" stroke-linecap="round" style="--off: {{ scoreOff }};"></circle>
-                  </svg>
-                  <div style="text-align: center;">
-                    <div class="score-num" style="color: {{ scoreCorTexto }};">{{ score }}</div>
-                    <div class="score-lbl">de 100</div>
-                  </div>
-                </div>
-                <div style="flex: 1; min-width: 240px;">
-                  <div class="score-faixa" style="color: {{ scoreCorTexto }};"><i></i>{{ scoreFaixa }}</div>
-                  <div class="quiz-step">{{ resWho }}</div>
-                  <h3 class="quiz-q" style="font-size: clamp(21px, 2.6vw, 29px); margin: 10px 0 10px;">{{ resTitle }}</h3>
-                  <p class="quiz-hint" style="margin: 0;">{{ resIntro }}</p>
-                </div>
-              </div>
-
-              <div class="nm-track" style="height: 6px; border-radius: 999px; margin: 30px 0 16px;"></div>
-
-              <div style="font-weight: 700; font-size: 15px; color: #3D4852;">O que está faltando</div>
-              <sc-for list="{{ resGaps }}" as="g" hint-placeholder-count="3">
-                <div class="gap-row gap-row--falta">
-                  <span class="gap-ico">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M12 8v5"></path><path d="M12 17h.01"></path></svg>
-                  </span>
-                  <div>
-                    <div style="font-weight: 700; font-size: 15.5px; color: #3D4852;">{{ g.t }}</div>
-                    <div style="font-size: 14.5px; color: #59616E; line-height: 1.6; margin-top: 4px;">{{ g.d }}</div>
-                  </div>
-                </div>
-              </sc-for>
-
-              <div style="font-weight: 700; font-size: 15px; color: #3D4852; margin-top: 18px;">O que a gente faria primeiro</div>
-              <sc-for list="{{ resPlano }}" as="s" hint-placeholder-count="3">
-                <div class="gap-row gap-row--faz">
-                  <span class="gap-ico">
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"></path></svg>
-                  </span>
-                  <div style="font-size: 15.5px; color: #3D4852; line-height: 1.55; padding-top: 3px;">{{ s }}</div>
-                </div>
-              </sc-for>
-
-              <div class="rec">
-                <div style="font-size: 11.5px; letter-spacing: .16em; text-transform: uppercase; font-weight: 700; color: #3D6A99;">O que a gente indica pra você</div>
-                <div style="display: flex; align-items: baseline; gap: 10px; margin-top: 12px; flex-wrap: wrap;">
-                  <span class="font-display" style="font-weight: 800; font-size: 30px; color: #3D4852;">Plano {{ resPlan }}</span>
-                  <span style="font-size: 17px; color: #59616E;">{{ resPrice }}</span>
-                </div>
-                <p style="margin: 12px 0 0; font-size: 15px; line-height: 1.7; color: #59616E;">{{ resWhy }}</p>
-                <p style="margin: 12px 0 0; font-size: 15px; line-height: 1.7; color: #59616E;">{{ resPrazo }}</p>
-              </div>
-
-              <!-- Daqui não se sai direto pro WhatsApp: o próximo passo é a tela de oferta,
-                   e é lá que ficam o material e o botão de conversar. -->
-              <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px;">
-                <button class="btn btn-primary" onClick="{{ irOferta }}">
-                  Quero resolver isso
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg>
-                </button>
-                <button class="btn btn-secondary" onClick="{{ quizClose }}">Vou pensar</button>
-              </div>
-              <button class="quiz-back" onClick="{{ quizReset }}">Refazer o diagnóstico</button>
-            </div>
-          </sc-if>
-
-          <sc-if value="{{ quizOferta }}" hint-placeholder-val="{{ false }}">
-            <div class="{{ stepCls }}">
-              <div class="quiz-step">Diagnóstico pronto · nota {{ score }}/100</div>
-              <h3 class="quiz-q" style="font-size: clamp(21px, 2.6vw, 29px); margin: 10px 0 10px;">Antes de você ir, leve isto.</h3>
-              <p class="quiz-hint" style="margin: 0 0 24px;">
-                Duas formas de sair daqui com o problema andando — e no fim, se preferir,
-                é só chamar a gente no WhatsApp.
-              </p>
-
-              <div class="oferta-grid">
-                <!-- 1. EBOOK -->
-                <div class="oferta-card">
-                  <div class="oferta-topo">
-                    <div class="ebook-capa oferta-capa">
-                      <div class="ebook-selo">ACTech · Guia</div>
-                      <div class="ebook-nome">Como ser achado por quem já quer comprar de você</div>
-                    </div>
-                    <div>
-                      <div class="oferta-tit">O guia pra movimentar sua página</div>
-                      <p class="oferta-txt">
-                        A busca local, a ficha do Google, os cinco tipos de post que resolvem o mês
-                        e a foto que vende — tirada no celular mesmo.
-                      </p>
-                    </div>
-                  </div>
-
-                  <!-- =================================================================
-                       LOCAL DO EBOOK — o slot está pronto, é só plugar.
-
-                       Quando o ebook existir:
-                       1. jogue o arquivo na raiz do projeto (ex.: ebook.pdf) ou pegue
-                          o link da página de compra
-                       2. troque a linha  <div class="mat" data-vazio>
-                          por             <a class="mat" href="ebook.pdf" target="_blank">
-                       3. troque o </div> do fim do bloco por </a>
-                       4. troque "Em breve" por "Baixar" (se for presente) ou pelo preço
-                          (se for venda) — e ajuste o texto do card acima
-
-                       O visual muda sozinho: vazio fica afundado e sem hover; preenchido
-                       sobe em relevo e vira clicável.
-                       ================================================================= -->
-                  <div class="mat-grid" style="margin-top: 18px;">
-                    <a class="mat" href="ebook.pdf" target="_blank">
-                      <span class="mat-ico">
-                        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#3D6A99" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h9l5 5v11H5z"></path><path d="M14 4v5h5"></path><path d="M9 13h6"></path><path d="M9 16.5h4"></path></svg>
-                      </span>
-                      <span class="mat-t">Ebook em PDF</span>
-                      <span class="mat-s">O guia completo pra ler com calma</span>
-                      <span class="mat-tag">Baixar</span>
-                    </a>
-                  </div>
-                </div>
-
-                <!-- 2. AUDITORIA EM 24H — esta funciona hoje: abre o WhatsApp com o
-                     diagnóstico já escrito e o campo do link esperando a pessoa colar. -->
-                <div class="oferta-card oferta-card--destaque">
-                  <span class="oferta-selo">Mais rápido</span>
-                  <div class="oferta-topo">
-                    <div class="nm-well oferta-ico">
-                      <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="#38B2AC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="11" rx="3"></rect><path d="M5 10a7 7 0 0014 0"></path><path d="M12 17v4"></path><path d="M8 21h8"></path></svg>
-                    </div>
-                    <div>
-                      <div class="oferta-tit">Um áudio de 2 minutos, em até 24h</div>
-                      <p class="oferta-txt">
-                        Sem tempo pra ler? Manda o link do seu negócio — site, Instagram ou a ficha
-                        do Google — e a gente devolve um áudio apontando o maior erro que está te
-                        custando cliente, e o que arrumar primeiro.
-                      </p>
-                    </div>
-                  </div>
-
-                  <div class="nm-pill" style="margin-top: 16px; padding: 10px 16px; font-size: 12.5px;">
-                    <span style="width: 7px; height: 7px; border-radius: 999px; background: #38B2AC; display: block;"></span>
-                    De graça e sem compromisso
-                  </div>
-
-                  <a class="btn btn-primary btn-block" href="{{ resAudit }}" target="_blank" onClick="{{ quizUnlock }}" style="margin-top: 16px;">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M12 2a10 10 0 00-8.6 15.1L2 22l5-1.3A10 10 0 1012 2z"></path></svg>
-                    Quero minha auditoria
-                  </a>
-                </div>
-              </div>
-
-              <div class="nm-track" style="height: 6px; border-radius: 999px; margin: 26px 0 20px;"></div>
-
-              <div style="font-size: 15px; line-height: 1.7; color: #59616E;">
-                Ou pula tudo isso: a gente já tem o seu diagnóstico em mãos e resolve o
-                <b style="color: #3D4852; font-weight: 700;">plano {{ resPlan }}</b> com você agora mesmo.
-              </div>
-
-              <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 18px;">
-                <a class="btn btn-primary" href="{{ resWhats }}" target="_blank" onClick="{{ quizUnlock }}">
-                  <svg width="19" height="19" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M12 2a10 10 0 00-8.6 15.1L2 22l5-1.3A10 10 0 1012 2z"></path></svg>
-                  Falar no WhatsApp
-                </a>
-                <button class="btn btn-secondary" onClick="{{ quizClose }}">Vou pensar</button>
-              </div>
-              <button class="quiz-back" onClick="{{ voltarResultado }}">Voltar pro diagnóstico</button>
-            </div>
-          </sc-if>
-
-
-        </div>
-      </div>
-    </div>
-  </sc-if>
 
   <a class="fab float-slow" href="{{ whatsUrl }}" target="_blank" aria-label="Falar no WhatsApp" style="position: fixed; z-index: 60; right: 22px; bottom: 22px; display: inline-flex; align-items: center; gap: 11px; min-height: 48px; background: var(--cta); color: #fff; font-weight: 700; font-size: 15px; padding: 15px 24px; border-radius: var(--r-pill); box-shadow: 9px 9px 16px rgba(163,177,198,.6), -9px -9px 16px rgba(255,255,255,.5);">
     <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff" style="flex: none;"><path d="M12 2a10 10 0 00-8.6 15.1L2 22l5-1.3A10 10 0 1012 2z"></path></svg>
@@ -3558,7 +2944,7 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;whatsappNumber&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;5561994299823&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Contato&quot;},&quot;whatsappMessage&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Olá! Vi a página da ACTech e quero saber mais sobre os planos.&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Contato&quot;},&quot;instagramUser&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;actech.systems&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Contato&quot;},&quot;assinaturaEssencial&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Pagamento&quot;},&quot;assinaturaCompleto&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Pagamento&quot;}}">
 class Component extends DCLogic {
-  state = { open: 0, menu: false, quiz: false, step: 0, ans: {}, nome: '', loadI: 0, unlocked: false, lesson: -1, faixa: '6M', feito: false, portal: '' };
+  state = { open: 0, menu: false, lesson: -1, faixa: '6M' };
 
   componentDidMount() {
     const els = Array.from(document.querySelectorAll('[data-reveal]'));
@@ -3586,25 +2972,10 @@ class Component extends DCLogic {
 
     this._teardown = [];
 
-    const onKey = (e) => {
-      if (e.key === 'Escape' && this.state.quiz) {
-        this.lockScroll(false);
-        this.setState({ quiz: false });
-      }
-    };
-    document.addEventListener('keydown', onKey);
-    this._teardown.push(() => {
-      document.removeEventListener('keydown', onKey);
-      clearInterval(this._loadTimer);
-      clearTimeout(this._doneTimer);
-      this.lockScroll(false);
-    });
-
     this.setupPausar();
     this.setupClickFx();
     this.setupHoverReveal();
     this.setupGooButton();
-    this.setupPortao();
     this.setupTilt();
     this.setupTrueFocus();
     this.setupCardSwap();
@@ -3875,29 +3246,6 @@ class Component extends DCLogic {
       else if (++tries > 50) clearInterval(poll);
     }, 100);
     this._teardown.push(() => clearInterval(poll));
-  }
-
-  /* ---------------------------------------------------------------
-     O portão: qualquer botão que leve ao WhatsApp — plano, topo, hero,
-     CTA, botão flutuante — passa antes pelo diagnóstico. Depois que a
-     pessoa responde (ou pula), os botões voltam a ir direto.
-     --------------------------------------------------------------- */
-  setupPortao() {
-    const naTela = (e) => {
-      if (this.state.feito) return;                 // já respondeu: passa direto
-      const a = e.target.closest && e.target.closest('a[href*="wa.me"]');
-      if (!a) return;
-      if (a.closest('.modal')) return;              // links de dentro do modal, nunca
-      if (a.closest('[data-sem-portao]')) return;   // a previa de site ja fez as perguntas dela
-
-      e.preventDefault();
-      this._alvo = a.href;                          // guarda pra usar no "prefiro falar direto"
-      const dentroDoPlano = !!a.closest('.blob-card');
-      this.lockScroll(true);
-      this.setState({ quiz: true, step: -1, portal: dentroDoPlano ? 'plano' : 'contato' });
-    };
-    document.addEventListener('click', naTela, true);
-    this._teardown.push(() => document.removeEventListener('click', naTela, true));
   }
 
   /* ---------------------------------------------------------------
@@ -4415,62 +3763,14 @@ class Component extends DCLogic {
   }
 
   /* Cache do que não muda a cada clique. `renderVals()` roda inteiro a cada
-     setState — e o quiz dispara um por resposta. Sem isto, cada clique remontava
-     os ícones de todas as perguntas, os 40 quadros da parede e a curva do
-     gráfico do zero. */
+     setState. Sem isto, cada clique remontava os 40 quadros da parede e a
+     curva do gráfico do zero. */
   memo(chave, fn) {
     if (!this._memo) this._memo = {};
     if (!(chave in this._memo)) this._memo[chave] = fn();
     return this._memo[chave];
   }
 
-  answer(key, v) {
-    this.setState((s) => ({ ans: Object.assign({}, s.ans, { [key]: v }), step: s.step + 1 }));
-  }
-
-  startThinking(nome) {
-    const N = this.quizData().length;
-    clearInterval(this._loadTimer);
-    clearTimeout(this._doneTimer);
-    this.setState({ nome: (nome || '').slice(0, 60), step: N + 1, loadI: 0 });
-    let i = 0;
-    this._loadTimer = setInterval(() => {
-      i += 1;
-      if (i > 3) { clearInterval(this._loadTimer); return; }
-      this.setState({ loadI: i });
-    }, 620);
-    this._doneTimer = setTimeout(() => {
-      this.setState({ step: N + 2, feito: true });
-      this.contarNota();
-    }, 2500);
-  }
-
-  /* A nota sobe de 0 até o valor, no mesmo compasso em que o anel se desenha.
-     Um número que aparece pronto não tem peso nenhum; subindo, ele vira o
-     momento do funil. Respeita quem pediu menos movimento. */
-  contarNota() {
-    requestAnimationFrame(() => {
-      const el = document.querySelector('.score-num');
-      if (!el) return;
-      const alvo = parseInt(el.textContent, 10);
-      if (!Number.isFinite(alvo)) return;
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-      const DUR = 1200, ATRASO = 300;
-      const t0 = performance.now() + ATRASO;
-      el.textContent = '0';
-      const passo = (agora) => {
-        const t = (agora - t0) / DUR;
-        if (t < 0) { this._rafNota = requestAnimationFrame(passo); return; }
-        if (t >= 1) { el.textContent = String(alvo); return; }
-        // mesma desaceleração da curva do anel, pra os dois chegarem juntos
-        el.textContent = String(Math.round(alvo * (1 - Math.pow(1 - t, 3))));
-        this._rafNota = requestAnimationFrame(passo);
-      };
-      this._rafNota = requestAnimationFrame(passo);
-      this._teardown.push(() => cancelAnimationFrame(this._rafNota));
-    });
-  }
 
   /* ---------------------------------------------------------------
      Cartão de métrica do hero.
@@ -4507,7 +3807,7 @@ class Component extends DCLogic {
     const pct = (v) => +(v * 100).toFixed(2) + '%';
 
     // Ruído estável: a mesma faixa desenha sempre a mesma curva. Com Math.random
-    // o gráfico mudaria a cada re-render (abrir o menu, responder o quiz...).
+    // o gráfico mudaria a cada re-render (abrir o menu, trocar de faixa...).
     let s = f.semente * 9301 + 49297;
     const rnd = () => { s = (s * 9301 + 49297) % 233280; return s / 233280; };
 
@@ -4594,216 +3894,6 @@ class Component extends DCLogic {
     ];
   }
 
-  quizData() {
-    const I = (sh) => this.ico(sh);
-    return [
-      { key: 'tipo', cols: 2,
-        title: 'Que tipo de negócio é o seu?',
-        hint: 'O caminho muda bastante de um ramo pro outro.',
-        opts: [
-          { v: 'mercado', label: 'Mercado ou mercearia', ico: I(['M2.5 4h2l2.4 9.6a1.8 1.8 0 001.8 1.4h8a1.8 1.8 0 001.8-1.4L20 7H5.5', [9, 19, 1.3], [17, 19, 1.3]]) },
-          { v: 'loja', label: 'Loja', ico: I(['M5.5 8h13l-1 12h-11z', 'M9 8V6a3 3 0 016 0v2']) },
-          { v: 'pet', label: 'Pet shop', ico: I([[7.5, 9, 1.6], [12, 7.2, 1.6], [16.5, 9, 1.6], 'M7.5 15.5c0-2.4 2-3.9 4.5-3.9s4.5 1.5 4.5 3.9-2 4.3-4.5 4.3-4.5-1.9-4.5-4.3z']) },
-          { v: 'beleza', label: 'Barbearia ou salão', ico: I([[6.5, 17.5, 2.2], [17.5, 17.5, 2.2], 'M8 15.8L18 5', 'M16 15.8L6 5']) },
-          { v: 'comida', label: 'Restaurante ou lanchonete', ico: I(['M5 8h11v6a4 4 0 01-4 4H9a4 4 0 01-4-4z', 'M16 9h2a2 2 0 010 4h-2', 'M6 3v2', 'M10 3v2', 'M14 3v2']) },
-          { v: 'saude', label: 'Clínica ou consultório', ico: I(['M12 20s-7-4.6-7-9.5A4 4 0 0112 8a4 4 0 017 2.5C19 15.4 12 20 12 20z']) },
-          { v: 'servico', label: 'Prestador de serviço', ico: I([[12, 12, 3], 'M12 4v2', 'M12 18v2', 'M4 12h2', 'M18 12h2', 'M6.3 6.3l1.4 1.4', 'M16.3 16.3l1.4 1.4', 'M17.7 6.3l-1.4 1.4', 'M7.7 16.3l-1.4 1.4']) },
-          { v: 'outro', label: 'Outro', ico: I(['M12 4l1.6 4.4L18 10l-4.4 1.6L12 16l-1.6-4.4L6 10l4.4-1.6z']) }
-        ] },
-
-      { key: 'tempo', cols: 1,
-        title: 'Há quanto tempo o negócio está aberto?',
-        hint: 'Negócio novo e negócio firme precisam de coisas diferentes.',
-        opts: [
-          { v: 'comecando', label: 'Estou começando agora', sub: 'Ainda montando tudo' },
-          { v: 'novo', label: 'Menos de 2 anos', sub: 'Já rodando, ainda me firmando' },
-          { v: 'medio', label: 'Entre 2 e 5 anos', sub: 'Tenho clientes fiéis' },
-          { v: 'firme', label: 'Mais de 5 anos', sub: 'Sou conhecido na região' }
-        ] },
-
-      { key: 'chega', cols: 2,
-        title: 'Como o cliente chega até você hoje?',
-        hint: 'Vale escolher o caminho mais comum.',
-        opts: [
-          { v: 'passa', label: 'Passa na frente e entra', sub: 'Movimento da rua', ico: I(['M4 10h16v10H4z', 'M3 10l2-5h14l2 5', 'M9.5 20v-5.5h5V20']) },
-          { v: 'indica', label: 'Indicação', sub: 'Boca a boca de quem já comprou', ico: I([[9, 8, 2.6], 'M4 19c0-2.8 2.2-5 5-5s5 2.2 5 5', 'M16 8.5a2.5 2.5 0 010 5', 'M17.5 19c0-2-.6-3.5-1.6-4.5']) },
-          { v: 'redes', label: 'Pelas redes sociais', sub: 'Instagram, Facebook', ico: I(['M7 3h10v18H7z', 'M12 9.6c-1-1.3-3-.7-3 .9 0 1.6 3 3.5 3 3.5s3-1.9 3-3.5c0-1.6-2-2.2-3-.9z']) },
-          { v: 'naosei', label: 'Sinceramente, não sei', sub: 'Nunca parei pra medir', ico: I([[12, 12, 8.6], 'M9.4 9.3a2.7 2.7 0 015.3.8c0 1.8-2.7 2.1-2.7 3.9', 'M12 17.6h.01']) }
-        ] },
-
-      { key: 'site', cols: 1,
-        title: 'E site, você tem?',
-        hint: 'Sem julgamento — a maioria começa do zero.',
-        opts: [
-          { v: 'nao', label: 'Não tenho', sub: 'A gente começa do zero, do jeito certo' },
-          { v: 'parado', label: 'Tenho, mas está parado', sub: 'Antigo, desatualizado ou fora do ar' },
-          { v: 'ok', label: 'Tenho e funciona bem', sub: 'Só quero melhorar' }
-        ] },
-
-      { key: 'redes', cols: 1,
-        title: 'Como andam as redes sociais?',
-        hint: 'Constância vale mais que capricho, e todo mundo trava nisso.',
-        opts: [
-          { v: 'nunca', label: 'Faz tempo que não posto', sub: 'Ou nem tenho perfil' },
-          { v: 'asvezes', label: 'Posto quando sobra tempo', sub: 'Sem dia certo' },
-          { v: 'sempre', label: 'Posto toda semana', sub: 'Já virou rotina' }
-        ] },
-
-      { key: 'google', cols: 1,
-        title: 'Quando alguém busca seu tipo de negócio perto de você, você aparece?',
-        hint: 'É a ficha do Google Meu Negócio que decide isso.',
-        opts: [
-          { v: 'nao', label: 'Não apareço, ou nunca configurei', sub: 'Nem sei se existe ficha minha' },
-          { v: 'meio', label: 'Tenho a ficha, mas não mexo nela', sub: 'Criei e deixei lá' },
-          { v: 'sim', label: 'Sim, e eu cuido dela', sub: 'Fotos e horário em dia' }
-        ] },
-
-      { key: 'canais', cols: 2,
-        title: 'Por onde você vende hoje?',
-        hint: 'Cada canal a mais é uma porta a mais.',
-        opts: [
-          { v: 'loja', label: 'Só no balcão', sub: 'Quem vem, compra', ico: I(['M4 10h16v10H4z', 'M3 10l2-5h14l2 5']) },
-          { v: 'zap', label: 'Balcão e WhatsApp', sub: 'Atendo por mensagem também', ico: I(['M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z']) },
-          { v: 'entrega', label: 'Balcão, WhatsApp e entrega', sub: 'Levo até o cliente', ico: I(['M3 7h11v9H3z', 'M14 10h4l3 3v3h-7z', [7, 18, 2], [17, 18, 2]]) },
-          { v: 'online', label: 'Vendo online também', sub: 'Site, marketplace ou catálogo', ico: I([[12, 12, 8.6], 'M3.4 12h17.2', 'M12 3.4c2.6 2.8 2.6 14 0 17.2', 'M12 3.4c-2.6 2.8-2.6 14 0 17.2']) }
-        ] },
-
-      { key: 'aperto', cols: 2,
-        title: 'Qual é o maior aperto hoje?',
-        hint: 'Pode ser sincero, é aqui que a gente entra.',
-        opts: [
-          { v: 'clientes', label: 'Chegam poucos clientes novos', sub: 'O movimento caiu', ico: I(['M3 7l6 6 4-4 7 7', 'M20 16v-4h-4']) },
-          { v: 'tempo', label: 'Não tenho tempo pra cuidar disso', sub: 'O dia acaba antes', ico: I([[12, 12, 8.4], 'M12 7.2v5l3.2 2']) },
-          { v: 'resultado', label: 'Já tentei e não vi resultado', sub: 'Investi e não voltou', ico: I(['M20 11A8 8 0 006 6.3L4.2 8', 'M4 13a8 8 0 0013.8 4.7l1.8-1.7', 'M4 4.2v4h4', 'M20 19.8v-4h-4']) },
-          { v: 'comecar', label: 'Não sei por onde começar', sub: 'É muita coisa junta', ico: I([[12, 12, 8.6], 'M15.4 8.6l-2 4.8-4.8 2 2-4.8z']) }
-        ] },
-
-      { key: 'meta', cols: 2,
-        title: 'Onde você quer estar daqui a 6 meses?',
-        hint: 'É isso que a gente vai perseguir junto.',
-        opts: [
-          { v: 'mais', label: 'Com mais clientes novos toda semana', sub: 'Movimento constante', ico: I(['M3 17l6-6 4 4 7-7', 'M14 8h6v6']) },
-          { v: 'conhecido', label: 'Conhecido no bairro inteiro', sub: 'Virar referência ali', ico: I(['M12 21s7-6.4 7-11a7 7 0 10-14 0c0 4.6 7 11 7 11z', [12, 10, 2.6]]) },
-          { v: 'online', label: 'Vendendo também pela internet', sub: 'Não depender só da rua', ico: I(['M5.5 8h13l-1 12h-11z', 'M9 8V6a3 3 0 016 0v2']) },
-          { v: 'organizado', label: 'Com tudo organizado e no ar', sub: 'Parar de improvisar', ico: I(['M4 7l8-4 8 4-8 4z', 'M4 12l8 4 8-4', 'M4 17l8 4 8-4']) }
-        ] },
-
-      { key: 'verba', cols: 1,
-        title: 'Quanto dá pra investir por mês, com tranquilidade?',
-        hint: 'Sem susto: a gente indica o que cabe, não o mais caro.',
-        opts: [
-          { v: 'ate200', label: 'Até R$ 200', sub: 'Quero começar leve' },
-          { v: 'm200', label: 'Entre R$ 200 e R$ 400', sub: 'Dá pra fazer bem feito' },
-          { v: 'mais', label: 'Mais de R$ 400', sub: 'Quero acelerar' },
-          { v: 'nsei', label: 'Ainda não sei dizer', sub: 'Depende do que for entregue' }
-        ] }
-    ];
-  }
-
-  quizResult() {
-    const a = this.state.ans;
-    const nome = (this.state.nome || '').trim();
-
-    const TIPOS = {
-      mercado: ['Mercado', 'Mercado vive de vizinhança: quem digita "mercado perto de mim" está a cinco minutos de decidir onde compra.'],
-      loja: ['Loja', 'Loja hoje tem duas vitrines: a da rua e a do celular. Quem só cuida da primeira perde a visita antes dela acontecer.'],
-      pet: ['Pet shop', 'Dono de bicho pesquisa muito antes de confiar. Quem aparece com foto, endereço e avaliação sai na frente.'],
-      beleza: ['Barbearia ou salão', 'Aqui a decisão é visual: se o seu trabalho não está sendo visto, ele não está nem sendo comparado.'],
-      comida: ['Restaurante', 'Fome tem pressa. Cardápio fácil de achar e foto boa resolvem metade do pedido.'],
-      saude: ['Clínica', 'O que pesa aqui é confiança: informação clara, horário certo e avaliação real valem mais que qualquer anúncio.'],
-      servico: ['Prestador de serviço', 'Serviço se contrata por indicação e por busca. Sem busca, você depende só da sorte da indicação.'],
-      outro: ['Negócio', 'A regra não muda com o ramo: quem procura precisa te encontrar, e o que encontrar precisa dar confiança.']
-    };
-    const tipo = TIPOS[a.tipo] || TIPOS.outro;
-
-    const pts = { site: { nao: 0, parado: 8, ok: 28 }, redes: { nunca: 0, asvezes: 10, sempre: 24 }, google: { nao: 0, meio: 12, sim: 30 } };
-    const score = Math.round(18 + (pts.site[a.site] ?? 0) + (pts.redes[a.redes] ?? 0) + (pts.google[a.google] ?? 0));
-
-    const title = score < 40 ? 'Tem cliente passando batido todo dia.'
-      : score < 68 ? 'A base existe, mas está solta.'
-      : 'Você já está à frente da maioria por aí.';
-
-    const fecho = score < 40
-      ? 'A boa notícia é que quase tudo aqui é rápido de arrumar — e as primeiras semanas já mudam o jogo.'
-      : score < 68
-      ? 'O que falta não é começar do zero: é dar constância pro que você já tem.'
-      : 'Daqui pra frente o ganho vem de consistência e de aparecer pra quem ainda não te conhece.';
-
-    const gaps = [];
-    if (a.site === 'nao') gaps.push({ t: 'Você não tem site', d: 'Quem te procura cai no perfil da rede social e sai de lá sem saber preço, horário nem endereço.' });
-    else if (a.site === 'parado') gaps.push({ t: 'Seu site está parado', d: 'Site desatualizado passa a mesma impressão de loja fechada: o cliente desconfia e volta pro Google.' });
-    if (a.google === 'nao') gaps.push({ t: 'Você não aparece na busca local', d: 'É a ficha do Google Meu Negócio que te coloca no mapa quando alguém busca perto. Sem ela, aparecem só os concorrentes.' });
-    else if (a.google === 'meio') gaps.push({ t: 'Sua ficha do Google está no piloto automático', d: 'Ficha sem foto, sem horário atualizado e sem movimento rende bem menos que uma ficha cuidada.' });
-    if (a.redes === 'nunca') gaps.push({ t: 'Suas redes estão paradas', d: 'Último post há meses é o detalhe que faz o cliente achar que você fechou.' });
-    else if (a.redes === 'asvezes') gaps.push({ t: 'Suas redes andam no improviso', d: 'Postar quando sobra tempo não cria hábito no cliente. Constância vale mais que capricho.' });
-    if (a.canais === 'loja') gaps.push({ t: 'Você depende de quem passa na frente', d: 'Sem WhatsApp ligado ao site e às redes, quem te achou de longe não consegue comprar de você.' });
-    if (a.chega === 'naosei') gaps.push({ t: 'Você não sabe de onde vem seu cliente', d: 'Sem isso, todo investimento em divulgação vira aposta no escuro.' });
-    if (a.aperto === 'tempo') gaps.push({ t: 'Isso está sobrando pra você', d: 'Cuidar de site, post e Google no fim do expediente é o que faz tudo parar no meio.' });
-    if (!gaps.length) gaps.push({ t: 'Falta constância, não estrutura', d: 'Você já tem o básico de pé. O que falta é alguém cuidando disso toda semana, sem depender da sua agenda.' });
-
-    const acoes = [];
-    if (a.site === 'nao' || a.site === 'parado') acoes.push('Colocar seu site no ar em até 5 dias úteis, com o que o cliente procura: o que você faz, onde fica e como falar com você.');
-    if (a.google !== 'sim') acoes.push('Montar e otimizar sua ficha do Google Meu Negócio, com fotos, horário certo e as palavras que o cliente realmente digita.');
-    if (a.redes !== 'sempre') acoes.push('Assumir o calendário de posts, pra sua rede parar de depender do seu tempo livre.');
-    if (a.canais === 'loja') acoes.push('Ligar o WhatsApp ao site e às redes, pra quem te achou conseguir falar com você em um toque.');
-    acoes.push('Acompanhar toda semana o que trouxe cliente — e cortar o que não trouxe.');
-
-    let plan = 'Essencial';
-    const querCrescer = a.aperto === 'clientes' || a.aperto === 'resultado' || a.meta === 'mais' || a.meta === 'online';
-    if (a.verba === 'mais') plan = 'Completo';
-    else if (a.verba === 'm200') plan = querCrescer ? 'Completo' : 'Essencial';
-    else if (a.verba === 'ate200') plan = 'Essencial';
-    else plan = querCrescer && score >= 40 ? 'Completo' : 'Essencial';
-
-    const why = plan === 'Essencial'
-      ? 'Pelo que você contou, o mais urgente é ter a base no lugar: site no ar, ficha do Google cuidada e post toda semana. O Essencial cobre exatamente isso — e como o primeiro mês é grátis, você vê o trabalho acontecendo antes de pagar qualquer coisa.'
-      : 'Você não precisa só existir no digital, precisa crescer. O Completo tem 20 posts por mês, a ficha do Google ativa toda semana e relatório do que deu resultado — além de tudo que vem no Essencial. O primeiro mês também é grátis.';
-
-    const L = (k, map) => map[a[k]] || '—';
-    const resumo = [
-      'Olá! Acabei de fazer o diagnóstico no site de vocês.',
-      nome ? 'Negócio: ' + nome + ' (' + tipo[0] + ')' : 'Tipo de negócio: ' + tipo[0],
-      'Tempo de casa: ' + L('tempo', { comecando: 'começando agora', novo: 'menos de 2 anos', medio: '2 a 5 anos', firme: 'mais de 5 anos' }),
-      'Cliente chega por: ' + L('chega', { passa: 'movimento da rua', indica: 'indicação', redes: 'redes sociais', naosei: 'não sei dizer' }),
-      'Site: ' + L('site', { nao: 'não tenho', parado: 'tenho, mas parado', ok: 'tenho e funciona' }),
-      'Redes: ' + L('redes', { nunca: 'paradas', asvezes: 'quando sobra tempo', sempre: 'toda semana' }),
-      'Google: ' + L('google', { nao: 'não apareço', meio: 'ficha parada', sim: 'cuido dela' }),
-      'Vendo por: ' + L('canais', { loja: 'só balcão', zap: 'balcão e WhatsApp', entrega: 'balcão, WhatsApp e entrega', online: 'também online' }),
-      'Maior aperto: ' + L('aperto', { clientes: 'poucos clientes novos', tempo: 'falta de tempo', resultado: 'já tentei e não deu', comecar: 'não sei por onde começar' }),
-      'Meta em 6 meses: ' + L('meta', { mais: 'mais clientes novos', conhecido: 'ser conhecido no bairro', online: 'vender online', organizado: 'organizar tudo' }),
-      'Investimento: ' + L('verba', { ate200: 'até R$ 200', m200: 'R$ 200 a R$ 400', mais: 'mais de R$ 400', nsei: 'ainda não sei' }),
-      'Nota de presença digital: ' + score + '/100',
-      'Plano indicado pelo site: ' + plan,
-      '',
-      'Quero começar!'
-    ].join('\n');
-
-    // A auditoria de 24h: o WhatsApp abre com o diagnóstico já escrito e a última
-    // linha em branco, esperando a pessoa colar o link do negócio dela.
-    const pedido = [
-      'Olá! Fiz o diagnóstico no site e quero a auditoria de 2 minutos.',
-      nome ? 'Negócio: ' + nome + ' (' + tipo[0] + ')' : 'Tipo de negócio: ' + tipo[0],
-      'Nota de presença digital: ' + score + '/100',
-      'Google hoje: ' + L('google', { nao: 'não apareço', meio: 'ficha parada', sim: 'cuido dela' }),
-      '',
-      'Meu link (site, Instagram ou ficha do Google): '
-    ].join('\n');
-
-    return {
-      score,
-      title,
-      who: nome ? 'Diagnóstico · ' + nome : 'Seu diagnóstico',
-      intro: tipo[1] + ' ' + fecho,
-      gaps: gaps.slice(0, 3),
-      acoes: acoes.slice(0, 3),
-      plan,
-      price: plan === 'Essencial' ? 'R$ 259,99/mês' : 'R$ 597,99/mês',
-      why,
-      prazo: 'Seu site ficaria pronto em até 5 dias úteis depois que a gente receber logo, fotos e contatos. Fidelidade de 6 meses, sem taxa de setup.',
-      whats: 'https://wa.me/' + (this.props.whatsappNumber ?? '5561994299823') + '?text=' + encodeURIComponent(resumo),
-      audit: 'https://wa.me/' + (this.props.whatsappNumber ?? '5561994299823') + '?text=' + encodeURIComponent(pedido)
-    };
-  }
 
   renderVals() {
     const phone = this.props.whatsappNumber ?? '5561994299823';
@@ -4827,22 +3917,6 @@ class Component extends DCLogic {
       // ADS OFF - pergunta da verba de anúncio, guardada para quando o tráfego pago voltar:
       // { q: 'O que significa "verba de anúncio separada"?', a: 'No plano Completo a ACTech cria, configura e otimiza as campanhas no Google e Meta. O valor que vai para o anúncio em si é pago diretamente às plataformas e você define quanto quer investir — ele não está incluído na mensalidade.' }
     ]);
-    const Q = this.memo('quiz', () => this.quizData());
-    const N = Q.length;
-    const st = this.state.step;
-    const open = this.state.quiz;
-    const asking = open && st >= 0 && st < N;
-    const cur = asking ? Q[st] : null;
-    const pct = Math.min(100, Math.round((Math.min(st, N + 1) / (N + 1)) * 100));
-    const LOADS = [
-      'Olhando o seu tipo de negócio...',
-      'Comparando com quem busca perto de você...',
-      'Vendo o que está faltando...',
-      'Montando o seu diagnóstico...'
-    ];
-    const done = open && st === N + 2;
-    const oferta = open && st === N + 3;   // último passo: material + WhatsApp
-    const res = done || oferta ? this.quizResult() : null;
 
     // Cada coluna da parede mostra a lista inteira, girada pelo índice da coluna
     // (assim duas vizinhas nunca ficam iguais) e repetida duas vezes — a duplicata
@@ -4900,91 +3974,6 @@ class Component extends DCLogic {
 
       wallCols: wallCols,
 
-      quizOpen: open,
-      quizPortal: open && st === -1,
-      portalTitulo: this.state.portal === 'plano'
-        ? 'Antes de escolher um plano, deixa a gente te conhecer?'
-        : 'Antes da conversa, deixa a gente te conhecer?',
-      quizComecar: () => this.setState({ step: 0 }),
-      quizPular: () => {
-        this.lockScroll(false);
-        this.setState({ quiz: false, feito: true });
-        const alvo = this._alvo;
-        if (alvo) window.open(alvo, '_blank', 'noopener');
-      },
-      quizAsking: asking,
-      quizNaming: open && st === N,
-      quizThinking: open && st === N + 1,
-      quizDone: done,
-      quizOferta: oferta,
-      // libera o presente na página já ao chegar na oferta, não só no clique final
-      irOferta: () => this.setState({ step: N + 3, unlocked: true }),
-      voltarResultado: () => this.setState({ step: N + 2 }),
-      quizPct: pct + '%',
-      stepCls: st % 2 ? 'step-b' : 'step-a',
-      quizCounter: !cur ? '' : (st === N - 1 ? 'Última pergunta'
-        : st === Math.floor(N / 2) ? 'Metade do caminho — pergunta ' + (st + 1) + ' de ' + N
-        : 'Pergunta ' + (st + 1) + ' de ' + N),
-      quizTitle: cur ? cur.title : '',
-      quizHint: cur ? cur.hint : '',
-      quizGridCls: 'pick-grid' + (cur && cur.cols === 1 ? ' is-list' : ''),
-      // O tom mora no painel, nao na grade: a barra de progresso e irma da grade
-      // e nao enxergaria a variavel de la. So enquanto pergunta - no resultado
-      // quem manda na cor e a nota.
-      modalPanelCls: 'modal-panel' + (asking ? ' q' + (st % 10) : ''),
-      quizCanBack: st > 0 && st <= N,
-      quizLoadMsg: LOADS[Math.min(this.state.loadI, LOADS.length - 1)],
-      quizOptions: cur ? cur.opts.map((o) => ({
-        label: o.label,
-        sub: o.sub || '',
-        ico: o.ico || React.createElement('b'),
-        cls: 'pick' + (cur.cols === 1 ? ' is-row' : '') + (this.state.ans[cur.key] === o.v ? ' is-picked' : ''),
-        pick: () => this.answer(cur.key, o.v)
-      })) : [],
-
-      score: res ? res.score : 0,
-      // O arco nao aparece pronto: nasce vazio e se desenha. Com dasharray fixo
-      // em 389,6 (a circunferencia), quem controla quanto aparece e o dashoffset
-      // — 389,6 esconde tudo, 0 mostra o anel inteiro.
-      scoreOff: res ? (389.6 * (1 - res.score / 100)).toFixed(1) : '389.6',
-      // A nota deixa de ser sempre roxa. Anel vivo, numero escuro: o numero ja
-      // diz o resultado em texto, entao o anel pode puxar saturacao sem cobrar
-      // legibilidade. As faixas sao as mesmas que ja decidem o titulo do
-      // resultado, em quizResult() - mexeu numa, mexa na outra.
-      scoreCor: !res ? '#3D6A99' : res.score < 40 ? '#E5484D' : res.score < 68 ? '#F5A524' : '#12A594',
-      scoreCorTexto: !res ? '#3D6A99' : res.score < 40 ? '#C62A2F' : res.score < 68 ? '#A76800' : '#0E7C6F',
-      scoreFaixa: !res ? '' : res.score < 40 ? 'Precisa de atenção' : res.score < 68 ? 'Base no lugar' : 'Bem posicionado',
-      resWho: res ? res.who : '',
-      resTitle: res ? res.title : '',
-      resIntro: res ? res.intro : '',
-      resGaps: res ? res.gaps : [],
-      resPlano: res ? res.acoes : [],
-      resPlan: res ? res.plan : '',
-      resPrice: res ? res.price : '',
-      resWhy: res ? res.why : '',
-      resPrazo: res ? res.prazo : '',
-      resWhats: res ? res.whats : '#',
-      resAudit: res ? res.audit : '#',
-
-      quizOpenFn: () => { this.lockScroll(true); this.setState({ quiz: true, step: 0, portal: '' }); },
-      quizClose: () => { this.lockScroll(false); this.setState({ quiz: false }); },
-      quizBack: () => this.setState((s) => ({ step: Math.max(0, s.step - 1) })),
-      quizReset: () => this.setState({ step: 0, ans: {}, nome: '' }),
-      quizSkipName: () => this.startThinking(''),
-      quizFinish: () => {
-        const el = document.querySelector('[data-quiz-name]');
-        this.startThinking(el ? el.value : '');
-      },
-      quizUnlock: () => {
-        this.lockScroll(false);
-        this.setState({ quiz: false, unlocked: true });
-        setTimeout(() => {
-          const g = document.querySelector('[data-gift]');
-          if (g) g.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }, 280);
-      },
-
-      unlocked: this.state.unlocked,
       essencial: [
         'Site institucional (até 5 páginas)',
         'Hospedagem + domínio incluídos',
