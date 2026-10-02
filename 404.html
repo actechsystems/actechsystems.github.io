@@ -10,7 +10,7 @@
      de verdade aqui, então não é soft 404 — isto é só o cinto de segurança. -->
 <meta name="robots" content="noindex, follow" />
 <meta name="theme-color" content="#E0E5EC" />
-<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Crect%20width='32'%20height='32'%20rx='8'%20fill='%23E0E5EC'/%3E%3Cpath%20d='M12%2011l-5%205%205%205M20%2011l5%205-5%205'%20fill='none'%20stroke='%236C63FF'%20stroke-width='3'%20stroke-linecap='round'%20stroke-linejoin='round'/%3E%3C/svg%3E" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Crect%20width='32'%20height='32'%20rx='8'%20fill='%23E0E5EC'/%3E%3Cpath%20d='M12%2011l-5%205%205%205M20%2011l5%205-5%205'%20fill='none'%20stroke='%233D6A99'%20stroke-width='3'%20stroke-linecap='round'%20stroke-linejoin='round'/%3E%3C/svg%3E" />
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
@@ -26,8 +26,8 @@
     --fg: #3D4852;
     --muted: #59616E;
     --placeholder: #7F8898;
-    --accent: #6C63FF;
-    --accent-light: #8B84FF;
+    --accent: #3D6A99;
+    --accent-light: #5E8CBA;
     --accent-2: #38B2AC;
 
     --sh-dark: rgba(163,177,198,.6);
@@ -66,7 +66,7 @@
     z-index: 0;
     pointer-events: none;
     background:
-      radial-gradient(38% 42% at 18% 22%, rgba(108,99,255,.20), transparent 70%),
+      radial-gradient(38% 42% at 18% 22%, rgba(61,106,153,.20), transparent 70%),
       radial-gradient(34% 38% at 84% 76%, rgba(56,178,172,.18), transparent 70%),
       radial-gradient(30% 34% at 72% 14%, rgba(198,42,122,.10), transparent 70%);
     filter: blur(20px);
@@ -121,7 +121,10 @@
     transition: box-shadow .3s var(--ease), transform .3s var(--ease);
   }
   .btn:hover { transform: translateY(-2px); }
-  .btn-1 { background: var(--accent); color: #fff; box-shadow: var(--nm-out); }
+  /* Botão de ação é laranja, não azul: no index o --cta existe justamente pra
+     separar "cor de marca" de "cor de clique". Aqui vai o valor direto porque
+     esta página não compartilha tokens com ninguém. */
+  .btn-1 { background: #CC5200; color: #fff; box-shadow: var(--nm-out); }
   .btn-1:hover { box-shadow: var(--nm-out-hover); }
   .btn-2 { background: var(--bg); color: var(--fg); box-shadow: var(--nm-out); }
   .btn-2:hover { box-shadow: var(--nm-out-hover); }
@@ -164,7 +167,7 @@
   <a class="marca" href="/">
     <svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true">
       <rect width="32" height="32" rx="8" fill="#E0E5EC"></rect>
-      <path d="M12 11l-5 5 5 5M20 11l5 5-5 5" fill="none" stroke="#6C63FF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path>
+      <path d="M12 11l-5 5 5 5M20 11l5 5-5 5" fill="none" stroke="#3D6A99" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path>
     </svg>
     ACTech <span>Informática</span>
   </a>
@@ -188,7 +191,7 @@
 
   <nav class="portas" aria-label="Seções do site">
     <a class="porta" href="/#planos">
-      <i style="background:#6C63FF"></i>
+      <i style="background:#3D6A99"></i>
       <b>Planos</b>
       <span>Site, redes e Google numa mensalidade. 1º mês grátis.</span>
     </a>

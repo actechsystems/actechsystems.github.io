@@ -671,6 +671,18 @@
   .blob-head { position: relative; z-index: 2; padding: 30px 32px 0; color: #fff; }
   .blob-body { padding: 26px 32px 34px; }
 
+  /* O botão do card agora leva pro checkout. Quem ainda quer conversar antes
+     de pagar precisa de uma saída visível, mas discreta: se os dois tiverem o
+     mesmo peso, a dúvida ganha do clique todas as vezes. */
+  .plano-duvida {
+    display: block; margin: 12px 0 0; text-align: center;
+    font-size: 13.5px; line-height: 1.5; color: var(--muted);
+    text-decoration: none;
+    transition: color .25s var(--ease);
+  }
+  .plano-duvida u { text-decoration-color: rgba(89,97,110,.4); text-underline-offset: 3px; }
+  .plano-duvida:hover { color: var(--fg); }
+
   /* ---------- TiltCard: inclinação 3D seguindo o ponteiro ---------- */
   .tilt { transition: transform .4s var(--ease), box-shadow .3s var(--ease); will-change: transform; }
 
@@ -3132,7 +3144,8 @@
 
           <div class="blob-body">
             <p style="margin: 0; font-size: 15px; color: #59616E; line-height: 1.6;">Para quem precisa existir bem no digital com o básico feito direito.</p>
-            <a class="btn btn-secondary btn-block" href="{{ whatsUrl }}" target="_blank" style="margin: 24px 0 4px;">Começar com o Essencial</a>
+            <a class="btn btn-secondary btn-block" href="{{ assinarEssencial }}" target="_blank" style="margin: 24px 0 4px;">Começar com o Essencial</a>
+            <a class="plano-duvida" href="{{ whatsUrl }}" target="_blank">Prefere tirar uma dúvida antes? <u>Fale no WhatsApp</u></a>
             <div class="nm-track" style="height: 6px; border-radius: 999px; margin: 28px 0 20px;"></div>
             <sc-for list="{{ essencial }}" as="item" hint-placeholder-count="7">
               <div class="check-row">
@@ -3173,7 +3186,8 @@
 
           <div class="blob-body">
             <p style="margin: 0; font-size: 15px; color: #59616E; line-height: 1.6;">Para quem quer crescer: conteúdo forte, Google ativo e relatório de resultado.</p>
-            <a class="btn btn-primary btn-block" href="{{ whatsUrl }}" target="_blank" style="margin: 24px 0 4px;">Quero o Completo</a>
+            <a class="btn btn-primary btn-block" href="{{ assinarCompleto }}" target="_blank" style="margin: 24px 0 4px;">Quero o Completo</a>
+            <a class="plano-duvida" href="{{ whatsUrl }}" target="_blank">Prefere tirar uma dúvida antes? <u>Fale no WhatsApp</u></a>
             <div class="nm-track" style="height: 6px; border-radius: 999px; margin: 28px 0 20px;"></div>
             <div style="font-size: 14px; font-weight: 700; color: #3D6A99; letter-spacing: .04em; margin-bottom: 8px;">Tudo do Essencial, mais:</div>
             <sc-for list="{{ completo }}" as="item" hint-placeholder-count="6">
@@ -3884,7 +3898,7 @@
   </a>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;whatsappNumber&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;5561994299823&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Contato&quot;},&quot;whatsappMessage&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Olá! Vi a página da ACTech e quero saber mais sobre os planos.&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Contato&quot;},&quot;instagramUser&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;actech.systems&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Contato&quot;}}">
+<script type="text/x-dc" data-dc-script data-props="{&quot;whatsappNumber&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;5561994299823&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Contato&quot;},&quot;whatsappMessage&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Olá! Vi a página da ACTech e quero saber mais sobre os planos.&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Contato&quot;},&quot;instagramUser&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;actech.systems&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Contato&quot;},&quot;assinaturaEssencial&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Pagamento&quot;},&quot;assinaturaCompleto&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Pagamento&quot;}}">
 class Component extends DCLogic {
   state = { open: 0, menu: false, quiz: false, step: 0, ans: {}, nome: '', loadI: 0, unlocked: false, lesson: -1, faixa: '6M', feito: false, portal: '' };
 
@@ -5064,6 +5078,11 @@ class Component extends DCLogic {
     // WhatsApp ja dizendo o assunto certo. Mensagem fixa de proposito -- se virar
     // prop, vira mais um campo pra esquecer de preencher no editor.
     const msgSistema = encodeURIComponent('Olá! Vi os sistemas sob medida na página da ACTech e queria conversar sobre um para o meu negócio.');
+    // Links de assinatura do Mercado Pago (campos da seção Pagamento). Enquanto
+    // estiverem vazios o botão cai no WhatsApp, que é o caminho de hoje -- assim
+    // a página nunca fica com um "Assinar" que não leva a lugar nenhum.
+    const assEssencial = (this.props.assinaturaEssencial ?? '').trim();
+    const assCompleto = (this.props.assinaturaCompleto ?? '').trim();
     const faqData = this.memo('faq', () => [
       { q: 'Em quanto tempo meu site fica pronto?', a: 'Até 5 dias úteis depois que recebemos o material básico: logo, fotos, textos e informações de contato. Se preferir, a gente ajuda a organizar esse conteúdo antes de começar.' },
       { q: 'Como funciona o 1º mês grátis?', a: 'Você não paga a primeira mensalidade. Nesse período já fazemos o site, publicamos os posts e configuramos o Google Meu Negócio. A cobrança começa no segundo mês.' },
@@ -5119,6 +5138,9 @@ class Component extends DCLogic {
       sistemaUrl: 'https://wa.me/' + phone + '?text=' + msgSistema,
       instaUrl: 'https://instagram.com/' + insta,
       instaUser: '@' + insta,
+
+      assinarEssencial: assEssencial || ('https://wa.me/' + phone + '?text=' + encodeURIComponent('Olá! Quero assinar o plano Essencial da ACTech.')),
+      assinarCompleto: assCompleto || ('https://wa.me/' + phone + '?text=' + encodeURIComponent('Olá! Quero assinar o plano Completo da ACTech.')),
 
       mxValor: MX.valor,
       mxDelta: MX.delta,
