@@ -1,7 +1,7 @@
 /* ===================================================================
    "Quando o plano se paga?" -- a conta, agora mexivel.
 
-   Era um bloco parado (R$ 259,99 / R$ 50 = 6 clientes) com um "troque pelo
+   Era um bloco parado (R$ 359,99 / R$ 50 = 8 clientes) com um "troque pelo
    seu ticket". Agora a pessoa troca de verdade: plano, ticket medio, quantas
    vezes o cliente volta no mes e quantos clientes novos ela espera. So usa
    o que ela mesma informa -- nenhuma estatistica inventada. Se ela montou a
@@ -11,7 +11,7 @@
    =================================================================== */
 (function () {
   'use strict';
-  var PLANOS = [['Essencial', 259.99], ['Completo', 597.99]];
+  var PLANOS = [['Essencial', 359.99], ['Completo', 597.99]];
   // ponto de partida por ramo: [ticket medio, vezes por mes]
   var RAMO = {
     barbearia: [45, 1, 'barbearia'], salao: [80, 1, 'salão'], petshop: [55, 2, 'pet shop'], clinica: [180, 1, 'clínica'],
@@ -20,7 +20,7 @@
   var FREQ = [[1, '1 vez'], [2, '2 vezes'], [4, 'Toda semana']];
   var fmt = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 });
   function real(v) { return fmt.format(Math.round(v)); }
-  // preco de plano sai com centavos, igual ao card: R$ 259,99 e nao R$ 260
+  // preco de plano sai com centavos, igual ao card: R$ 359,99 e nao R$ 360
   var fmtC = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
   function centavos(v) { return fmtC.format(v); }
 
