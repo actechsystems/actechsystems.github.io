@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+<title>Apresentação — ACTech Informática</title>
+<meta name="description" content="Apresentação da ACTech Informática para comércios de Brasília." />
+<!-- Ferramenta de venda, não página de visitante: não entra no índice. -->
+<meta name="robots" content="noindex, nofollow" />
+<meta name="theme-color" content="#E0E5EC" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Crect%20width='32'%20height='32'%20rx='8'%20fill='%23E0E5EC'/%3E%3Cpath%20d='M12%2011l-5%205%205%205M20%2011l5%205-5%205'%20fill='none'%20stroke='%233D6A99'%20stroke-width='3'%20stroke-linecap='round'%20stroke-linejoin='round'/%3E%3C/svg%3E" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
+
+<style>
+  /* HTML puro de propósito: sem x-dc, sem GSAP, sem React. Isto é usado em
+     pé, dentro de uma loja, no 4G do balcão — o que depende de runtime é o
+     que falha na hora exata em que não pode falhar. Tokens copiados do
+     index.html; se a paleta mudar lá, muda aqui. */
+  :root {
+    --bg: #E0E5EC;
+    --fg: #3D4852;
+    --muted: #59616E;
+    --accent: #3D6A99;
+    --accent-2: #38B2AC;
+    --cta: #CC5200;
+    --sh-dark: rgba(163,177,198,.6);
+    --sh-light: rgba(255,255,255,.5);
+    --nm-out:    9px 9px 16px var(--sh-dark), -9px -9px 16px var(--sh-light);
+    --nm-out-sm: 5px 5px 10px var(--sh-dark), -5px -5px 10px var(--sh-light);
+    --nm-in:     inset 7px 7px 14px var(--sh-dark), inset -7px -7px 14px var(--sh-light);
+    --ease: cubic-bezier(.22,.61,.36,1);
+    --tom: var(--accent);
+  }
+
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  html, body {
+    margin: 0; height: 100%;
+    background: var(--bg); color: var(--fg);
+    font-family: "DM Sans", system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    overscroll-behavior: none;
+  }
+
+  /* dvh: no celular a barra do navegador some e volta; com vh o último
+     botão ficava escondido justamente na hora de fechar a venda. */
+  #palco {
+    position: relative;
+    height: 100dvh;
+    overflow: hidden;
+    display: grid;
+  }
+
+  .aurora {
+    position: fixed; inset: -20%; z-index: 0; pointer-events: none;
+    background:
+      radial-gradient(36% 28% at 16% 18%, rgba(61,106,153,.20), transparent 70%),
+      radial-gradient(32% 26% at 84% 74%, rgba(56,178,172,.18), transparent 70%),
+      radial-gradient(28% 22% at 76% 14%, rgba(204,82,0,.10), transparent 70%);
+    filter: blur(50px);
+  }
+
+  .tela {
+    grid-area: 1 / 1;
+    position: relative; z-index: 1;
+    display: none;
+    flex-direction: column;
+    padding: max(26px, env(safe-area-inset-top)) 24px max(26px, env(safe-area-inset-bottom));
+    overflow-y: auto;
+    animation: entra .36s var(--ease) both;
+  }
+  .tela.on { display: flex; }
+  @keyframes entra { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+
+  .meio { margin: auto 0; width: 100%; max-width: 620px; margin-left: auto; margin-right: auto; }
+
+  h1, h2 { font-family: "Plus Jakarta Sans", system-ui, sans-serif; font-weight: 800; letter-spacing: -.035em; line-height: 1.08; margin: 0; }
+  h1 { font-size: clamp(34px, 8.5vw, 54px); }
+  h2 { font-size: clamp(30px, 7.6vw, 46px); }
+  .sub { margin: 18px 0 0; font-size: clamp(16px, 4.3vw, 20px); line-height: 1.6; color: var(--muted); }
+  .olho { font-size: 12.5px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--tom); margin: 0 0 14px; }
+  .laranja { color: var(--cta); }
+
+  /* ---------- capa ---------- */
+  .marca { display: inline-flex; align-items: center; gap: 10px; padding: 9px 17px 9px 11px; border-radius: 999px; background: var(--bg); box-shadow: var(--nm-out-sm); font-family: "Plus Jakarta Sans", sans-serif; font-weight: 700; font-size: 14.5px; }
+  .marca span { font-weight: 500; color: var(--muted); }
+
+  /* ---------- escolha do ramo ---------- */
+  .ramos { display: grid; grid-template-columns: repeat(2, 1fr); gap: 11px; margin-top: 26px; }
+  .ramo {
+    appearance: none; border: 0; cursor: pointer;
+    background: var(--bg); box-shadow: var(--nm-out-sm);
+    border-radius: 18px; padding: 20px 14px;
+    font-family: "Plus Jakarta Sans", sans-serif; font-weight: 700; font-size: 17px; color: var(--fg);
+    transition: box-shadow .2s var(--ease), transform .2s var(--ease);
+  }
+  .ramo:active { box-shadow: var(--nm-in); transform: scale(.98); }
+
+  /* ---------- a prévia do site do ramo ---------- */
+  .mock { border-radius: 16px; overflow: hidden; background: #fff; box-shadow: var(--nm-out); margin-top: 20px; }
+  .mock-barra { height: 34px; background: #eef1f5; display: flex; align-items: center; gap: 6px; padding: 0 12px; }
+  .mock-barra i { width: 9px; height: 9px; border-radius: 999px; display: block; }
+  .mock-barra u { flex: 1; margin-left: 8px; height: 18px; border-radius: 5px; background: #fff; text-decoration: none; display: flex; align-items: center; padding: 0 8px; font-size: 10.5px; color: #828b98; overflow: hidden; white-space: nowrap; }
+  .mock-foto { width: 100%; height: 170px; object-fit: cover; display: block; background: #dfe4ea; }
+  .mock-corpo { padding: 16px 16px 18px; }
+  .mock-tit { font-family: "Plus Jakarta Sans", sans-serif; font-weight: 800; font-size: 21px; line-height: 1.15; letter-spacing: -.02em; color: #22272e; }
+  .mock-sub { margin-top: 8px; font-size: 13.5px; line-height: 1.5; color: #5d6670; }
+  .mock-btn { display: inline-block; margin-top: 14px; background: var(--tom); color: #fff; font-weight: 700; font-size: 13.5px; padding: 10px 18px; border-radius: 10px; }
+  .mock-itens { margin-top: 14px; display: grid; gap: 7px; }
+  .mock-item { display: flex; justify-content: space-between; gap: 12px; font-size: 13px; color: #42494f; border-top: 1px solid #eceff3; padding-top: 7px; }
+  .mock-item b { font-weight: 700; color: #22272e; }
+
+  /* ---------- listas ---------- */
+  .lista { display: grid; gap: 12px; margin-top: 26px; }
+  .item { display: flex; gap: 14px; align-items: flex-start; background: var(--bg); box-shadow: var(--nm-out-sm); border-radius: 16px; padding: 16px 17px; }
+  .item i { flex: none; width: 30px; height: 30px; border-radius: 999px; display: grid; place-items: center; background: var(--bg); box-shadow: var(--nm-in); font-family: "Plus Jakarta Sans", sans-serif; font-style: normal; font-weight: 800; font-size: 13px; color: var(--tom); }
+  .item b { display: block; font-family: "Plus Jakarta Sans", sans-serif; font-size: 16.5px; margin-bottom: 3px; }
+  .item span { font-size: 14.5px; line-height: 1.5; color: var(--muted); }
+
+  /* ---------- preço ---------- */
+  .preco { text-align: center; margin-top: 24px; }
+  .preco .de { font-size: 19px; text-decoration: line-through; color: var(--muted); opacity: .75; }
+  .preco .por { font-family: "Plus Jakarta Sans", sans-serif; font-weight: 800; font-size: clamp(56px, 16vw, 84px); line-height: 1; letter-spacing: -.045em; margin-top: 2px; }
+  .preco .mes { font-size: 19px; color: var(--muted); }
+  .selos { display: flex; flex-wrap: wrap; gap: 9px; justify-content: center; margin-top: 22px; }
+  .selo { background: var(--cta); color: #fff; font-weight: 700; font-size: 14px; padding: 9px 16px; border-radius: 999px; }
+  .selo.calmo { background: var(--bg); color: var(--fg); box-shadow: var(--nm-out-sm); }
+
+  /* ---------- botões ---------- */
+  .acoes { margin-top: 28px; display: grid; gap: 11px; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 9px; min-height: 56px; padding: 15px 24px; border-radius: 16px; font-family: "Plus Jakarta Sans", sans-serif; font-weight: 700; font-size: 17px; text-decoration: none; border: 0; cursor: pointer; }
+  .btn-cta { background: var(--cta); color: #fff; box-shadow: var(--nm-out); }
+  .btn-calmo { background: var(--bg); color: var(--fg); box-shadow: var(--nm-out); }
+
+  /* ---------- rodapé de navegação ---------- */
+  .barra {
+    position: relative; z-index: 2;
+    display: flex; align-items: center; gap: 14px;
+    padding: 12px 20px max(12px, env(safe-area-inset-bottom));
+    background: var(--bg);
+  }
+  .nav-btn { appearance: none; border: 0; background: var(--bg); box-shadow: var(--nm-out-sm); width: 48px; height: 48px; border-radius: 999px; display: grid; place-items: center; cursor: pointer; color: var(--fg); flex: none; }
+  .nav-btn:disabled { opacity: .35; box-shadow: none; }
+  .nav-btn:active:not(:disabled) { box-shadow: var(--nm-in); }
+  .pontos { flex: 1; display: flex; gap: 7px; justify-content: center; }
+  .ponto { width: 7px; height: 7px; border-radius: 999px; background: #c3ccd8; transition: width .25s var(--ease), background .25s var(--ease); }
+  .ponto.on { width: 22px; background: var(--tom); }
+  .recomecar { appearance: none; border: 0; background: none; color: var(--muted); font-family: "DM Sans", sans-serif; font-size: 13.5px; cursor: pointer; padding: 8px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tela { animation: none; }
+    .ramo, .nav-btn { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="aurora"></div>
+<div id="palco"></div>
+
+<div class="barra">
+  <button class="nav-btn" id="voltar" aria-label="Voltar">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"></path></svg>
+  </button>
+  <div class="pontos" id="pontos"></div>
+  <button class="nav-btn" id="avancar" aria-label="Avançar">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"></path></svg>
+  </button>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  var WHATS = '5561994299823';
+  var ASSINAR = 'https://mpago.la/1JApXpJ';   // plano Essencial no Mercado Pago
+  var PRECO = 'R$ 359,99';
+  var PRECO_DE = 'R$ 449,99';
+
+  /* Recorte dos ramos só com o que a apresentação precisa. A fonte completa
+     vive em estilos/estilos.js (RAMOS), que é do site e tem muito mais campo;
+     duplicar aqui é de propósito — esta página não carrega aquele arquivo pra
+     não depender dele numa loja com sinal ruim. Mexeu no nome ou na foto de
+     um ramo lá? Confira aqui também. */
+  var RAMOS = {
+    mercado: {
+      rotulo: 'Mercado', exemplo: 'Mercado do Bairro', tom: '#2e7d34',
+      foto: 'imgs/ramos/mercado-1.webp',
+      busca: 'mercado perto de mim',
+      titulo: 'A feira da semana, entregue na sua porta.',
+      sub: 'Ofertas da semana, entrega no mesmo dia e pedido pelo WhatsApp.',
+      cta: 'Pedir no WhatsApp',
+      itens: [['Hortifrúti', 'toda manhã'], ['Açougue', 'corte na hora'], ['Cesta da semana', 'R$ 189']]
+    },
+    petshop: {
+      rotulo: 'Pet shop', exemplo: 'Pata & Companhia', tom: '#2f6f9e',
+      foto: 'imgs/ramos/petshop-1.webp',
+      busca: 'banho e tosa perto de mim',
+      titulo: 'Banho e tosa com hora marcada.',
+      sub: 'Agenda online, lembrete no WhatsApp e leva-e-traz no bairro.',
+      cta: 'Agendar banho',
+      itens: [['Banho', 'R$ 60'], ['Tosa higiênica', 'R$ 45'], ['Leva e traz', 'no bairro']]
+    },
+    salao: {
+      rotulo: 'Salão', exemplo: 'Studio Alice', tom: '#a0486f',
+      foto: 'imgs/ramos/salao-1.webp',
+      busca: 'salão de beleza perto de mim',
+      titulo: 'Seu horário marcado em trinta segundos.',
+      sub: 'Escolha a profissional e o horário. O lembrete chega na véspera.',
+      cta: 'Marcar horário',
+      itens: [['Corte', 'R$ 80'], ['Escova', 'R$ 60'], ['Coloração', 'a partir de R$ 180']]
+    },
+    barbearia: {
+      rotulo: 'Barbearia', exemplo: 'Navalha', tom: '#8a6420',
+      foto: 'imgs/ramos/barbearia-1.webp',
+      busca: 'barbearia perto de mim',
+      titulo: 'Corte marcado. Sem fila, sem esperar.',
+      sub: 'Escolha o barbeiro e o horário. A agenda é online.',
+      cta: 'Agendar horário',
+      itens: [['Corte', 'R$ 45'], ['Barba', 'R$ 35'], ['Corte e barba', 'R$ 70']]
+    },
+    restaurante: {
+      rotulo: 'Restaurante', exemplo: 'Cantina da Esquina', tom: '#a4452c',
+      foto: 'imgs/ramos/restaurante-1.webp',
+      busca: 'restaurante perto de mim',
+      titulo: 'O cardápio de hoje, sempre atualizado.',
+      sub: 'Cardápio online, pedido pelo WhatsApp e reserva de mesa.',
+      cta: 'Ver o cardápio',
+      itens: [['Prato do dia', 'R$ 32'], ['Marmita', 'R$ 25'], ['Reserva', 'sem taxa']]
+    },
+    clinica: {
+      rotulo: 'Clínica', exemplo: 'Clínica Vida', tom: '#2b7a78',
+      foto: 'imgs/ramos/clinica-1.webp',
+      busca: 'clínica perto de mim',
+      titulo: 'Consulta marcada sem ligar pra ninguém.',
+      sub: 'Agenda online, convênios na primeira tela e lembrete automático.',
+      cta: 'Marcar consulta',
+      itens: [['Consulta', 'particular e convênio'], ['Retorno', 'em 30 dias'], ['Exames', 'no local']]
+    },
+    outro: {
+      rotulo: 'Outro', exemplo: 'Seu negócio', tom: '#3D6A99',
+      foto: 'imgs/ramos/outro-1.webp',
+      busca: 'o seu serviço perto de mim',
+      titulo: 'Seu trabalho, achado por quem procura.',
+      sub: 'Site, WhatsApp e ficha do Google trabalhando juntos.',
+      cta: 'Falar com a gente',
+      itens: [['Serviços', 'com preço claro'], ['Contato', 'num toque'], ['Google', 'ficha completa']]
+    }
+  };
+  var ORDEM = ['mercado', 'petshop', 'salao', 'barbearia', 'restaurante', 'clinica', 'outro'];
+
+  var palco = document.getElementById('palco');
+  var pontos = document.getElementById('pontos');
+  var bVoltar = document.getElementById('voltar');
+  var bAvancar = document.getElementById('avancar');
+
+  var ramo = null;
+  var i = 0;
+  var telas = [];
+
+  function esc(s) {
+    return String(s).replace(/[&<>"]/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+    });
+  }
+
+  function zap(texto) {
+    return 'https://wa.me/' + WHATS + '?text=' + encodeURIComponent(texto);
+  }
+
+  /* ---- as telas ---- */
+
+  function telaCapa() {
+    return '' +
+      '<div class="meio" style="text-align:center">' +
+        '<div class="marca">' +
+          '<svg width="22" height="22" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#E0E5EC"></rect><path d="M12 11l-5 5 5 5M20 11l5 5-5 5" fill="none" stroke="#3D6A99" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path></svg>' +
+          'ACTech <span>Informática</span>' +
+        '</div>' +
+        '<h1 style="margin-top:30px">Qual é o seu negócio?</h1>' +
+        '<p class="sub">Em dois toques eu te mostro como ficaria o seu site.</p>' +
+        '<div class="ramos">' +
+          ORDEM.map(function (k) {
+            return '<button class="ramo" data-ramo="' + k + '">' + esc(RAMOS[k].rotulo) + '</button>';
+          }).join('') +
+        '</div>' +
+      '</div>';
+  }
+
+  function telaProblema(r) {
+    return '' +
+      '<div class="meio">' +
+        '<p class="olho">O que acontece hoje</p>' +
+        '<h2>Alguém aqui perto pega o celular e procura<br><span style="color:var(--tom)">“' + esc(r.busca) + '”.</span></h2>' +
+        '<p class="sub">O Google mostra três resultados. <strong style="color:var(--fg)">Quem aparece, atende.</strong> Quem não aparece nem fica sabendo que perdeu o cliente.</p>' +
+        '<p class="sub laranja" style="font-weight:700">E isso acontece todo dia.</p>' +
+      '</div>';
+  }
+
+  function telaSite(r) {
+    return '' +
+      '<div class="meio">' +
+        '<p class="olho">Como ficaria o seu</p>' +
+        '<h2>' + esc(r.exemplo) + ', no ar.</h2>' +
+        '<div class="mock">' +
+          '<div class="mock-barra"><i style="background:#ff5f56"></i><i style="background:#ffbd2e"></i><i style="background:#27c93f"></i><u>' + esc(r.exemplo.toLowerCase().replace(/[^a-z0-9]+/g, '')) + '.com.br</u></div>' +
+          '<img class="mock-foto" src="' + esc(r.foto) + '" alt="" loading="eager" />' +
+          '<div class="mock-corpo">' +
+            '<div class="mock-tit">' + esc(r.titulo) + '</div>' +
+            '<div class="mock-sub">' + esc(r.sub) + '</div>' +
+            '<span class="mock-btn">' + esc(r.cta) + '</span>' +
+            '<div class="mock-itens">' +
+              r.itens.map(function (it) {
+                return '<div class="mock-item"><b>' + esc(it[0]) + '</b><span>' + esc(it[1]) + '</span></div>';
+              }).join('') +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+        '<p class="sub" style="font-size:15.5px">Esse é um exemplo. O seu sai com as suas fotos, os seus preços e o seu nome.</p>' +
+      '</div>';
+  }
+
+  function telaPacote() {
+    return '' +
+      '<div class="meio">' +
+        '<p class="olho">O que entra</p>' +
+        '<h2>Não é só o site.</h2>' +
+        '<div class="lista">' +
+          '<div class="item"><i>1</i><div><b>O site no ar</b><span>Endereço próprio, no celular e no computador. Pronto em até 5 dias.</span></div></div>' +
+          '<div class="item"><i>2</i><div><b>Suas redes publicando</b><span>8 posts por mês. A gente faz a arte e publica — você não precisa lembrar.</span></div></div>' +
+          '<div class="item"><i>3</i><div><b>Sua ficha do Google</b><span>Foto, horário, telefone e avaliação respondida. É o que aparece na busca.</span></div></div>' +
+        '</div>' +
+      '</div>';
+  }
+
+  function telaPreco() {
+    return '' +
+      '<div class="meio">' +
+        '<p class="olho" style="text-align:center">Quanto custa</p>' +
+        '<div class="preco">' +
+          '<div class="de">' + PRECO_DE + '</div>' +
+          '<div class="por">' + PRECO + '</div>' +
+          '<div class="mes">por mês</div>' +
+        '</div>' +
+        '<div class="selos">' +
+          '<span class="selo">1º mês grátis</span>' +
+          '<span class="selo calmo">Sem fidelidade</span>' +
+          '<span class="selo calmo">Sem taxa de setup</span>' +
+        '</div>' +
+        '<p class="sub" style="text-align:center">Você só paga no segundo mês. Se não gostar, cancela e não deve nada.</p>' +
+      '</div>';
+  }
+
+  function telaFechar(r) {
+    var msg = 'Olá! Sou dono de ' + r.rotulo.toLowerCase() + ' e quero o site da ACTech.';
+    return '' +
+      '<div class="meio">' +
+        '<p class="olho">Como começa</p>' +
+        '<h2>Hoje você só me manda o material.</h2>' +
+        '<div class="lista">' +
+          '<div class="item"><i>1</i><div><b>Me manda logo e fotos</b><span>Pelo WhatsApp, do jeito que você tiver. Se não tiver, a gente resolve.</span></div></div>' +
+          '<div class="item"><i>2</i><div><b>Em até 5 dias está pronto</b><span>Eu te mostro antes de publicar. Você pede os ajustes que quiser.</span></div></div>' +
+          '<div class="item"><i>3</i><div><b>O primeiro mês é grátis</b><span>A cobrança só começa 30 dias depois.</span></div></div>' +
+        '</div>' +
+        '<div class="acoes">' +
+          '<a class="btn btn-cta" href="' + ASSINAR + '" target="_blank" rel="noopener">Começar agora</a>' +
+          '<a class="btn btn-calmo" href="' + zap(msg) + '" target="_blank" rel="noopener">Mandar material pelo WhatsApp</a>' +
+        '</div>' +
+        '<p class="sub" style="text-align:center;font-size:14px">actechsystems.github.io</p>' +
+        '<div style="text-align:center"><button class="recomecar" id="recomecar">Apresentar para outro negócio</button></div>' +
+      '</div>';
+  }
+
+  /* ---- motor ---- */
+
+  function montar() {
+    var r = ramo ? RAMOS[ramo] : null;
+    telas = r
+      ? [telaProblema(r), telaSite(r), telaPacote(), telaPreco(), telaFechar(r)]
+      : [telaCapa()];
+    document.documentElement.style.setProperty('--tom', r ? r.tom : '#3D6A99');
+    desenhar();
+  }
+
+  function desenhar() {
+    palco.innerHTML = '<div class="tela on">' + telas[i] + '</div>';
+    palco.scrollTop = 0;
+    var t = palco.querySelector('.tela');
+    if (t) t.scrollTop = 0;
+
+    pontos.innerHTML = telas.map(function (_, n) {
+      return '<span class="ponto' + (n === i ? ' on' : '') + '"></span>';
+    }).join('');
+
+    bVoltar.disabled = (i === 0 && !ramo);
+    bAvancar.disabled = (i >= telas.length - 1) || !ramo;
+
+    var rec = document.getElementById('recomecar');
+    if (rec) rec.addEventListener('click', function () { ramo = null; i = 0; montar(); });
+  }
+
+  function vai(n) {
+    if (!ramo) return;
+    var novo = Math.max(0, Math.min(telas.length - 1, i + n));
+    if (novo === i) return;
+    i = novo;
+    desenhar();
+  }
+
+  palco.addEventListener('click', function (e) {
+    var b = e.target.closest('.ramo');
+    if (!b) return;
+    ramo = b.getAttribute('data-ramo');
+    i = 0;
+    montar();
+  });
+
+  bAvancar.addEventListener('click', function () { vai(1); });
+  bVoltar.addEventListener('click', function () {
+    if (i === 0 && ramo) { ramo = null; montar(); return; }
+    vai(-1);
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); vai(1); }
+    if (e.key === 'ArrowLeft') { e.preventDefault(); bVoltar.click(); }
+  });
+
+  /* Arrastar pro lado. O limiar de 55px evita que um scroll meio torto da
+     tela de preço (que é alta) seja lido como virada de página. */
+  var x0 = null, y0 = null;
+  palco.addEventListener('touchstart', function (e) {
+    x0 = e.touches[0].clientX; y0 = e.touches[0].clientY;
+  }, { passive: true });
+  palco.addEventListener('touchend', function (e) {
+    if (x0 === null) return;
+    var dx = e.changedTouches[0].clientX - x0;
+    var dy = e.changedTouches[0].clientY - y0;
+    if (Math.abs(dx) > 55 && Math.abs(dx) > Math.abs(dy) * 1.6) {
+      if (dx < 0) vai(1); else bVoltar.click();
+    }
+    x0 = null; y0 = null;
+  }, { passive: true });
+
+  montar();
+})();
+</script>
+
+</body>
+</html>
