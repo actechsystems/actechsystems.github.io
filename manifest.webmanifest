@@ -1,0 +1,17 @@
+{
+  "name": "ACTech Informatica",
+  "short_name": "ACTech",
+  "description": "Site, redes sociais e Google Meu Negocio numa mensalidade so.",
+  "lang": "pt-BR",
+  "start_url": "apresentar.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#E0E5EC",
+  "theme_color": "#E0E5EC",
+  "icons": [
+    { "src": "imgs/icone-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "imgs/icone-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "imgs/icone-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

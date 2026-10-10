@@ -125,9 +125,8 @@
 <!-- Fontes e GSAP moravam no <helmet> do template, e o navegador baixava
      duas vezes: uma lendo o HTML, outra quando o runtime montava o helmet.
      Aqui em cima, uma vez so. -->
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="fontes/fontes.css" />
+<link rel="manifest" href="manifest.webmanifest" />
 <!-- GSAP (window.gsap): efeito de clique "sniper" e CardSwap. O codigo espera
      ele aparecer, entao pode descer depois (defer). -->
 <script src="./vendor/gsap-3.12.5.min.js" defer></script>
@@ -4128,6 +4127,19 @@ class Component extends DCLogic {
     };
   }
 }
+</script>
+
+<script>
+  /* Guarda o site no aparelho pra funcionar sem internet. Precisa de uma
+     visita com sinal antes; depois disso abre offline, no celular e no PC.
+     Falha em silencio: se o navegador nao suportar, o site segue normal. */
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('sw.js')['catch'](function (e) {
+        console.warn('[sw] nao registrou:', e);
+      });
+    });
+  }
 </script>
 </body>
 </html>

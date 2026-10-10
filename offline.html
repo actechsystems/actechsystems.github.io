@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sem internet — ACTech Informática</title>
+<meta name="robots" content="noindex, nofollow" />
+<meta name="theme-color" content="#E0E5EC" />
+<link rel="stylesheet" href="fontes/fontes.css" />
+<style>
+  /* Só aparece quando a pessoa pediu uma página que nunca foi aberta neste
+     aparelho. HTML puro e fonte local: aqui não há rede pra buscar nada. */
+  :root { --bg:#E0E5EC; --fg:#3D4852; --muted:#59616E; --accent:#3D6A99; --cta:#CC5200; }
+  * { box-sizing: border-box; }
+  body {
+    margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center;
+    padding:48px 24px; background:var(--bg); color:var(--fg);
+    font-family:"DM Sans", system-ui, sans-serif; text-align:center;
+  }
+  .folha { max-width:560px; }
+  .selo {
+    width:92px; height:92px; margin:0 auto 32px; border-radius:999px;
+    display:grid; place-items:center; background:var(--bg);
+    box-shadow: inset 9px 9px 18px rgba(163,177,198,.7), inset -9px -9px 18px rgba(255,255,255,.6);
+    color:var(--accent);
+  }
+  h1 { font-family:"Plus Jakarta Sans", sans-serif; font-weight:800; font-size:clamp(28px,5vw,40px);
+       letter-spacing:-.03em; line-height:1.1; margin:0; }
+  p { margin:18px auto 0; max-width:44ch; font-size:16.5px; line-height:1.65; color:var(--muted); }
+  .btns { display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin-top:34px; }
+  .btn {
+    display:inline-flex; align-items:center; min-height:52px; padding:14px 26px; border-radius:16px;
+    font-family:"Plus Jakarta Sans", sans-serif; font-weight:700; font-size:16px; text-decoration:none;
+    box-shadow: 9px 9px 16px rgba(163,177,198,.6), -9px -9px 16px rgba(255,255,255,.5);
+  }
+  .b1 { background:var(--cta); color:#fff; }
+  .b2 { background:var(--bg); color:var(--fg); }
+</style>
+</head>
+<body>
+  <main class="folha">
+    <div class="selo">
+      <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M2 8.8a16 16 0 0 1 20 0"></path><path d="M5 12.3a11 11 0 0 1 14 0"></path>
+        <path d="M8.5 15.8a6 6 0 0 1 7 0"></path><path d="M12 20h.01"></path><path d="M3 3l18 18"></path>
+      </svg>
+    </div>
+    <h1>Sem internet agora.</h1>
+    <p>
+      Esta página específica ainda não tinha sido aberta neste aparelho, então
+      não dava pra guardar. A <strong>apresentação</strong> funciona offline —
+      é a que você usa na loja.
+    </p>
+    <div class="btns">
+      <a class="btn b1" href="apresentar.html">Abrir a apresentação</a>
+      <a class="btn b2" href="index.html">Tentar o site</a>
+    </div>
+  </main>
+</body>
+</html>

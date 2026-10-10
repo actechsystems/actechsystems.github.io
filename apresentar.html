@@ -10,10 +10,8 @@
 <meta name="robots" content="noindex, nofollow" />
 <meta name="theme-color" content="#E0E5EC" />
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Crect%20width='32'%20height='32'%20rx='8'%20fill='%23E0E5EC'/%3E%3Cpath%20d='M12%2011l-5%205%205%205M20%2011l5%205-5%205'%20fill='none'%20stroke='%233D6A99'%20stroke-width='3'%20stroke-linecap='round'%20stroke-linejoin='round'/%3E%3C/svg%3E" />
-
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="fontes/fontes.css" />
+<link rel="manifest" href="manifest.webmanifest" />
 
 <style>
   /* HTML puro de propósito: sem x-dc, sem GSAP, sem React. Isto é usado em
@@ -450,5 +448,18 @@
 })();
 </script>
 
+
+<script>
+  /* Guarda o site no aparelho pra funcionar sem internet. Precisa de uma
+     visita com sinal antes; depois disso abre offline, no celular e no PC.
+     Falha em silencio: se o navegador nao suportar, o site segue normal. */
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('sw.js')['catch'](function (e) {
+        console.warn('[sw] nao registrou:', e);
+      });
+    });
+  }
+</script>
 </body>
 </html>
