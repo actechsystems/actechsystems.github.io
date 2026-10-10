@@ -88,12 +88,12 @@
   .marca span { font-weight: 500; color: var(--muted); }
 
   /* ---------- escolha do ramo ---------- */
-  .ramos { display: grid; grid-template-columns: repeat(2, 1fr); gap: 11px; margin-top: 26px; }
+  .ramos { display: grid; grid-template-columns: repeat(2, 1fr); gap: 9px; margin-top: 22px; }
   .ramo {
     appearance: none; border: 0; cursor: pointer;
     background: var(--bg); box-shadow: var(--nm-out-sm);
-    border-radius: 18px; padding: 20px 14px;
-    font-family: "Plus Jakarta Sans", sans-serif; font-weight: 700; font-size: 17px; color: var(--fg);
+    border-radius: 16px; padding: 16px 10px;
+    font-family: "Plus Jakarta Sans", sans-serif; font-weight: 700; font-size: 15.5px; color: var(--fg);
     transition: box-shadow .2s var(--ease), transform .2s var(--ease);
   }
   .ramo:active { box-shadow: var(--nm-in); transform: scale(.98); }
@@ -103,7 +103,16 @@
   .mock-barra { height: 34px; background: #eef1f5; display: flex; align-items: center; gap: 6px; padding: 0 12px; }
   .mock-barra i { width: 9px; height: 9px; border-radius: 999px; display: block; }
   .mock-barra u { flex: 1; margin-left: 8px; height: 18px; border-radius: 5px; background: #fff; text-decoration: none; display: flex; align-items: center; padding: 0 8px; font-size: 10.5px; color: #828b98; overflow: hidden; white-space: nowrap; }
-  .mock-foto { width: 100%; height: 170px; object-fit: cover; display: block; background: #dfe4ea; }
+  .mock-rolo { max-height: 46vh; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+  .mock-nav { display: flex; align-items: center; gap: 10px; padding: 11px 14px; border-bottom: 1px solid #eef1f5; }
+  .mock-nav b { font-family: "Plus Jakarta Sans", sans-serif; font-size: 13px; color: #22272e; flex: none; }
+  .mock-nav span { font-size: 10.5px; color: #828b98; }
+  .mock-foto { width: 100%; height: 150px; object-fit: cover; display: block; background: #dfe4ea; }
+  .mock-secao { padding: 0 16px 16px; }
+  .mock-rotulo { font-size: 9.5px; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; color: var(--tom); margin-bottom: 9px; }
+  .mock-faixa { width: 100%; height: 86px; object-fit: cover; display: block; }
+  .mock-zap { display: flex; align-items: center; justify-content: center; gap: 7px; background: #25D366; color: #fff; font-family: "Plus Jakarta Sans", sans-serif; font-weight: 700; font-size: 12.5px; padding: 11px; }
+  .mock-rodape { padding: 11px 14px 14px; font-size: 10.5px; color: #828b98; text-align: center; background: #f6f8fa; }
   .mock-corpo { padding: 16px 16px 18px; }
   .mock-tit { font-family: "Plus Jakarta Sans", sans-serif; font-weight: 800; font-size: 21px; line-height: 1.15; letter-spacing: -.02em; color: #22272e; }
   .mock-sub { margin-top: 8px; font-size: 13.5px; line-height: 1.5; color: #5d6670; }
@@ -185,71 +194,107 @@
      não depender dele numa loja com sinal ruim. Mexeu no nome ou na foto de
      um ramo lá? Confira aqui também. */
   var RAMOS = {
-    mercado: {
-      rotulo: 'Mercado', exemplo: 'Mercado do Bairro', tom: '#2e7d34',
-      foto: 'imgs/ramos/mercado-1.webp',
-      busca: 'mercado perto de mim',
-      titulo: 'A feira da semana, entregue na sua porta.',
-      sub: 'Ofertas da semana, entrega no mesmo dia e pedido pelo WhatsApp.',
-      cta: 'Pedir no WhatsApp',
-      itens: [['Hortifrúti', 'toda manhã'], ['Açougue', 'corte na hora'], ['Cesta da semana', 'R$ 189']]
-    },
-    petshop: {
-      rotulo: 'Pet shop', exemplo: 'Pata & Companhia', tom: '#2f6f9e',
-      foto: 'imgs/ramos/petshop-1.webp',
-      busca: 'banho e tosa perto de mim',
-      titulo: 'Banho e tosa com hora marcada.',
-      sub: 'Agenda online, lembrete no WhatsApp e leva-e-traz no bairro.',
-      cta: 'Agendar banho',
-      itens: [['Banho', 'R$ 60'], ['Tosa higiênica', 'R$ 45'], ['Leva e traz', 'no bairro']]
-    },
-    salao: {
-      rotulo: 'Salão', exemplo: 'Studio Alice', tom: '#a0486f',
-      foto: 'imgs/ramos/salao-1.webp',
-      busca: 'salão de beleza perto de mim',
-      titulo: 'Seu horário marcado em trinta segundos.',
-      sub: 'Escolha a profissional e o horário. O lembrete chega na véspera.',
-      cta: 'Marcar horário',
-      itens: [['Corte', 'R$ 80'], ['Escova', 'R$ 60'], ['Coloração', 'a partir de R$ 180']]
+    roupa: {
+      rotulo: 'Loja de roupa', exemplo: 'Ateliê 22', tom: '#8a4a6b',
+      foto: 'imgs/ramos/roupa-1.webp', foto2: 'imgs/ramos/roupa-2.webp',
+      busca: 'loja de roupa perto de mim',
+      menu: ['Novidades', 'Coleção', 'Contato'],
+      titulo: 'A coleção nova, antes de todo mundo.',
+      sub: 'Peça pelo WhatsApp, prove na loja e troque em até 7 dias.',
+      cta: 'Ver novidades',
+      itens: [['Vestidos', 'a partir de R$ 149'], ['Jeans', 'a partir de R$ 189'], ['Blusas', 'a partir de R$ 89']],
+      rodape: 'Seg a sáb, 9h às 19h · Troca em 7 dias'
     },
     barbearia: {
       rotulo: 'Barbearia', exemplo: 'Navalha', tom: '#8a6420',
-      foto: 'imgs/ramos/barbearia-1.webp',
+      foto: 'imgs/ramos/barbearia-1.webp', foto2: 'imgs/ramos/barbearia-3.webp',
       busca: 'barbearia perto de mim',
+      menu: ['Serviços', 'Equipe', 'Contato'],
       titulo: 'Corte marcado. Sem fila, sem esperar.',
-      sub: 'Escolha o barbeiro e o horário. A agenda é online.',
+      sub: 'Escolha o barbeiro e o horário. O lembrete chega na véspera.',
       cta: 'Agendar horário',
-      itens: [['Corte', 'R$ 45'], ['Barba', 'R$ 35'], ['Corte e barba', 'R$ 70']]
+      itens: [['Corte', 'R$ 45'], ['Barba', 'R$ 35'], ['Corte e barba', 'R$ 70']],
+      rodape: 'Ter a sáb, 9h às 20h · Agenda online'
+    },
+    salao: {
+      rotulo: 'Salão de beleza', exemplo: 'Studio Alice', tom: '#a0486f',
+      foto: 'imgs/ramos/salao-1.webp', foto2: 'imgs/ramos/salao-2.webp',
+      busca: 'salão de beleza perto de mim',
+      menu: ['Serviços', 'Profissionais', 'Contato'],
+      titulo: 'Seu horário marcado em trinta segundos.',
+      sub: 'Escolha a profissional e o horário, sem precisar ligar.',
+      cta: 'Marcar horário',
+      itens: [['Corte', 'R$ 80'], ['Escova', 'R$ 60'], ['Coloração', 'a partir de R$ 180']],
+      rodape: 'Ter a sáb, 9h às 19h · Agenda online'
+    },
+    maquiagem: {
+      rotulo: 'Maquiagem', exemplo: 'Bia Make', tom: '#9c5a4a',
+      foto: 'imgs/ramos/maquiagem-1.webp', foto2: 'imgs/ramos/salao-3.webp',
+      busca: 'maquiadora perto de mim',
+      menu: ['Trabalhos', 'Pacotes', 'Contato'],
+      titulo: 'Make de noiva, festa e formatura.',
+      sub: 'Veja os trabalhos, escolha o pacote e reserve a data.',
+      cta: 'Reservar data',
+      itens: [['Social', 'R$ 150'], ['Noiva', 'R$ 650'], ['Madrinha', 'R$ 220']],
+      rodape: 'Atendimento em domicílio · Brasília e entorno'
+    },
+    mercado: {
+      rotulo: 'Mercado', exemplo: 'Mercado do Bairro', tom: '#2e7d34',
+      foto: 'imgs/ramos/mercado-1.webp', foto2: 'imgs/ramos/mercado-2.webp',
+      busca: 'mercado perto de mim',
+      menu: ['Ofertas', 'Setores', 'Contato'],
+      titulo: 'A feira da semana, entregue na sua porta.',
+      sub: 'Ofertas da semana e entrega no mesmo dia pra quem mora perto.',
+      cta: 'Pedir no WhatsApp',
+      itens: [['Hortifrúti', 'toda manhã'], ['Açougue', 'corte na hora'], ['Cesta da semana', 'R$ 189']],
+      rodape: 'Todo dia, 7h às 21h · Entrega no bairro'
+    },
+    petshop: {
+      rotulo: 'Pet shop', exemplo: 'Pata & Companhia', tom: '#2f6f9e',
+      foto: 'imgs/ramos/petshop-1.webp', foto2: 'imgs/ramos/petshop-2.webp',
+      busca: 'banho e tosa perto de mim',
+      menu: ['Serviços', 'Loja', 'Contato'],
+      titulo: 'Banho e tosa com hora marcada.',
+      sub: 'Agenda online, lembrete no WhatsApp e leva-e-traz no bairro.',
+      cta: 'Agendar banho',
+      itens: [['Banho', 'R$ 60'], ['Tosa higiênica', 'R$ 45'], ['Leva e traz', 'no bairro']],
+      rodape: 'Seg a sáb, 8h às 18h · Leva e traz'
     },
     restaurante: {
       rotulo: 'Restaurante', exemplo: 'Cantina da Esquina', tom: '#a4452c',
-      foto: 'imgs/ramos/restaurante-1.webp',
+      foto: 'imgs/ramos/restaurante-1.webp', foto2: 'imgs/ramos/restaurante-2.webp',
       busca: 'restaurante perto de mim',
+      menu: ['Cardápio', 'Reservas', 'Contato'],
       titulo: 'O cardápio de hoje, sempre atualizado.',
       sub: 'Cardápio online, pedido pelo WhatsApp e reserva de mesa.',
       cta: 'Ver o cardápio',
-      itens: [['Prato do dia', 'R$ 32'], ['Marmita', 'R$ 25'], ['Reserva', 'sem taxa']]
+      itens: [['Prato do dia', 'R$ 32'], ['Marmita', 'R$ 25'], ['Reserva', 'sem taxa']],
+      rodape: 'Todo dia, 11h às 15h · Delivery no bairro'
     },
     clinica: {
       rotulo: 'Clínica', exemplo: 'Clínica Vida', tom: '#2b7a78',
-      foto: 'imgs/ramos/clinica-1.webp',
+      foto: 'imgs/ramos/clinica-1.webp', foto2: 'imgs/ramos/clinica-2.webp',
       busca: 'clínica perto de mim',
+      menu: ['Especialidades', 'Convênios', 'Contato'],
       titulo: 'Consulta marcada sem ligar pra ninguém.',
       sub: 'Agenda online, convênios na primeira tela e lembrete automático.',
       cta: 'Marcar consulta',
-      itens: [['Consulta', 'particular e convênio'], ['Retorno', 'em 30 dias'], ['Exames', 'no local']]
+      itens: [['Consulta', 'particular e convênio'], ['Retorno', 'em 30 dias'], ['Exames', 'no local']],
+      rodape: 'Seg a sex, 8h às 18h · Convênios aceitos'
     },
     outro: {
       rotulo: 'Outro', exemplo: 'Seu negócio', tom: '#3D6A99',
-      foto: 'imgs/ramos/outro-1.webp',
+      foto: 'imgs/ramos/outro-1.webp', foto2: 'imgs/ramos/outro-2.webp',
       busca: 'o seu serviço perto de mim',
+      menu: ['Serviços', 'Sobre', 'Contato'],
       titulo: 'Seu trabalho, achado por quem procura.',
       sub: 'Site, WhatsApp e ficha do Google trabalhando juntos.',
       cta: 'Falar com a gente',
-      itens: [['Serviços', 'com preço claro'], ['Contato', 'num toque'], ['Google', 'ficha completa']]
+      itens: [['Serviços', 'com preço claro'], ['Contato', 'num toque'], ['Google', 'ficha completa']],
+      rodape: 'Atendimento em Brasília e entorno'
     }
   };
-  var ORDEM = ['mercado', 'petshop', 'salao', 'barbearia', 'restaurante', 'clinica', 'outro'];
+  var ORDEM = ['roupa', 'barbearia', 'salao', 'maquiagem', 'mercado', 'petshop', 'restaurante', 'clinica', 'outro'];
 
   var palco = document.getElementById('palco');
   var pontos = document.getElementById('pontos');
@@ -300,25 +345,35 @@
   }
 
   function telaSite(r) {
+    var dominio = r.exemplo.toLowerCase()
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9]+/g, '') + '.com.br';
     return '' +
       '<div class="meio">' +
         '<p class="olho">Como ficaria o seu</p>' +
         '<h2>' + esc(r.exemplo) + ', no ar.</h2>' +
         '<div class="mock">' +
-          '<div class="mock-barra"><i style="background:#ff5f56"></i><i style="background:#ffbd2e"></i><i style="background:#27c93f"></i><u>' + esc(r.exemplo.toLowerCase().replace(/[^a-z0-9]+/g, '')) + '.com.br</u></div>' +
-          '<img class="mock-foto" src="' + esc(r.foto) + '" alt="" loading="eager" />' +
-          '<div class="mock-corpo">' +
-            '<div class="mock-tit">' + esc(r.titulo) + '</div>' +
-            '<div class="mock-sub">' + esc(r.sub) + '</div>' +
-            '<span class="mock-btn">' + esc(r.cta) + '</span>' +
-            '<div class="mock-itens">' +
+          '<div class="mock-barra"><i style="background:#ff5f56"></i><i style="background:#ffbd2e"></i><i style="background:#27c93f"></i><u>' + esc(dominio) + '</u></div>' +
+          '<div class="mock-rolo">' +
+            '<div class="mock-nav"><b>' + esc(r.exemplo) + '</b><span>' + r.menu.map(esc).join('</span><span>') + '</span></div>' +
+            '<img class="mock-foto" src="' + esc(r.foto) + '" alt="" loading="eager" />' +
+            '<div class="mock-corpo">' +
+              '<div class="mock-tit">' + esc(r.titulo) + '</div>' +
+              '<div class="mock-sub">' + esc(r.sub) + '</div>' +
+              '<span class="mock-btn">' + esc(r.cta) + '</span>' +
+            '</div>' +
+            '<div class="mock-secao">' +
+              '<div class="mock-rotulo">O que oferecemos</div>' +
               r.itens.map(function (it) {
                 return '<div class="mock-item"><b>' + esc(it[0]) + '</b><span>' + esc(it[1]) + '</span></div>';
               }).join('') +
             '</div>' +
+            '<img class="mock-faixa" src="' + esc(r.foto2 || r.foto) + '" alt="" loading="lazy" />' +
+            '<div class="mock-zap"><svg width="15" height="15" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M12 2a10 10 0 00-8.6 15.1L2 22l5-1.3A10 10 0 1012 2z"></path></svg> Falar no WhatsApp</div>' +
+            '<div class="mock-rodape">' + esc(r.rodape) + '</div>' +
           '</div>' +
         '</div>' +
-        '<p class="sub" style="font-size:15.5px">Esse é um exemplo. O seu sai com as suas fotos, os seus preços e o seu nome.</p>' +
+        '<p class="sub" style="font-size:15px">Role aí dentro. Esse é um exemplo &mdash; o seu sai com as suas fotos, os seus preços e o seu nome.</p>' +
       '</div>';
   }
 
