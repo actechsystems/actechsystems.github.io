@@ -14,7 +14,7 @@
      São versionados pelo deploy e não mudam no meio do dia.
 */
 
-var VERSAO = 'actech-v3';
+var VERSAO = 'actech-v4';
 var C_CASCA = VERSAO + '-casca';
 var C_USO = VERSAO + '-uso';
 
@@ -56,13 +56,16 @@ var CASCA = [
   'imgs/plano-blobs-2.webp',
   'imgs/plano-blobs-1-verde.webp',
   'imgs/plano-blobs-2-verde.webp',
-  'imgs/ramos/mercado-1.webp',
-  'imgs/ramos/petshop-1.webp',
-  'imgs/ramos/salao-1.webp',
-  'imgs/ramos/barbearia-1.webp',
-  'imgs/ramos/restaurante-1.webp',
-  'imgs/ramos/clinica-1.webp',
-  'imgs/ramos/outro-1.webp'
+  /* As duas fotos de cada ramo: a previa agora rola e mostra as duas. */
+  'imgs/ramos/roupa-1.webp',      'imgs/ramos/roupa-2.webp',
+  'imgs/ramos/barbearia-1.webp',  'imgs/ramos/barbearia-3.webp',
+  'imgs/ramos/salao-1.webp',      'imgs/ramos/salao-2.webp',
+  'imgs/ramos/maquiagem-1.webp',  'imgs/ramos/salao-3.webp',
+  'imgs/ramos/mercado-1.webp',    'imgs/ramos/mercado-2.webp',
+  'imgs/ramos/petshop-1.webp',    'imgs/ramos/petshop-2.webp',
+  'imgs/ramos/restaurante-1.webp','imgs/ramos/restaurante-2.webp',
+  'imgs/ramos/clinica-1.webp',    'imgs/ramos/clinica-2.webp',
+  'imgs/ramos/outro-1.webp',      'imgs/ramos/outro-2.webp'
 ];
 
 self.addEventListener('install', function (e) {
