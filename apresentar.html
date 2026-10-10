@@ -95,9 +95,11 @@
   .conteudo { width: 100%; max-width: 560px; margin: auto; }
 
   /* no PC, texto à esquerda e a peça visual à direita */
-  .duas { display: grid; gap: 30px; align-items: center; width: 100%; max-width: 1100px; margin: auto; }
+  .duas { display: grid; gap: 28px; align-items: center; width: 100%; max-width: 1140px; margin: auto; }
   @media (min-width: 900px) {
-    .duas { grid-template-columns: 1fr 1fr; gap: 70px; }
+    .duas { grid-template-columns: .9fr 1.1fr; gap: 64px; }
+    /* notebook + celular precisam de mais palco que texto */
+    .duas.larga { grid-template-columns: .62fr 1.38fr; gap: 48px; max-width: 1280px; }
     .tela { padding-left: 60px; padding-right: 60px; }
   }
 
@@ -113,9 +115,9 @@
     letter-spacing: -.04em; line-height: 1.06; margin: 0; color: #fff;
   }
   h1 { font-size: clamp(38px, 9.5vw, 72px); }
-  h2 { font-size: clamp(31px, 7.8vw, 58px); }
+  h2 { font-size: clamp(30px, 7.6vw, 56px); }
   .destaque { color: var(--tom); }
-  .sub { margin: 18px 0 0; font-size: clamp(16px, 4.2vw, 20px); line-height: 1.55; color: var(--txt-2); }
+  .sub { margin: 16px 0 0; font-size: clamp(15.5px, 4.1vw, 20px); line-height: 1.55; color: var(--txt-2); }
   .sub strong { color: var(--txt); font-weight: 700; }
 
   /* palavra que sobe de dentro da linha, em vez de só aparecer */
@@ -168,24 +170,74 @@
     font-family: "Plus Jakarta Sans", sans-serif; font-weight: 800; font-size: 16px;
   }
 
-  /* -------------------------------------------------------- celular */
-  .celular-palco { perspective: 1400px; display: flex; justify-content: center; }
-  .celular {
-    position: relative; width: min(270px, 64vw); aspect-ratio: 9 / 18.5;
-    max-height: 56vh;
-    border-radius: 44px; padding: 11px;
-    background: linear-gradient(150deg, #2a3342, #0d121b);
-    box-shadow: 0 0 0 1.5px rgba(255,255,255,.12) inset, 0 50px 90px -30px rgba(0,0,0,.8),
-                0 0 80px -20px color-mix(in srgb, var(--tom) 60%, transparent);
-    transform-style: preserve-3d;
+  /* ------------------------------------------- aparelhos em escala
+     Cada aparelho é desenhado no tamanho de verdade (notebook com 1000px,
+     celular com 300px) e encolhido inteiro pra caber. Assim o site lá dentro
+     tem as proporções de um site real em vez de um rascunho apertado. */
+  [data-escala] { position: relative; }
+  .dev { position: absolute; top: 0; left: 0; transform-origin: 0 0; }
+
+  .combo { position: relative; width: 100%; perspective: 1500px; }
+  .w-lap { position: absolute !important; left: 0; bottom: 0; width: 90%; }
+  .w-cel { position: absolute !important; right: 0; bottom: 0; width: 28%; z-index: 2; }
+  .w-ig  { width: min(300px, 74vw); margin: 0 auto; perspective: 1400px; }
+
+  /* notebook: 1000 x 624 */
+  .lap { width: 1000px; height: 624px; }
+  .lap-tela {
+    position: absolute; left: 50px; top: 0; width: 900px; height: 600px;
+    border-radius: 26px 26px 6px 6px; background: #0d121b; padding: 16px;
+    box-shadow: 0 0 0 2px rgba(255,255,255,.1) inset, 0 70px 120px -40px rgba(0,0,0,.85),
+                0 0 120px -30px color-mix(in srgb, var(--tom) 55%, transparent);
   }
-  @media (min-width: 900px) { .celular { max-height: 72vh; width: 300px; } }
-  .ilha { position: absolute; top: 19px; left: 50%; transform: translateX(-50%); width: 34%; height: 22px; border-radius: 99px; background: #05070b; z-index: 3; }
-  .tela-cel { position: relative; width: 100%; height: 100%; border-radius: 34px; overflow: hidden; background: #fff; }
+  .lap-vidro { position: relative; width: 868px; height: 568px; border-radius: 8px; overflow: hidden; background: #fff; }
+  .lap-barra { height: 34px; background: #eef1f5; display: flex; align-items: center; gap: 7px; padding: 0 14px; }
+  .lap-barra i { width: 11px; height: 11px; border-radius: 99px; display: block; }
+  .lap-barra u { margin-left: 14px; width: 340px; height: 20px; border-radius: 6px; background: #fff; text-decoration: none; font-size: 12px; color: #828b98; display: flex; align-items: center; padding: 0 10px; }
+  .lap-visor { position: absolute; top: 34px; left: 0; right: 0; bottom: 0; overflow: hidden; }
+  .lap-base { position: absolute; left: 0; bottom: 0; width: 1000px; height: 24px; border-radius: 0 0 26px 26px; background: linear-gradient(#3a4352, #1a202b); }
+  .lap-base::before { content: ''; position: absolute; left: 50%; top: 0; transform: translateX(-50%); width: 150px; height: 9px; border-radius: 0 0 10px 10px; background: #11161f; }
+
+  /* celular: 300 x 620 */
+  .cel {
+    width: 300px; height: 620px; border-radius: 48px; padding: 12px;
+    background: linear-gradient(150deg, #2a3342, #0d121b);
+    box-shadow: 0 0 0 2px rgba(255,255,255,.12) inset, 0 60px 100px -30px rgba(0,0,0,.85),
+                0 0 90px -20px color-mix(in srgb, var(--tom) 60%, transparent);
+  }
+  .ilha { position: absolute; top: 22px; left: 50%; transform: translateX(-50%); width: 96px; height: 26px; border-radius: 99px; background: #05070b; z-index: 3; }
+  .tela-cel { position: relative; width: 276px; height: 596px; border-radius: 37px; overflow: hidden; background: #fff; }
   .rolo { position: absolute; left: 0; right: 0; top: 0; will-change: transform; }
 
-  /* o site de exemplo, dentro do celular */
-  .s-nav { display: flex; align-items: center; justify-content: space-between; padding: 44px 16px 12px; }
+  /* -- site de computador (868 de largura) -- */
+  .d-site { width: 868px; color: #1d2228; font-family: "DM Sans", sans-serif; }
+  .d-nav { display: flex; align-items: center; gap: 26px; padding: 20px 40px; border-bottom: 1px solid #eef1f4; }
+  .d-nav b { font-family: "Plus Jakarta Sans", sans-serif; font-weight: 800; font-size: 20px; margin-right: auto; }
+  .d-nav span { font-size: 14px; color: #5b636d; }
+  .d-nav em { font-style: normal; font-weight: 700; font-size: 13.5px; color: #fff; background: var(--tom); padding: 10px 18px; border-radius: 10px; }
+  .d-hero { display: grid; grid-template-columns: 1.05fr .95fr; gap: 36px; align-items: center; padding: 40px 40px 30px; }
+  .d-olho { font-size: 11.5px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--tom); }
+  .d-tit { font-family: "Plus Jakarta Sans", sans-serif; font-weight: 800; font-size: 40px; line-height: 1.06; letter-spacing: -.03em; margin-top: 12px; }
+  .d-sub { margin-top: 14px; font-size: 16px; line-height: 1.55; color: #5b636d; }
+  .d-btns { margin-top: 22px; display: flex; gap: 10px; }
+  .d-btn { font-weight: 700; font-size: 14.5px; color: #fff; background: var(--tom); padding: 13px 22px; border-radius: 12px; }
+  .d-btn2 { font-weight: 700; font-size: 14.5px; color: #1d2228; background: #f1f3f6; padding: 13px 22px; border-radius: 12px; }
+  .d-hero img { width: 100%; height: 300px; object-fit: cover; border-radius: 18px; display: block; }
+  .d-sec { padding: 20px 40px 30px; }
+  .d-rot { font-size: 11.5px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--tom); margin-bottom: 14px; }
+  .d-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .d-card { border: 1px solid #eef1f4; border-radius: 14px; padding: 18px; }
+  .d-card b { display: block; font-family: "Plus Jakarta Sans", sans-serif; font-size: 17px; }
+  .d-card span { display: block; margin-top: 6px; font-size: 14px; color: #5b636d; }
+  .d-band { display: grid; grid-template-columns: 1fr 1.2fr 1fr; gap: 14px; padding: 0 40px 30px; }
+  .d-band img { width: 100%; height: 180px; object-fit: cover; border-radius: 14px; display: block; }
+  .d-dep { background: #f5f7f9; border-radius: 14px; padding: 22px; font-size: 15px; line-height: 1.5; color: #3a414a; display: flex; flex-direction: column; justify-content: center; }
+  .d-dep b { margin-top: 10px; font-size: 13px; color: #8a929c; font-weight: 500; }
+  .d-zap { margin: 0 40px 26px; display: flex; align-items: center; justify-content: center; gap: 10px; padding: 16px; border-radius: 14px; background: #25D366; color: #fff; font-weight: 700; font-size: 16px; }
+  .d-rod { padding: 22px 40px 28px; border-top: 1px solid #eef1f4; display: flex; justify-content: space-between; font-size: 13px; color: #8a929c; }
+
+  /* -- site de celular (276 de largura) -- */
+  .s-nav { display: flex; align-items: center; justify-content: space-between; padding: 46px 16px 12px; }
   .s-nav b { font-family: "Plus Jakarta Sans", sans-serif; font-weight: 800; font-size: 15px; color: #1d2228; }
   .s-nav i { width: 20px; height: 2px; background: #1d2228; box-shadow: 0 6px 0 #1d2228, 0 -6px 0 #1d2228; }
   .s-foto { width: 100%; height: 180px; object-fit: cover; display: block; }
@@ -203,6 +255,50 @@
   .s-dep b { display: block; margin-top: 6px; font-size: 11.5px; color: #8a929c; font-weight: 500; }
   .s-zap { display: flex; align-items: center; justify-content: center; gap: 8px; margin: 18px 16px 0; padding: 13px; border-radius: 12px; background: #25D366; color: #fff; font-weight: 700; font-size: 13.5px; }
   .s-rod { padding: 20px 16px 30px; text-align: center; font-size: 11px; color: #8a929c; }
+
+  /* -- Instagram (276 de largura) -- */
+  .ig { width: 276px; color: #111; font-family: system-ui, -apple-system, "DM Sans", sans-serif; background: #fff; }
+  .ig-cab { position: absolute; z-index: 2; left: 0; right: 0; top: 0; height: 88px; background: #fff; color: #111; font-family: system-ui, -apple-system, "DM Sans", sans-serif; }
+  .ig-status { height: 44px; display: flex; align-items: center; justify-content: space-between; padding: 6px 24px 0 30px; }
+  .ig-status b { font-size: 13px; font-weight: 700; }
+  .ig-status span { display: flex; gap: 3px; align-items: flex-end; }
+  .ig-status i { display: block; width: 3px; background: #111; border-radius: 1px; }
+  .ig-status i:nth-child(1) { height: 5px; } .ig-status i:nth-child(2) { height: 7px; } .ig-status i:nth-child(3) { height: 9px; }
+  .ig-visor { position: absolute; left: 0; right: 0; top: 88px; bottom: 0; overflow: hidden; background: #fff; }
+  .ig-top { display: flex; align-items: center; justify-content: space-between; padding: 4px 14px 10px; }
+  .ig-top b { font-size: 15.5px; font-weight: 700; }
+  .ig-top span { display: flex; gap: 14px; color: #111; }
+  .ig-perfil { display: flex; align-items: center; gap: 10px; padding: 6px 14px 10px; }
+  .ig-av { flex: none; width: 76px; height: 76px; border-radius: 999px; padding: 3px; background: conic-gradient(#feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5, #feda75); }
+  .ig-av i { display: grid; place-items: center; width: 100%; height: 100%; border-radius: 999px; border: 3px solid #fff; background: var(--tom); color: #fff; font-style: normal; font-family: "Plus Jakarta Sans", sans-serif; font-weight: 800; font-size: 26px; }
+  .ig-nums { flex: 1; display: flex; justify-content: space-around; text-align: center; }
+  .ig-nums b { display: block; font-size: 16px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .ig-nums span { font-size: 11.5px; color: #333; }
+  .ig-bio { padding: 0 14px; font-size: 12.5px; line-height: 1.42; }
+  .ig-bio b { display: block; font-size: 13px; }
+  .ig-bio .cat { display: block; color: #737373; }
+  .ig-bio a { color: #00376b; font-weight: 600; text-decoration: none; }
+  .ig-bts { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px; padding: 10px 14px; }
+  .ig-bts span { text-align: center; font-size: 12.5px; font-weight: 600; padding: 7px 0; border-radius: 8px; background: #efefef; }
+  .ig-bts .seg { background: #0095f6; color: #fff; }
+  .ig-dest { display: flex; gap: 11px; padding: 4px 14px 12px; }
+  .ig-dest div { text-align: center; width: 54px; }
+  .ig-dest i { display: block; width: 54px; height: 54px; border-radius: 999px; border: 1px solid #dbdbdb; padding: 3px; }
+  .ig-dest i b { display: block; width: 100%; height: 100%; border-radius: 999px; background: color-mix(in srgb, var(--tom) 30%, #fff) center / cover no-repeat; }
+  .ig-dest span { display: block; margin-top: 4px; font-size: 10.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .ig-abas { display: flex; border-top: 1px solid #efefef; }
+  .ig-abas i { flex: 1; height: 40px; display: grid; place-items: center; color: #8e8e8e; }
+  .ig-abas i.on { color: #111; box-shadow: inset 0 -1.5px 0 #111; }
+  .ig-grade { position: relative; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+  .ig-t { position: relative; aspect-ratio: 1; overflow: hidden; background: #eee; }
+  .ig-t img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .ig-t.arte { display: grid; place-items: center; padding: 8px; text-align: center; }
+  .ig-t.arte span { font-family: "Plus Jakarta Sans", sans-serif; font-weight: 800; font-size: 12.5px; line-height: 1.15; letter-spacing: -.01em; }
+  .ig-t.e0 { background: var(--tom); color: #fff; }
+  .ig-t.e1 { background: #1d2228; color: var(--tom); }
+  .ig-t.e2 { background: #f4efe8; color: #1d2228; }
+  .ig-t.e2::after { content: ''; position: absolute; left: 50%; bottom: 12px; width: 22px; height: 3px; transform: translateX(-50%); background: var(--tom); border-radius: 2px; }
+  .ig-curtir { position: absolute; left: 46px; top: 46px; width: 38px; height: 38px; margin: -19px 0 0 -19px; opacity: 0; pointer-events: none; filter: drop-shadow(0 4px 10px rgba(0,0,0,.35)); }
 
   /* ---------------------------------------------------------- pacote */
   .cartoes { display: grid; gap: 12px; margin-top: 26px; }
@@ -309,11 +405,13 @@
   /* Recorte dos ramos só com o que a apresentação usa. A fonte completa do
      site vive em estilos/estilos.js (RAMOS); aqui é duplicado de propósito,
      pra esta página não depender daquele arquivo numa loja sem sinal.
-     Os concorrentes são nomes inventados -- nunca use loja real. */
+     Concorrentes, @ e números de seguidores são inventados -- nunca use
+     loja ou perfil real. */
   var RAMOS = {
     roupa: {
       rotulo: 'Loja de roupa', exemplo: 'Ateliê 22', tom: '#C77DA3',
       fotos: ['imgs/ramos/roupa-1.webp', 'imgs/ramos/roupa-2.webp'],
+      galeria: ['imgs/ramos/roupa-3.webp', 'imgs/ramos/roupa-4.webp'],
       busca: 'loja de roupa perto de mim',
       concorrentes: [['Moda Central', '4,8', 312], ['Bella Store', '4,6', 187]],
       titulo: 'A coleção nova, antes de todo mundo.',
@@ -321,11 +419,15 @@
       cta: 'Ver novidades',
       itens: [['Vestidos', 'a partir de R$ 149'], ['Jeans', 'a partir de R$ 189'], ['Blusas', 'a partir de R$ 89']],
       dep: ['Comprei pelo WhatsApp e retirei no mesmo dia. Atendimento impecável.', 'Juliana, cliente'],
-      rodape: 'Seg a sáb, 9h às 19h · Troca em 7 dias'
+      rodape: 'Seg a sáb, 9h às 19h · Troca em 7 dias',
+      ig: 'atelie22', seguidores: 2840, bio: ['Moda feminina com curadoria', 'Entrega no DF · Troca em 7 dias'],
+      destaques: ['Novidades', 'Looks', 'Provador', 'Endereço'],
+      posts: ['Coleção nova chegou', 'Vestido do mês R$ 149', 'Look do dia', 'Frete grátis no DF', 'Troca em 7 dias', 'Provador aberto', 'Peça pelo WhatsApp']
     },
     barbearia: {
       rotulo: 'Barbearia', exemplo: 'Navalha', tom: '#D3A24F',
       fotos: ['imgs/ramos/barbearia-1.webp', 'imgs/ramos/barbearia-3.webp'],
+      galeria: ['imgs/ramos/barbearia-2.webp'],
       busca: 'barbearia perto de mim',
       concorrentes: [['Barbearia do Centro', '4,9', 428], ['Corte & Cia', '4,7', 256]],
       titulo: 'Corte marcado. Sem fila, sem esperar.',
@@ -333,11 +435,15 @@
       cta: 'Agendar horário',
       itens: [['Corte', 'R$ 45'], ['Barba', 'R$ 35'], ['Corte e barba', 'R$ 70']],
       dep: ['Marco pelo celular e chego na hora. Nunca mais fiquei esperando.', 'Rafael, cliente'],
-      rodape: 'Ter a sáb, 9h às 20h · Agenda online'
+      rodape: 'Ter a sáb, 9h às 20h · Agenda online',
+      ig: 'navalha.barbearia', seguidores: 1960, bio: ['Corte e barba com hora marcada', 'Ter a sáb · Agende pelo link'],
+      destaques: ['Cortes', 'Barba', 'Equipe', 'Endereço'],
+      posts: ['Agenda aberta pra sábado', 'Corte + barba R$ 70', 'Antes e depois', 'Terça tem promoção', 'Degradê na navalha', 'Sobrancelha R$ 15', 'Chegou produto novo']
     },
     salao: {
       rotulo: 'Salão de beleza', exemplo: 'Studio Alice', tom: '#E07FA8',
       fotos: ['imgs/ramos/salao-1.webp', 'imgs/ramos/salao-2.webp'],
+      galeria: ['imgs/ramos/salao-3.webp'],
       busca: 'salão de beleza perto de mim',
       concorrentes: [['Espaço Beleza', '4,8', 391], ['Studio Glam', '4,6', 204]],
       titulo: 'Seu horário marcado em trinta segundos.',
@@ -345,11 +451,15 @@
       cta: 'Marcar horário',
       itens: [['Corte', 'R$ 80'], ['Escova', 'R$ 60'], ['Coloração', 'a partir de R$ 180']],
       dep: ['Agendo pelo celular de madrugada se quiser. Prático demais.', 'Camila, cliente'],
-      rodape: 'Ter a sáb, 9h às 19h · Agenda online'
+      rodape: 'Ter a sáb, 9h às 19h · Agenda online',
+      ig: 'studioalice', seguidores: 3120, bio: ['Cabelo, escova e coloração', 'Ter a sáb · Agende online'],
+      destaques: ['Cortes', 'Cor', 'Noivas', 'Endereço'],
+      posts: ['Horários pra essa semana', 'Escova R$ 60', 'Antes e depois da cor', 'Dia da noiva', 'Hidratação de terça', 'Corte R$ 80', 'Conheça a equipe']
     },
     maquiagem: {
       rotulo: 'Maquiagem', exemplo: 'Bia Make', tom: '#E3957F',
-      fotos: ['imgs/ramos/maquiagem-1.webp', 'imgs/ramos/salao-3.webp'],
+      fotos: ['imgs/ramos/maquiagem-1.webp', 'imgs/ramos/maquiagem-2.webp'],
+      galeria: ['imgs/ramos/maquiagem-3.webp'],
       busca: 'maquiadora perto de mim',
       concorrentes: [['Make by Lu', '4,9', 276], ['Beauty Room', '4,7', 168]],
       titulo: 'Make de noiva, festa e formatura.',
@@ -357,11 +467,15 @@
       cta: 'Reservar data',
       itens: [['Social', 'R$ 150'], ['Noiva', 'R$ 650'], ['Madrinha', 'R$ 220']],
       dep: ['Fiz minha make de casamento e durou a festa inteira. Perfeita.', 'Larissa, noiva'],
-      rodape: 'Atendimento em domicílio · Brasília e entorno'
+      rodape: 'Atendimento em domicílio · Brasília e entorno',
+      ig: 'biamake', seguidores: 4510, bio: ['Make de noiva, festa e formatura', 'Atendo em domicílio no DF'],
+      destaques: ['Noivas', 'Festas', 'Formatura', 'Agenda'],
+      posts: ['Datas de dezembro abertas', 'Make noiva R$ 650', 'Antes e depois', 'Pele que dura a festa', 'Pacote madrinhas', 'Make social R$ 150', 'Curso de automaquiagem']
     },
     mercado: {
       rotulo: 'Mercado', exemplo: 'Mercado do Bairro', tom: '#5DBB63',
       fotos: ['imgs/ramos/mercado-1.webp', 'imgs/ramos/mercado-2.webp'],
+      galeria: ['imgs/ramos/mercado-3.webp'],
       busca: 'mercado perto de mim',
       concorrentes: [['Supermercado Real', '4,5', 1204], ['Mercadinho Bom Preço', '4,4', 532]],
       titulo: 'A feira da semana, entregue na sua porta.',
@@ -369,11 +483,15 @@
       cta: 'Pedir no WhatsApp',
       itens: [['Hortifrúti', 'toda manhã'], ['Açougue', 'corte na hora'], ['Cesta da semana', 'R$ 189']],
       dep: ['Peço pelo WhatsApp e chega em casa no mesmo dia.', 'Dona Marta, cliente'],
-      rodape: 'Todo dia, 7h às 21h · Entrega no bairro'
+      rodape: 'Todo dia, 7h às 21h · Entrega no bairro',
+      ig: 'mercadodobairro', seguidores: 1530, bio: ['Ofertas toda terça', 'Entrega no bairro no mesmo dia'],
+      destaques: ['Ofertas', 'Hortifrúti', 'Entrega', 'Horário'],
+      posts: ['Oferta de terça', 'Cesta da semana R$ 189', 'Hortifrúti fresquinho', 'Entrega hoje até 19h', 'Pão quente às 17h', 'Açougue: corte na hora', 'Promo do fim de semana']
     },
     petshop: {
       rotulo: 'Pet shop', exemplo: 'Pata & Companhia', tom: '#5FA3D6',
       fotos: ['imgs/ramos/petshop-1.webp', 'imgs/ramos/petshop-2.webp'],
+      galeria: ['imgs/ramos/petshop-3.webp'],
       busca: 'banho e tosa perto de mim',
       concorrentes: [['Pet Feliz', '4,8', 389], ['Cão & Gato', '4,6', 221]],
       titulo: 'Banho e tosa com hora marcada.',
@@ -381,11 +499,15 @@
       cta: 'Agendar banho',
       itens: [['Banho', 'R$ 60'], ['Tosa higiênica', 'R$ 45'], ['Leva e traz', 'no bairro']],
       dep: ['Buscam e trazem o Thor. Sai cheiroso e feliz.', 'André, tutor'],
-      rodape: 'Seg a sáb, 8h às 18h · Leva e traz'
+      rodape: 'Seg a sáb, 8h às 18h · Leva e traz',
+      ig: 'pataecompanhia', seguidores: 2270, bio: ['Banho, tosa e leva-e-traz', 'Seg a sáb · Agende pelo link'],
+      destaques: ['Banho', 'Tosa', 'Clientes', 'Loja'],
+      posts: ['Agenda de sábado aberta', 'Banho R$ 60', 'Antes e depois da tosa', 'Leva e traz no bairro', 'Cliente da semana', 'Tosa higiênica R$ 45', 'Ração com desconto']
     },
     restaurante: {
       rotulo: 'Restaurante', exemplo: 'Cantina da Esquina', tom: '#E0805F',
       fotos: ['imgs/ramos/restaurante-1.webp', 'imgs/ramos/restaurante-2.webp'],
+      galeria: ['imgs/ramos/restaurante-3.webp'],
       busca: 'restaurante perto de mim',
       concorrentes: [['Sabor da Casa', '4,7', 812], ['Prato Cheio', '4,5', 497]],
       titulo: 'O cardápio de hoje, sempre atualizado.',
@@ -393,11 +515,15 @@
       cta: 'Ver o cardápio',
       itens: [['Prato do dia', 'R$ 32'], ['Marmita', 'R$ 25'], ['Reserva', 'sem taxa']],
       dep: ['Vejo o prato do dia antes de sair do trabalho. Ajuda demais.', 'Paulo, cliente'],
-      rodape: 'Todo dia, 11h às 15h · Delivery no bairro'
+      rodape: 'Todo dia, 11h às 15h · Delivery no bairro',
+      ig: 'cantinadaesquina', seguidores: 3480, bio: ['Comida caseira todo dia', 'Delivery e reserva pelo link'],
+      destaques: ['Cardápio', 'Pratos', 'Reservas', 'Endereço'],
+      posts: ['Prato do dia R$ 32', 'Marmita da semana', 'Feijoada de sábado', 'Peça pelo WhatsApp', 'Reserve sua mesa', 'Sobremesa da casa', 'Almoço executivo']
     },
     clinica: {
       rotulo: 'Clínica', exemplo: 'Clínica Vida', tom: '#4FB8B1',
       fotos: ['imgs/ramos/clinica-1.webp', 'imgs/ramos/clinica-2.webp'],
+      galeria: ['imgs/ramos/clinica-3.webp'],
       busca: 'clínica perto de mim',
       concorrentes: [['Clínica Saúde Mais', '4,7', 643], ['Centro Médico Bem-Estar', '4,5', 318]],
       titulo: 'Consulta marcada sem ligar pra ninguém.',
@@ -405,11 +531,15 @@
       cta: 'Marcar consulta',
       itens: [['Consulta', 'particular e convênio'], ['Retorno', 'em 30 dias'], ['Exames', 'no local']],
       dep: ['Marquei a consulta da minha mãe em um minuto, pelo celular.', 'Renata, paciente'],
-      rodape: 'Seg a sex, 8h às 18h · Convênios aceitos'
+      rodape: 'Seg a sex, 8h às 18h · Convênios aceitos',
+      ig: 'clinicavida', seguidores: 1890, bio: ['Consultas e exames no mesmo lugar', 'Agende online · Convênios'],
+      destaques: ['Especialidades', 'Convênios', 'Equipe', 'Endereço'],
+      posts: ['Agenda online aberta', 'Convênios aceitos', 'Conheça a equipe', 'Exames no local', 'Dica de saúde', 'Retorno em 30 dias', 'Check-up anual']
     },
     outro: {
       rotulo: 'Outro', exemplo: 'Seu negócio', tom: '#5E8CBA',
       fotos: ['imgs/ramos/outro-1.webp', 'imgs/ramos/outro-2.webp'],
+      galeria: ['imgs/ramos/outro-3.webp'],
       busca: 'o seu serviço perto de mim',
       concorrentes: [['Concorrente A', '4,7', 290], ['Concorrente B', '4,5', 146]],
       titulo: 'Seu trabalho, achado por quem procura.',
@@ -417,7 +547,10 @@
       cta: 'Falar com a gente',
       itens: [['Serviços', 'com preço claro'], ['Contato', 'num toque'], ['Google', 'ficha completa']],
       dep: ['Achei pelo Google e já chamei no WhatsApp na hora.', 'Cliente'],
-      rodape: 'Atendimento em Brasília e entorno'
+      rodape: 'Atendimento em Brasília e entorno',
+      ig: 'seunegocio', seguidores: 1210, bio: ['Atendimento em Brasília', 'Fale pelo WhatsApp'],
+      destaques: ['Serviços', 'Trabalhos', 'Clientes', 'Contato'],
+      posts: ['Novidade da semana', 'Orçamento sem custo', 'Antes e depois', 'Fale no WhatsApp', 'Cliente satisfeito', 'Conheça nosso trabalho', 'Atendemos todo o DF']
     }
   };
   var ORDEM = ['roupa', 'barbearia', 'salao', 'maquiagem', 'mercado', 'petshop', 'restaurante', 'clinica', 'outro'];
@@ -441,6 +574,11 @@
     });
   }
   function zap(t) { return 'https://wa.me/' + WHATS + '?text=' + encodeURIComponent(t); }
+  function milhar(n) { return Math.round(n).toLocaleString('pt-BR'); }
+  function dominio(r) {
+    return r.exemplo.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
+      .replace(/[^a-z0-9]+/g, '') + '.com.br';
+  }
 
   function palavras(txt) {
     return String(txt).split(' ').map(function (p) {
@@ -457,6 +595,139 @@
     return G.from(el.querySelectorAll(sel), Object.assign({ yPercent: 110, duration: .7, stagger: .07, ease: 'power4.out' }, extra || {}));
   }
 
+  /* Encolhe cada aparelho (desenhado em tamanho real) pra caber no espaço.
+     data-maxvh limita pela altura da tela, pro celular não estourar. */
+  function encaixa(raiz) {
+    if (!raiz) return;
+    [].forEach.call(raiz.querySelectorAll('[data-escala]'), function (w) {
+      var dev = w.firstElementChild;
+      var W = +w.getAttribute('data-w'), H = +w.getAttribute('data-h');
+      var mvh = +(w.getAttribute('data-maxvh') || 0);
+      var s = w.clientWidth / W;
+      if (mvh) s = Math.min(s, window.innerHeight * mvh / 100 / H);
+      dev.style.transform = 'scale(' + s + ')';
+      dev.style.left = Math.max(0, (w.clientWidth - W * s) / 2) + 'px';
+      w.style.height = (H * s) + 'px';
+    });
+    [].forEach.call(raiz.querySelectorAll('.combo'), function (c) {
+      var h = 0;
+      [].forEach.call(c.children, function (k) { h = Math.max(h, k.offsetHeight); });
+      c.style.height = h + 'px';
+    });
+  }
+
+  /* rola o conteúdo dentro do aparelho, ida e volta */
+  function rolar(rolo, velocidade) {
+    var visor = rolo.parentElement;
+    var dist = Math.max(0, rolo.offsetHeight - visor.clientHeight);
+    if (!dist) return;
+    anim(G.to(rolo, { y: -dist, duration: Math.max(4, dist / velocidade), ease: 'sine.inOut', repeat: -1, yoyo: true, repeatDelay: 1.2 }));
+  }
+
+  /* ---------------------------------------------- as peças de "site" */
+
+  function siteCelular(r) {
+    return '' +
+      '<div class="s-nav"><b>' + esc(r.exemplo) + '</b><i></i></div>' +
+      '<img class="s-foto" src="' + esc(r.fotos[0]) + '" alt="">' +
+      '<div class="s-hero">' +
+        '<div class="s-tit">' + esc(r.titulo) + '</div>' +
+        '<div class="s-sub">' + esc(r.sub) + '</div>' +
+        '<span class="s-btn">' + esc(r.cta) + '</span>' +
+      '</div>' +
+      '<div class="s-sec">' +
+        '<div class="s-rot">O que oferecemos</div>' +
+        r.itens.map(function (it) { return '<div class="s-item"><b>' + esc(it[0]) + '</b><span>' + esc(it[1]) + '</span></div>'; }).join('') +
+      '</div>' +
+      '<div class="s-galeria"><img src="' + esc(r.fotos[1]) + '" alt=""><img src="' + esc(r.fotos[0]) + '" alt=""></div>' +
+      '<div class="s-dep">“' + esc(r.dep[0]) + '”<b>' + esc(r.dep[1]) + '</b></div>' +
+      '<div class="s-zap"><svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M12 2a10 10 0 00-8.6 15.1L2 22l5-1.3A10 10 0 1012 2z"/></svg> Falar no WhatsApp</div>' +
+      '<div class="s-rod">' + esc(r.rodape) + '</div>';
+  }
+
+  function siteComputador(r) {
+    var terceira = (r.galeria && r.galeria[0]) || r.fotos[0];
+    return '' +
+      '<div class="d-site">' +
+        '<div class="d-nav"><b>' + esc(r.exemplo) + '</b><span>Início</span><span>Serviços</span><span>Sobre</span><span>Contato</span><em>' + esc(r.cta) + '</em></div>' +
+        '<div class="d-hero">' +
+          '<div>' +
+            '<div class="d-olho">' + esc(r.rotulo) + ' · Brasília</div>' +
+            '<div class="d-tit">' + esc(r.titulo) + '</div>' +
+            '<div class="d-sub">' + esc(r.sub) + '</div>' +
+            '<div class="d-btns"><span class="d-btn">' + esc(r.cta) + '</span><span class="d-btn2">Falar no WhatsApp</span></div>' +
+          '</div>' +
+          '<img src="' + esc(r.fotos[0]) + '" alt="">' +
+        '</div>' +
+        '<div class="d-sec">' +
+          '<div class="d-rot">O que oferecemos</div>' +
+          '<div class="d-cards">' + r.itens.map(function (it) { return '<div class="d-card"><b>' + esc(it[0]) + '</b><span>' + esc(it[1]) + '</span></div>'; }).join('') + '</div>' +
+        '</div>' +
+        '<div class="d-band">' +
+          '<img src="' + esc(r.fotos[1]) + '" alt="">' +
+          '<div class="d-dep">“' + esc(r.dep[0]) + '”<b>' + esc(r.dep[1]) + '</b></div>' +
+          '<img src="' + esc(terceira) + '" alt="">' +
+        '</div>' +
+        '<div class="d-zap"><svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><path d="M12 2a10 10 0 00-8.6 15.1L2 22l5-1.3A10 10 0 1012 2z"/></svg> Falar no WhatsApp</div>' +
+        '<div class="d-rod"><span>' + esc(r.exemplo) + ' · ' + esc(dominio(r)) + '</span><span>' + esc(r.rodape) + '</span></div>' +
+      '</div>';
+  }
+
+  /* grade do Instagram: foto e arte alternadas, como perfil de quem posta
+     com constância -- arte com a cor do negócio, não só foto solta */
+  function gradeInsta(r) {
+    var fotos = r.fotos.concat(r.galeria || []);
+    var tiles = [], f = 0, a = 0;
+    for (var i = 0; i < 9; i++) {
+      if (i % 2 === 0 && f < fotos.length) {
+        tiles.push('<div class="ig-t" data-a="t"><img src="' + esc(fotos[f++]) + '" alt=""></div>');
+      } else {
+        tiles.push('<div class="ig-t arte e' + (a % 3) + '" data-a="t"><span>' + esc(r.posts[a % r.posts.length]) + '</span></div>');
+        a++;
+      }
+    }
+    return tiles.join('');
+  }
+
+  function perfilInsta(r) {
+    var ic = {
+      mais: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="5"/><path d="M12 8v8M8 12h8"/></svg>',
+      menu: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>',
+      grade: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></svg>',
+      reels: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M10 9l5 3-5 3z"/></svg>',
+      marca: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M20 12l-8 8-9-9V3h8z"/><circle cx="7.5" cy="7.5" r="1.2"/></svg>'
+    };
+    var fotos = r.fotos.concat(r.galeria || []);
+    // cabeçalho fora da rolagem, como no app: o @ nunca some atrás da ilha
+    return '' +
+      '<div class="ig-cab">' +
+        '<div class="ig-status"><b>9:41</b><span><i></i><i></i><i></i></span></div>' +
+        '<div class="ig-top"><b>' + esc(r.ig) + '</b><span>' + ic.mais + ic.menu + '</span></div>' +
+      '</div>' +
+      '<div class="ig-visor"><div class="rolo" data-a="rolo">' +
+      '<div class="ig">' +
+        '<div class="ig-perfil">' +
+          '<div class="ig-av" data-a="av"><i>' + esc(r.exemplo.charAt(0)) + '</i></div>' +
+          '<div class="ig-nums">' +
+            '<div><b>48</b><span>posts</span></div>' +
+            '<div><b data-a="seg">' + milhar(r.seguidores) + '</b><span>seguidores</span></div>' +
+            '<div><b>212</b><span>seguindo</span></div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="ig-bio"><b>' + esc(r.exemplo) + '</b><span class="cat">' + esc(r.rotulo) + '</span>' +
+          esc(r.bio[0]) + '<br>' + esc(r.bio[1]) + '<br><a>' + esc(dominio(r)) + '</a></div>' +
+        '<div class="ig-bts"><span class="seg">Seguir</span><span>Mensagem</span><span>WhatsApp</span></div>' +
+        '<div class="ig-dest">' + r.destaques.map(function (d, n) {
+          return '<div data-a="dest"><i><b style="background-image:url(' + esc(fotos[n % fotos.length]) + ')"></b></i><span>' + esc(d) + '</span></div>';
+        }).join('') + '</div>' +
+        '<div class="ig-abas"><i class="on">' + ic.grade + '</i><i>' + ic.reels + '</i><i>' + ic.marca + '</i></div>' +
+        '<div class="ig-grade">' + gradeInsta(r) +
+          '<svg class="ig-curtir" data-a="curtir" viewBox="0 0 24 24" fill="#fff"><path d="M12 21s-7.5-4.6-9.6-9.3C.9 8.3 3 4.5 6.7 4.5c2.2 0 3.6 1.2 4.3 2.4.7-1.2 2.1-2.4 4.3-2.4 3.7 0 5.8 3.8 4.3 7.2C19.5 16.4 12 21 12 21z"/></svg>' +
+        '</div>' +
+      '</div>' +
+      '</div></div>';
+  }
+
   /* ============================================================ TELAS */
 
   function telaCapa() {
@@ -467,7 +738,7 @@
             '<svg width="36" height="36" viewBox="0 0 32 32" aria-hidden="true"><path d="M12 10l-6 6 6 6M20 10l6 6-6 6" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
           '</div>' +
           '<h1 data-a="titulo">' + palavras('Qual é o seu negócio?') + '</h1>' +
-          '<p class="sub" data-a="sub">Em dois toques eu te mostro como ficaria o seu site.</p>' +
+          '<p class="sub" data-a="sub">Em dois toques eu te mostro como ficaria o seu site e o seu Instagram.</p>' +
           '<div class="chips">' +
             ORDEM.map(function (k) {
               return '<button class="chip" data-ramo="' + k + '">' + esc(RAMOS[k].rotulo) + '</button>';
@@ -536,56 +807,97 @@
   }
 
   function telaSite(r) {
-    var site =
-      '<div class="s-nav"><b>' + esc(r.exemplo) + '</b><i></i></div>' +
-      '<img class="s-foto" src="' + esc(r.fotos[0]) + '" alt="">' +
-      '<div class="s-hero">' +
-        '<div class="s-tit">' + esc(r.titulo) + '</div>' +
-        '<div class="s-sub">' + esc(r.sub) + '</div>' +
-        '<span class="s-btn">' + esc(r.cta) + '</span>' +
-      '</div>' +
-      '<div class="s-sec">' +
-        '<div class="s-rot">O que oferecemos</div>' +
-        r.itens.map(function (it) { return '<div class="s-item"><b>' + esc(it[0]) + '</b><span>' + esc(it[1]) + '</span></div>'; }).join('') +
-      '</div>' +
-      '<div class="s-galeria"><img src="' + esc(r.fotos[1]) + '" alt=""><img src="' + esc(r.fotos[0]) + '" alt=""></div>' +
-      '<div class="s-dep">“' + esc(r.dep[0]) + '”<b>' + esc(r.dep[1]) + '</b></div>' +
-      '<div class="s-zap"><svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M12 2a10 10 0 00-8.6 15.1L2 22l5-1.3A10 10 0 1012 2z"/></svg> Falar no WhatsApp</div>' +
-      '<div class="s-rod">' + esc(r.rodape) + '</div>';
-
     return {
       html:
-        '<div class="duas">' +
+        '<div class="duas larga">' +
           '<div>' +
-            '<div class="olho">Como ficaria o seu</div>' +
+            '<div class="olho">Como ficaria o seu site</div>' +
             '<h2 data-a="titulo">' + palavras(r.exemplo + ',') + ' <span class="destaque">' + palavras('no ar.') + '</span></h2>' +
-            '<p class="sub" data-a="sub">Esse é um exemplo. <strong>O seu sai com o seu nome, as suas fotos e os seus preços</strong> — no celular e no computador.</p>' +
+            '<p class="sub" data-a="sub">No computador e no celular. <strong>Com o seu nome, as suas fotos e os seus preços.</strong></p>' +
           '</div>' +
-          '<div class="celular-palco">' +
-            '<div class="celular" data-a="cel">' +
-              '<div class="ilha"></div>' +
-              '<div class="tela-cel"><div class="rolo" data-a="rolo">' + site + '</div></div>' +
+          '<div class="combo">' +
+            '<div class="w-lap" data-escala data-w="1000" data-h="624" data-a="lap">' +
+              '<div class="dev lap">' +
+                '<div class="lap-tela"><div class="lap-vidro">' +
+                  '<div class="lap-barra"><i style="background:#ff5f56"></i><i style="background:#ffbd2e"></i><i style="background:#27c93f"></i><u>' + esc(dominio(r)) + '</u></div>' +
+                  '<div class="lap-visor"><div class="rolo" data-a="rolo-lap">' + siteComputador(r) + '</div></div>' +
+                '</div></div>' +
+                '<div class="lap-base"></div>' +
+              '</div>' +
+            '</div>' +
+            '<div class="w-cel" data-escala data-w="300" data-h="620" data-a="cel">' +
+              '<div class="dev cel">' +
+                '<div class="ilha"></div>' +
+                '<div class="tela-cel"><div class="rolo" data-a="rolo-cel">' + siteCelular(r) + '</div></div>' +
+              '</div>' +
             '</div>' +
           '</div>' +
         '</div>',
       entrar: function (el) {
-        var cel = el.querySelector('[data-a=cel]');
-        var rolo = el.querySelector('[data-a=rolo]');
-        var visor = rolo.parentElement;
         if (!MOVE) return;
-
+        var lap = el.querySelector('[data-a=lap]');
+        var cel = el.querySelector('[data-a=cel]');
         var tl = anim(G.timeline());
         tl.add(sobe(el, '[data-a=titulo] .palavra > span'))
           .from(el.querySelector('[data-a=sub]'), { y: 14, opacity: 0, duration: .5 }, '-=.4')
-          // o celular entra girando em 3D e assenta
-          .from(cel, { rotateY: -38, rotateX: 14, y: 120, opacity: 0, scale: .82, duration: 1.15, ease: 'power3.out' }, '-=.7');
+          // o notebook sobe e "abre" a tela; o celular chega girando por cima
+          .from(lap, { y: 90, rotateX: 22, opacity: 0, duration: 1.05, ease: 'power3.out', transformOrigin: '50% 100%' }, '-=.7')
+          .from(cel, { x: 70, y: 40, rotateY: -40, opacity: 0, duration: 1.0, ease: 'power3.out' }, '-=.55')
+          .add(function () {
+            rolar(el.querySelector('[data-a=rolo-lap]'), 70);
+            rolar(el.querySelector('[data-a=rolo-cel]'), 80);
+            anim(G.to(cel, { y: -8, duration: 2.6, ease: 'sine.inOut', repeat: -1, yoyo: true }));
+          }, '+=.4');
+      }
+    };
+  }
 
-        // e o site rola sozinho lá dentro, ida e volta, mostrando a página inteira
-        tl.add(function () {
-          var dist = Math.max(0, rolo.scrollHeight - visor.clientHeight);
-          anim(G.to(rolo, { y: -dist, duration: Math.max(4, dist / 85), ease: 'sine.inOut', repeat: -1, yoyo: true, repeatDelay: 1.1 }));
-          anim(G.to(cel, { rotateY: 6, rotateX: -3, duration: 3.2, ease: 'sine.inOut', repeat: -1, yoyo: true }));
-        }, '+=.5');
+  function telaInsta(r) {
+    return {
+      html:
+        '<div class="duas">' +
+          '<div>' +
+            '<div class="olho">E o seu Instagram</div>' +
+            '<h2 data-a="titulo">' + palavras('Sempre ativo,') + ' <span class="destaque">' + palavras('sem você postar.') + '</span></h2>' +
+            '<p class="sub" data-a="sub">A gente cria a arte, escreve a legenda e publica: <strong>8 posts por mês com a cara do seu negócio.</strong> Você não precisa lembrar.</p>' +
+          '</div>' +
+          '<div class="w-ig" data-escala data-w="300" data-h="620" data-maxvh="54" data-a="cel">' +
+            '<div class="dev cel">' +
+              '<div class="ilha"></div>' +
+              '<div class="tela-cel">' + perfilInsta(r) + '</div>' +
+            '</div>' +
+          '</div>' +
+        '</div>',
+      entrar: function (el) {
+        var seg = el.querySelector('[data-a=seg]');
+        if (!MOVE) return;
+        var cel = el.querySelector('[data-a=cel]');
+        var tiles = el.querySelectorAll('[data-a=t]');
+        var tl = anim(G.timeline());
+        var obj = { v: 0 };
+        seg.textContent = '0';
+
+        tl.add(sobe(el, '[data-a=titulo] .palavra > span'))
+          .from(el.querySelector('[data-a=sub]'), { y: 14, opacity: 0, duration: .5 }, '-=.4')
+          .from(cel, { y: 110, rotateX: 18, rotateY: 14, opacity: 0, duration: 1.05, ease: 'power3.out' }, '-=.7')
+          .from(el.querySelector('[data-a=av]'), { scale: 0, rotate: -120, duration: .7, ease: 'back.out(1.8)' }, '-=.35')
+          // seguidores contando
+          .to(obj, {
+            v: r.seguidores, duration: 1.6, ease: 'power3.out',
+            onUpdate: function () { seg.textContent = milhar(obj.v); },
+            onComplete: function () { seg.textContent = milhar(r.seguidores); }
+          }, '-=.4')
+          .from(el.querySelectorAll('[data-a=dest]'), { scale: 0, opacity: 0, duration: .45, stagger: .08, ease: 'back.out(2)' }, '-=1.3')
+          // a grade enchendo, post a post
+          .from(tiles, { scale: .5, opacity: 0, duration: .45, stagger: { each: .09, grid: [3, 3], from: 'start' }, ease: 'back.out(1.6)' }, '-=.6')
+          .add(function () {
+            rolar(el.querySelector('[data-a=rolo]'), 55);
+            var cor = el.querySelector('[data-a=curtir]');
+            anim(G.timeline({ repeat: -1, repeatDelay: 2.2 })
+              .fromTo(cor, { scale: 0, opacity: 0 }, { scale: 1.25, opacity: 1, duration: .32, ease: 'back.out(3)' })
+              .to(cor, { scale: 1, duration: .15 })
+              .to(cor, { opacity: 0, scale: .8, duration: .4, delay: .5 }));
+          }, '+=.3');
       }
     };
   }
@@ -600,10 +912,10 @@
       html:
         '<div class="conteudo">' +
           '<div class="olho">O que entra</div>' +
-          '<h2 data-a="titulo">' + palavras('Não é só o site.') + '</h2>' +
+          '<h2 data-a="titulo">' + palavras('Tudo numa mensalidade só.') + '</h2>' +
           '<div class="cartoes">' +
             '<div class="cartao" data-a="c"><div class="ic">' + ic.site + '</div><div><b>O site no ar</b><span>Endereço próprio, no celular e no computador. Pronto em até 5 dias.</span></div></div>' +
-            '<div class="cartao" data-a="c"><div class="ic">' + ic.redes + '</div><div><b>Suas redes publicando</b><span>8 posts por mês. A gente cria a arte e publica — você não precisa lembrar.</span></div></div>' +
+            '<div class="cartao" data-a="c"><div class="ic">' + ic.redes + '</div><div><b>Seu Instagram publicando</b><span>8 posts por mês. A gente cria a arte e publica — você não precisa lembrar.</span></div></div>' +
             '<div class="cartao" data-a="c"><div class="ic">' + ic.google + '</div><div><b>Sua ficha do Google</b><span>Foto, horário, telefone e avaliação respondida. É o que aparece na busca.</span></div></div>' +
           '</div>' +
         '</div>',
@@ -693,7 +1005,7 @@
   function montar() {
     var r = ramo ? RAMOS[ramo] : null;
     telas = r
-      ? [telaBusca(r), telaSite(r), telaPacote(), telaPreco(), telaFechar(r)]
+      ? [telaBusca(r), telaSite(r), telaInsta(r), telaPacote(), telaPreco(), telaFechar(r)]
       : [telaCapa()];
     document.documentElement.style.setProperty('--tom', r ? r.tom : '#5E8CBA');
     elBarras.innerHTML = telas.map(function () { return '<i><b></b></i>'; }).join('');
@@ -708,9 +1020,11 @@
     nova.className = 'tela';
     nova.innerHTML = telas[n].html;
     elTelas.appendChild(nova);
+    encaixa(nova);
 
     var entra = function () {
       nova.classList.add('on');
+      encaixa(nova);
       if (MOVE) G.fromTo(nova, { opacity: 0, x: 40 * dir }, { opacity: 1, x: 0, duration: .5, ease: 'power3.out' });
       telas[n].entrar(nova);
       trocando = false;
@@ -771,6 +1085,9 @@
     if (Math.abs(dx) > 55 && Math.abs(dx) > Math.abs(dy) * 1.6) { if (dx < 0) vai(1); else voltar(); }
     x0 = y0 = null;
   }, { passive: true });
+
+  // girou o celular ou mudou o tamanho da janela: reencaixa os aparelhos
+  window.addEventListener('resize', function () { encaixa(elTelas.querySelector('.tela.on')); });
 
   // o brilho do fundo deriva devagar o tempo todo -- o palco nunca está parado
   if (MOVE) {

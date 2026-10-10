@@ -14,7 +14,7 @@
      São versionados pelo deploy e não mudam no meio do dia.
 */
 
-var VERSAO = 'actech-v5';
+var VERSAO = 'actech-v6';
 var C_CASCA = VERSAO + '-casca';
 var C_USO = VERSAO + '-uso';
 
@@ -65,7 +65,13 @@ var CASCA = [
   'imgs/ramos/petshop-1.webp',    'imgs/ramos/petshop-2.webp',
   'imgs/ramos/restaurante-1.webp','imgs/ramos/restaurante-2.webp',
   'imgs/ramos/clinica-1.webp',    'imgs/ramos/clinica-2.webp',
-  'imgs/ramos/outro-1.webp',      'imgs/ramos/outro-2.webp'
+  'imgs/ramos/outro-1.webp',      'imgs/ramos/outro-2.webp',
+  /* Terceira foto: entra no site de computador e na grade do Instagram. */
+  'imgs/ramos/roupa-3.webp',      'imgs/ramos/roupa-4.webp',
+  'imgs/ramos/maquiagem-2.webp',  'imgs/ramos/maquiagem-3.webp',
+  'imgs/ramos/barbearia-2.webp',  'imgs/ramos/mercado-3.webp',
+  'imgs/ramos/petshop-3.webp',    'imgs/ramos/restaurante-3.webp',
+  'imgs/ramos/clinica-3.webp',    'imgs/ramos/outro-3.webp'
 ];
 
 self.addEventListener('install', function (e) {
